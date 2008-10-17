@@ -1,0 +1,5 @@
+h1. Welcome to your RailsRumble Repository.
+
+Please note, if you start not by cloning from
+this repository, you will need to append
+"--force" to the end of your first git push.
