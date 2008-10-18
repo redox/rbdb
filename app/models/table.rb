@@ -2,17 +2,21 @@ class Table < Base
   
   attr_reader :db
   
-  def initialize name, db
+  def initialize name, db, view
     super name
     @db = db
+    @view = view == 'VIEW'
+  end
+  
+  def view?
+    @view
   end
   
   def ar_class
     model_name = name.singularize.camelize
-    const_name = db.name.camelize + "::" + model_name
     c = nil
     begin
-      c = const_name.constantize
+      c = model_name.constantize
     rescue
       c = Class.new ActiveRecord::Base
       Object.const_set model_name, c

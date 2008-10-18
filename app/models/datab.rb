@@ -1,33 +1,31 @@
 class Datab < Base
+
   @@databs = {}
 
-  def self.fetch_all
+  def self.databs
+    return @@databs unless @@databs.empty?
     ActiveRecord::Base.connection.execute("show databases").each do |name|
       name = name.first
       @@databs[name] = (new name)
     end
+    @@databs
   end
 
   def self.all
-    Datab.fetch_all if @@databs.empty?
-    @@databs.values
+    databs.values
   end
   
   def self.find name
-    Datab.fetch_all if @@databs.empty?
-    @@databs[name]
+    databs[name]
   end
 
   def tables
     return @tables if @tables
     @tables = []
-    ActiveRecord::Base.connection.execute "use #{name}"
-    ActiveRecord::Base.connection.execute("show tables").each do |name|
-      name = name.first
-      @tables << (Table.new name, self)
+    ActiveRecord::Base.connection.execute("show full tables from #{name}").each do |table|
+      @tables << (Table.new table[0], self, table[1])
     end
     @tables
   end
 
 end
-

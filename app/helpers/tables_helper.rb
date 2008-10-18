@@ -34,5 +34,13 @@ module TablesHelper
       end
     end
   end
+
+  def most_likely_name r
+    if r.respond_to? :name
+      r.name
+    else
+      r.attributes.find {|c| c.is_a? String }
+    end
+  end
   
 end

@@ -1,7 +1,7 @@
 <%= @datab.name %>
 <ul>
 <% for table in @datab.tables %>
-<li><%= link_to table.name, datab_table_path(@datab, table) %></li>
+<li><%= table_icon table %><%= link_to table.name, datab_table_path(@datab, table) %></li>
 <% end %>
 </ul>
 <%= link_to 'Edit', edit_datab_path(@datab) %> |

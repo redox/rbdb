@@ -1,6 +1,4 @@
 class DatabsController < ApplicationController
-  before_filter :fetch_all
-
   # GET /databs
   # GET /databs.xml
   def index
@@ -15,7 +13,7 @@ class DatabsController < ApplicationController
   # GET /databs/1
   # GET /databs/1.xml
   def show
-    @datab = Datab.find(params[:id])
+    @datab = Datab.find params[:id]
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,7 +34,7 @@ class DatabsController < ApplicationController
 
   # GET /databs/1/edit
   def edit
-    @datab = Datab.find(params[:id])
+    @datab = Datab.find params[:id]
   end
 
   # POST /databs
@@ -83,11 +81,6 @@ class DatabsController < ApplicationController
       format.html { redirect_to(databs_url) }
       format.xml  { head :ok }
     end
-  end
-
-  private 
-  def fetch_all
-    Datab.fetch_all
   end
 
 end
