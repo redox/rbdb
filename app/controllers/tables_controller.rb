@@ -1,4 +1,5 @@
 class TablesController < ApplicationController
+  before_filter :select_db
   
   # GET /tables
   # GET /tables.xml
@@ -86,6 +87,16 @@ class TablesController < ApplicationController
       format.html { redirect_to(tables_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  def select_db
+    if params[:id].blank?
+      flash[:notice] = 'You must select a database!'
+      redirect_to :controller => '/databs', :action => :index
+      return false
+    end
+    ActiveRecord::Base.connection.execute "use #{params[:id]}"
   end
         
 end
