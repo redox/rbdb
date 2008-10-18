@@ -7,7 +7,8 @@
 	login : railsrumble<br/>
 	passwd : coconut<br/>
 </div>
-<div>
+<div class="form">
+<% unless session[:authenticated] %>
 <% form_tag do -%>
 <p><label for="username">login</label></p>
 <%= text_field_tag 'username', nil%>
@@ -21,3 +22,6 @@ $("username").focus()
 //]]>
 </script>
 </div>
+<% else %>
+	You are already connected as <%= session[:username] %>, you must first <%= link_to 'logout', :action => 'logout' %> to change your credentials
+<% end %>

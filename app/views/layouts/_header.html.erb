@@ -2,13 +2,17 @@
 	<h1><i>rb</i>DB</h1>
 
 	<div class="db-selection">
+		
+		
+		<p><b><%= session[:username] %></b> | setttings | help | <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %><p/>
+		
 		<script type="text/javascript" charset="utf-8">
 			function onchange_database(url) {  
 		  window.location = url
 			}
 		</script>
 		
-		   <%= image_tag 'database_lightning.png', :title => 'Select your database' %> Change database <select onchange="onchange_database(this.value)" class="database-selector">
+		   my databases: <select onchange="onchange_database(this.value)" class="database-selector">
 				<% Datab.all.each do |db| %>
 					<option value="<%= datab_url(db.id) %>"><%= db.name %></option>
 				<% end %>
