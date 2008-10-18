@@ -7,7 +7,7 @@ class SqlsController < ApplicationController
     @sqls = []
     session[:sqls].each do |s|
       @sqls << Sql.new(s)
-    end
+    end if session[:sqls]
 
     respond_to do |format|
       format.html # index.html.erb
