@@ -16,7 +16,7 @@ when ForeignKey %>
       <%= number_with_delimiter value, '.' %>
     <% end %>
   <% when DateTime, Time, Date %>
-    <%= datetime value %>
+    <%= date_ago value %>
   <% when String %>
     <%= string value %>
   <% when TrueClass, FalseClass %>

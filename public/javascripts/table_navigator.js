@@ -5,7 +5,7 @@ TableNavigator.prototype = {
 	initialize:function(tables, div) {
 		this.tables = tables
 		this.div = $(div)
-		this.input = new Element('input', {type: 'text', accesskey:'f'})
+		this.input = new Element('input', {type: 'search', accesskey:'f'})
 		this.input.observe('keyup', this.search.bindAsEventListener(this))
 		this.div.appendChild(this.input)
 		this.buildInitialList()

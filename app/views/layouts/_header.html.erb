@@ -7,14 +7,18 @@
 		<p><b><%= session[:username] %></b> | setttings | help | <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %><p/>
 		
 		<script type="text/javascript" charset="utf-8">
-			function onchange_database(url) {  
-		  window.location = url
+			function onchange_database(url) { 
+					window.location = (url == "") ? '<%= databs_path %>' : url
 			}
 		</script>
-		
-		   my databases: <select onchange="onchange_database(this.value)" class="database-selector">
+		   my databases: 
+		   <select onchange="onchange_database(this.value)" class="database-selector">
+				<option value=""></option>
 				<% Datab.all.each do |db| %>
-					<option value="<%= datab_url(db.id) %>"><%= db.name %></option>
+				  <% selected = (@datab and @datab.name == db.name) %>
+					<option value="<%= datab_url(db.id) %>"<%= 'selected="selected"' if selected %>>
+					  <%= db.name %>
+					</option>
 				<% end %>
 			</select>
 	</div>

@@ -20,7 +20,7 @@
 	<td><%= table.rows %></td>
 	<td><%= number_to_human_size table.data_length.to_i %></td>
 	<td><%= table.engine %></td>
-	<td><%= table.create_time %></td>
+	<td><%= table.create_time.to_s %></td>
 	<td><%= table.collation %></td>
 </tr>
 <% total += table.rows.to_i %>

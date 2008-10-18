@@ -11,5 +11,9 @@ class Base
   end
   
   alias :id :name
+
+  def self.execute sql
+    ActiveRecord::Base.connection.execute sql
+  end
   
 end

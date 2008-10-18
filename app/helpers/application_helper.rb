@@ -1,6 +1,42 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
+  def date_ago(d)
+    s = d.to_s(:db) rescue d.to_s
+    content_tag 'span', :title => s do
+      at = d.is_a?(DateTime) ? (' at %d:%d' % [d.hour, d.min]) : ''
+      d = d.to_date
+      if d == Date.today
+        "Today#{at}"
+      elsif d == Date.yesterday
+        "Yesterday#{at}"
+      else
+        time_ago_in_words(d) + ' ago'
+      end
+    end
+  end
+  
+  def yes_no(d)
+    d == true ? 'Yes' : 'No'
+  end
+
+  def string value
+    disp = truncate value, 20
+    content_tag 'span', :title => value do
+      if value =~ /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+        content_tag 'a', :href => "mailto:#{value}" do
+          disp
+        end
+      elsif value =~ /http:\/\/.*/
+        content_tag 'a', :href => value do
+          disp
+        end
+      else
+        disp
+      end
+    end
+  end
+  
   def error_messages_for(*params)
     options = params.extract_options!.symbolize_keys
     if object = options.delete(:object)
