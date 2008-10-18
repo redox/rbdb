@@ -25,6 +25,12 @@ class Datab < Base
     ActiveRecord::Base.connection.execute("show full tables from #{name}").each do |table|
       @tables << (Table.new table[0], self, table[1])
     end
+    @tables.instance_eval do
+      alias :old_find :find
+      def find id
+        old_find {|e| e.id == id }
+      end
+    end
     @tables
   end
   

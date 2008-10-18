@@ -47,5 +47,7 @@
   :height => 400
 } %>
 <% content_for :sidebar do %>
-<%= render :partial => 'tables' %>
+<ul>
+<%= render :partial => @datab.tables %>
+</ul>
 <% end %>
