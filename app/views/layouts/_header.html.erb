@@ -1,5 +1,5 @@
 <div class="header">
-	<h1><%= @title || controller.action_name  %></h1>
+	<h1>rbDB</h1>
 	<div class="db-selection">
 		<script type="text/javascript" charset="utf-8">
 			function onchange_database(url) {  
@@ -7,7 +7,7 @@
 			}
 		</script>
 		
-			Select your database : <select onchange="onchange_database(this.value)">
+		   <%= image_tag 'database_lightning.png', :title => 'Select your database' %> Change database <select onchange="onchange_database(this.value)" class="database-selector">
 				<% Datab.all.each do |db| %>
 					<option value="<%= datab_url(db.id) %>"><%= db.name %></option>
 				<% end %>
