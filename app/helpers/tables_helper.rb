@@ -26,7 +26,7 @@ module TablesHelper
           disp
         end
       elsif value =~ /http:\/\/.*/
-        content_tag 'a', :href => "http://#{value}" do
+        content_tag 'a', :href => value do
           disp
         end
       else
