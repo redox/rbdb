@@ -1,0 +1,12 @@
+<h1>Editing datab</h1>
+
+<% form_for(@datab) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @datab %> |
+<%= link_to 'Back', databs_path %>
