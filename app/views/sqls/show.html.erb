@@ -1,6 +1,13 @@
 <%= render :partial => "/sqls/form" %>
 
+<hr />
 
+<%= @sql.num_rows %> rows
+
+<%= render :partial => "/tables/browse", :locals => {
+      :columns => @sql.columns(@datab),
+      :rows => @sql.rows(@datab)
+} %>
 
 <%= link_to 'Edit', edit_datab_sql_path(@datab, @sql) %> |
 <%= link_to 'Back', datab_sqls_path %>

@@ -6,7 +6,7 @@ class SqlsController < ApplicationController
   def index
     @sqls = []
     session[:sqls].each do |s|
-      @sqls << Sql.new(s)
+      @sqls << Sql.new(s[1])
     end if session[:sqls]
 
     respond_to do |format|
@@ -20,6 +20,10 @@ class SqlsController < ApplicationController
   def show
     @sql = Sql.new(session[:sqls][params[:id]]) rescue nil
     raise ActiveRecord::RecordNotFound if @sql.nil?
+    @sql.limit = params[:per_page]
+    page = params[:page].nil? ? 1 : params[:page].to_i
+    page = 1 if page < 0
+    @sql.offset = @sql.limit * (page - 1)
 
     respond_to do |format|
       format.html # show.html.erb
