@@ -16,8 +16,17 @@ class TablesController < ApplicationController
   # GET /tables/1.xml
   def show
     @table = @datab.tables.find params[:id]
-    if (params.has_key? :browse) || (session[:browse] && !params[:structure])
+    if params.has_key? :structure
+      session[:browse] = nil
+      params[:structure] = nil
+      session[:structure] = true
+    end
+    if params.has_key? :browse
+      session[:structure] = nil
+      params[:browse] = nil
       session[:browse] = true
+    end
+    if (session[:browse])
       @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3, :order => params[:order]
     end
     @columns = @table.columns

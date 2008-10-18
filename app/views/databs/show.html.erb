@@ -1,11 +1,11 @@
 <% @title = "#{@datab.name}" %>
 <h2><%= @datab.tables.size %> tables</h2>
-<table class="database-content">
+<table class="database-content sortable">
 	<thead>
 		<tr>
 		  <th colspan="2">Name</th>
-		  <th>Records</th>
-		  <th>Size</th>
+		  <th class="sorttable_numeric">Records</th>
+		  <th class="sorttable_numeric">Size</th>
 		  <th>Storage Engine</th>
 		  <th>Created at</th>
 		  <th>Collation</th>
@@ -17,17 +17,17 @@
 <tr>
 	<td><%= table_icon table %></td>
 	<td><%= link_to table.name, datab_table_path(@datab, table) %></td>
-	<td><%= table.rows %></td>
-	<td><%= number_to_human_size table.data_length.to_i %></td>
+	<td class="int" sorttable_customkey="<%= table.rows %>"><%= number_with_delimiter table.rows %></td>
+	<td sorttable_customkey="<%= table.data_length.to_i %>"><%= number_to_human_size table.data_length.to_i %></td>
 	<td><%= table.engine %></td>
-	<td><%= table.create_time.to_s %></td>
+	<td sorttable_customkey="<%= table.create_time %>"><%= table.create_time.to_s %></td>
 	<td><%= table.collation %></td>
 </tr>
 <% total += table.rows.to_i %>
 <% end %>
 </tbody>
 <tfoot>
-	<tr><th colspan="2">Total</th><td><%= total %></td><td></td></tr>
+	<tr><th colspan="2">Total</th><td class="int"><%= number_with_delimiter total %></td><td></td></tr>
 </tfoot>
 </table>
 <%= link_to 'Edit', edit_datab_path(@datab) %> |

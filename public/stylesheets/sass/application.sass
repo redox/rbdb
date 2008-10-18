@@ -11,7 +11,7 @@ body
   :padding 0px
 
 body, p, ol, ul, td
-  :font-family verdana, arial, helvetica, sans-serif
+  :font-family "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif
   :font-size 13px                               
   :line-height 18px
 
@@ -56,6 +56,23 @@ a:hover
     :padding 20px
     :overflow hidden
     :background-color white
+    .title_zone
+      :margin-bottom 25px
+      h2
+        :display inline
+        :margin-right 40px
+      .submenu
+        :display inline
+        li
+          :display inline
+          :font-size 1.2em
+          :padding 5px 10px
+          :-moz-border-radius 8px
+          :-webkit-border-radius 8px
+          :margin-right 5px
+        .current
+          :background-color #0088CC
+          :color white
   .sidebar
     :width 300px
     :background url(/images/right-bg.png) repeat-y
@@ -92,3 +109,16 @@ a:hover
   :background white url(/images/search.gif) no-repeat right
   :border 1px solid #999
   :padding 4px
+
+.notification
+  :background-color #EFEFEF
+  :color #999
+  :text-align center
+  :padding 30px
+  :font-size 1.3em
+  :-moz-border-radius 18px
+  :-webkit-border-radius 18px
+  :margin-right 5px
+
+.int
+  :text-align right

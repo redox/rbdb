@@ -1,24 +1,45 @@
 <% @title = @table.name %>
+<% content_for :submenu do %>
+	<% if session[:structure] %>
+		<li class="current">Structure
+	<% else %>
+		<li><%= link_to 'Structure', params.merge(:structure => '') %>
+	<% end %>
+	</li>
+	<% if session[:browse] %>
+	<li class="current">
+		Content
+	<% else %>
+	<li><%= link_to 'Content', params.merge(:browse => '') %>
+	<% end %>
+	</li>
+	<li>Reports</li>
+<% end %>
 
 <% if @rows %>
-  <%= render :partial => "/tables/browse", :locals => {:columns => @columns, :rows => @rows} %>
+  <% if @rows.empty? %>
+  	<div class="notification">This table is empty</div>
+  <% else %>
+  	<%= render :partial => "/tables/browse", :locals => {:columns => @columns, :rows => @rows} %>
+  <% end%>
 <% else %>
 	
-	<h3>Columns</h3>
-	<table>
+	<h3><%= @table.fields.size %> Columns</h3>
+	<h4><%= number_with_delimiter @table.rows%> records</h4>
+	<table class="database-content sortable">
 		<thead>
 			<tr>
-				<td>Name</td>
-				<td>Type</td>
-				<td>Null</td>
-				<td>Default</td>
-				<td>Extra</td>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Null</th>
+				<th>Default</th>
+				<th>Extra</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% for field in @table.fields %>
 			<tr>
-				<td>
+				<th>
 					<% column = @columns.find {|c| c.name == field[:name]} %>
 					<% if column.is_a? ForeignKey %>
 						<%= link_to column.name, datab_table_path(column.dest.db, column.dest) %>

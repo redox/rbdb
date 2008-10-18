@@ -23,5 +23,6 @@ $("username").focus()
 </script>
 </div>
 <% else %>
-	You are already connected as <%= session[:username] %>, you must first <%= link_to 'logout', :action => 'logout' %> to change your credentials
+	You are already connected as <%= session[:username] %>, you must first <%= link_to 'logout', :action => 'logout' %> to change your credentials.<br/>
+	Or jump to the <%= link_to 'database list', :controller => '/databs' %>
 <% end %>
