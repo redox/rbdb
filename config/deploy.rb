@@ -22,6 +22,8 @@ namespace :deploy do
   end
 
   task :after_symlink do
+    run "ln -nsf #{shared_path}/public/.htaccess #{current_path}/.htaccess"
+    run "ln -nsf #{shared_path}/public/.htpasswd #{current_path}/.htpasswd"
     %w[database.yml].each do |c|
       run "ln -nsf #{shared_path}/system/config/#{c} #{current_path}/config/#{c}"
     end
