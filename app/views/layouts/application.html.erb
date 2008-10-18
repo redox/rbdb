@@ -9,9 +9,21 @@
 </head>
 <body>
 <%= render :partial => '/layouts/header' %>
- <%= @title || controller.action_name  %>
-<p style="color: green"><%= flash[:notice] %></p>
-<%= yield  %>
-
+<table class="layout" cellspacing="0">
+	<tr>
+		<td class="content">
+			<p style="color: green"><%= flash[:notice] %></p>
+			<h2><%= @title || controller.action_name  %></h2>
+			<div style="width:1000px; overflow:auto"><%= yield  %></div>
+		</td>
+		<td class="sidebar">
+			<%= yield(:sidebar) || "Rien a afficher" %>
+		</td>
+    </tr>
+	<tr><td class="bottom"></td><td></td></tr>
+</table>
+<div class="footer">
+	rbDB, for railsrumble 2008. Vote for us!
+</div>
 </body>
 </html>
