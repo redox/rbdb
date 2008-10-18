@@ -9,9 +9,10 @@ class Table < Base
   
   def ar_class
     model_name = name.singularize.camelize
+    const_name = db.name.camelize + "::" + model_name
     c = nil
     begin
-      c = model_name.constantize
+      c = const_name.constantize
     rescue
       c = Class.new ActiveRecord::Base
       Object.const_set model_name, c
