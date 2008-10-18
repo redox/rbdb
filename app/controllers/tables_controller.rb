@@ -17,7 +17,7 @@ class TablesController < ApplicationController
   def show
     @table = Table.new params[:id], Datab.find(params[:datab_id])
     if params.has_key? :browse
-      @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3
+      @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3, :order => params[:order]
     end
     @columns = @table.columns
 
