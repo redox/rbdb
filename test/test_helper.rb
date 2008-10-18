@@ -37,4 +37,12 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  ActiveRecord::Base.establish_connection(
+    :adapter  => "mysql",
+    :host     => "localhost",
+    :username => 'root',
+    :password => '123',
+    :database => ''
+  )
+  
 end

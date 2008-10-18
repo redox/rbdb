@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>rbDB - <%= @title || controller.action_name  %></title>
   <%= stylesheet_link_tag 'application', 'tables', 'scaffold', 'sqls' %>
-  <%= javascript_include_tag :defaults, 'table_navigator', 'editable' %>
+  <%= javascript_include_tag :defaults, 'table_navigator', 'editable', 'sorttable' %>
 </head>
 <body>
 <%= render :partial => '/layouts/header' %>
@@ -14,7 +14,15 @@
 	<tr>
 		<td class="content">
 			<p style="color: green"><%= flash[:notice] %></p>
+			<div class="title_zone">
 			<h2><%= @title || controller.action_name  %></h2>
+			<% if (submenu =  yield :submenu) %>
+            <ul class="submenu">
+            	<%= submenu %>
+            </ul>
+			<% end %>
+			
+			</div>
 			<div style="width:1000px; overflow:auto"><%= yield  %></div>
 		</td>
 		<td class="sidebar">
@@ -26,5 +34,6 @@
 <div class="footer">
 	rbDB, for railsrumble 2008. Vote for us!
 </div>
+<%= render :partial => '/sqls/last_queries', :object => @sqls %>
 </body>
 </html>

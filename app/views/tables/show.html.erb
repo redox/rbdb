@@ -1,24 +1,30 @@
 <% @title = @table.name %>
+<%= render :partial => '/tables/submenu' %>
 
 <% if @rows %>
-  <%= render :partial => "/tables/browse", :locals => {:columns => @columns, :rows => @rows} %>
+  <% if @rows.empty? %>
+  	<div class="notification">This table is empty</div>
+  <% else %>
+  	<%= render :partial => "/tables/browse", :locals => {:columns => @columns, :rows => @rows} %>
+  <% end%>
 <% else %>
 	
-	<h3>Columns</h3>
-	<table>
+	<h3><%= @table.fields.size %> Columns</h3>
+	<h4><%= number_with_delimiter @table.rows%> records</h4>
+	<table class="database-content sortable">
 		<thead>
 			<tr>
-				<td>Name</td>
-				<td>Type</td>
-				<td>Null</td>
-				<td>Default</td>
-				<td>Extra</td>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Null</th>
+				<th>Default</th>
+				<th>Extra</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% for field in @table.fields %>
 			<tr>
-				<td>
+				<th>
 					<% column = @columns.find {|c| c.name == field[:name]} %>
 					<% if column.is_a? ForeignKey %>
 						<%= link_to column.name, datab_table_path(column.dest.db, column.dest) %>
@@ -49,11 +55,8 @@
 		</tbody>
 	</table>
 	<% end %>
-	
-	<%= link_to 'Browse', params.merge(:browse => '') %>
-<% end %>
 
-<%= link_to 'Edit', edit_datab_table_path(@table.db, @table) %>
+<% end %>
 
 <% content_for :sidebar do %>
 <div id="table_navigator"></div>

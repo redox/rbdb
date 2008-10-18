@@ -1,21 +1,21 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class TablesHelperTest < ActionView::TestCase
+class ApplicationHelperTest < ActionView::TestCase
   
   should "match today" do
-    assert_match 'Today', datetime(Date.today)
+    assert_match 'Today', date_ago(Date.today)
   end
   
   should "match yesterday" do
-    assert_match 'Yesterday', datetime(Date.yesterday)
+    assert_match 'Yesterday', date_ago(Date.yesterday)
   end
   
   should "match months ago" do
-    assert_match 'months ago', datetime(2.month.ago)
+    assert_match 'months ago', date_ago(2.month.ago)
   end
   
   should "match days ago" do
-    assert_match 'days ago', datetime(12.days.ago)
+    assert_match 'days ago', date_ago(12.days.ago)
   end
 
   should "add mailto link" do

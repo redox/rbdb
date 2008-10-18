@@ -4,13 +4,10 @@ class Sql < Base
   
   DEFAULT_LIMIT = 30
   
-  @@id = 0
-  
   def initialize(params = nil)
     @errors = ActiveRecord::Errors.new(self)
     return if params.nil?
-    self.body = params[:body]
-    @id = params[:id]
+    update_attributes(params)
   end
   
   def new_record?
@@ -19,7 +16,7 @@ class Sql < Base
   
   def save
     results
-    @id = (@@id += 1)
+    @id = rand(9999999)
     return true
   rescue StandardError => e
     @errors.add :body, e
@@ -27,7 +24,7 @@ class Sql < Base
   end
   
   def results
-    @results ||= execute(self.body)
+    @results ||= Base.execute(self.body)
   end
   
   def to_param
@@ -40,7 +37,8 @@ class Sql < Base
   
   def columns(datab)
     results.fetch_fields.map do |f|
-      datab.tables.detect {|t| t.name == f.table}.ar_class.columns.detect {|c| c.name == f.name}
+      t = datab.tables.detect {|t| t.name == f.table}
+      t.nil? ? f : t.ar_class.columns.detect {|c| c.name == f.name}
     end
   end
   
@@ -62,6 +60,12 @@ class Sql < Base
   def limit=(v)
     @limit = v.to_i
     @limit = DEFAULT_LIMIT if @limit <= 0
+  end
+  
+  def update_attributes(params)
+    self.body = params[:body]
+    @id = params[:id] if @id.nil?
+    return true
   end
   
 end
