@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
     datab.resources :tables do |table|
       table.resources :graphs
     end
+    datab.resources :sqls
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -5,12 +5,25 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>rbDB - <%= @title || controller.action_name  %></title>
-  <%= stylesheet_link_tag 'application', 'scaffold' %>
+  <%= stylesheet_link_tag 'application', 'tables', 'scaffold' %>
 </head>
 <body>
 <%= render :partial => '/layouts/header' %>
-<p style="color: green"><%= flash[:notice] %></p>
-<%= yield  %>
-
+<table class="layout" cellspacing="0">
+	<tr>
+		<td class="content">
+			<p style="color: green"><%= flash[:notice] %></p>
+			<h2><%= @title || controller.action_name  %></h2>
+			<div style="width:1000px; overflow:auto"><%= yield  %></div>
+		</td>
+		<td class="sidebar">
+			<%= yield(:sidebar) || "Rien a afficher" %>
+		</td>
+    </tr>
+	<tr><td class="bottom"></td><td></td></tr>
+</table>
+<div class="footer">
+	rbDB, for railsrumble 2008. Vote for us!
+</div>
 </body>
 </html>
