@@ -5,7 +5,11 @@
 		<thead>
 		<tr>
 		<% for column in @columns %>
-			<th><%= column.name %></th>
+			<th>
+				<%= column.name %>
+				<%= link_to 'up', params.merge(:order => column.name, :page => nil) %>
+				<%= link_to 'down', params.merge(:order => "#{column.name} desc", :page => nil) %>
+			</th>
 		<% end %>
 		</tr>
 		</thead>
