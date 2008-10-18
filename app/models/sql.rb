@@ -24,15 +24,6 @@ class Sql < Base
     return false
   end
   
-  def self.human_attribute_name(attribute)
-    case attribute.to_s
-    when 'body'
-      "Body"
-    else
-      raise "never reached #{attribute}"
-    end
-  end
-  
   def to_param
     id
   end
