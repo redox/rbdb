@@ -2,6 +2,14 @@ class Datab < Base
 
   @@databs = {}
 
+  def initialize attributes = nil
+    @name = if attributes.is_a? Hash
+      attributes[:name]
+    else
+      attributes
+    end
+  end
+
   def self.databs
     return @@databs unless @@databs.empty?
     execute("show databases").each do |name|
@@ -12,7 +20,7 @@ class Datab < Base
   end
 
   def self.all
-    databs.values
+    databs.values.sort_by &:name
   end
   
   def self.find name
