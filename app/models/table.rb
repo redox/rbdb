@@ -10,7 +10,6 @@ class Table < Base
   def ar_class
     mod = db_module    
     model_name = name.singularize.camelize
-<<<<<<< HEAD:app/models/table.rb
     c = "#{mod}::#{model_name}".constantize
   rescue
     c = Class.new ActiveRecord::Base
@@ -18,18 +17,6 @@ class Table < Base
     c.set_table_name name
   ensure
     return c
-=======
-    const_name = db.name.camelize + "::" + model_name
-    c = nil
-    begin
-      c = const_name.constantize
-    rescue
-      c = Class.new ActiveRecord::Base
-      Object.const_set model_name, c
-      c.set_table_name name
-    end
-    c
->>>>>>> 9bc261a3c945c00fd04a4cff07c3bf2be20fca3f:app/models/table.rb
   end
   
   def columns
