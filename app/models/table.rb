@@ -8,16 +8,15 @@ class Table < Base
   end
   
   def ar_class
+    mod = db_module    
     model_name = name.singularize.camelize
-    c = nil
-    begin
-      c = model_name.constantize
-    rescue
-      c = Class.new ActiveRecord::Base
-      Object.const_set model_name, c
-      c.set_table_name name
-    end
-    c
+    c = "#{mod}::#{model_name}".constantize
+  rescue
+    c = Class.new ActiveRecord::Base
+    mod.const_set model_name, c
+    c.set_table_name name
+  ensure
+    return c
   end
   
   def columns
@@ -33,6 +32,16 @@ class Table < Base
       res << c
     end
     return res
+  end
+  
+  private
+  def db_module
+    mod = db.name.camelize.constantize
+  rescue
+    mod = Module.new
+    Object.const_set db.name.camelize, mod
+  ensure
+    return mod
   end
     
 end
