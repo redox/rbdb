@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
 
+  before_filter :fill_last_queries, :except => [:login]
 
   protected
   def select_db
@@ -44,6 +45,26 @@ class ApplicationController < ActionController::Base
 
   def select_table
     @table = @datab.tables.find params[:table_id]
+  end
+  
+  def fill_last_queries
+    @sqls = []
+    session[:sqls].each do |s|
+      @sqls << Sql.new(s)
+    end if session[:sqls]
+    return true
+  end
+  
+  MAX_STORED_QUERIES = 5
+  def store_sql(sql)
+    session[:sqls] ||= []
+    session[:sqls].shift if session[:sqls].size > MAX_STORED_QUERIES
+    session[:sqls] << {:body => @sql.body, :id => @sql.id}
+  end
+  
+  def update_sql(sql)
+    s = session[:sqls].detect { |s| s[:id].to_i == sql.id }
+    s[:body] = sql.body
   end
 
 end

@@ -1,14 +1,10 @@
 class SqlsController < ApplicationController
   before_filter :select_db
+  before_filter :select_sql
   
   # GET /sqls
   # GET /sqls.xml
   def index
-    @sqls = []
-    session[:sqls].each do |s|
-      @sqls << Sql.new(s[1])
-    end if session[:sqls]
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @sqls }
@@ -18,7 +14,6 @@ class SqlsController < ApplicationController
   # GET /sqls/1
   # GET /sqls/1.xml
   def show
-    @sql = Sql.new(session[:sqls][params[:id]]) rescue nil
     raise ActiveRecord::RecordNotFound if @sql.nil?
     @sql.limit = params[:per_page]
     page = params[:page].nil? ? 1 : params[:page].to_i
@@ -35,7 +30,7 @@ class SqlsController < ApplicationController
   # GET /sqls/new.xml
   def new
     @sql = Sql.new
-
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @sql }
@@ -55,8 +50,7 @@ class SqlsController < ApplicationController
     respond_to do |format|
       if @sql.save
         flash[:notice] = 'Sql was successfully created.'
-        session[:sqls] ||= {}
-        session[:sqls][@sql.id.to_s] = {:body => @sql.body, :id => @sql.id}
+        store_sql(@sql)
         format.html { redirect_to datab_sql_path(@datab, @sql) }
         format.xml  { render :xml => @sql, :status => :created, :location => @sql }
       else
@@ -69,12 +63,11 @@ class SqlsController < ApplicationController
   # PUT /sqls/1
   # PUT /sqls/1.xml
   def update
-    @sql = Sql.find(params[:id])
-
     respond_to do |format|
       if @sql.update_attributes(params[:sql])
         flash[:notice] = 'Sql was successfully updated.'
-        format.html { redirect_to(@sql) }
+        update_sql(@sql)
+        format.html { redirect_to [@datab, @sql] }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -93,5 +86,10 @@ class SqlsController < ApplicationController
       format.html { redirect_to(sqls_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  def select_sql
+    @sql = @sqls.detect { |s| s.id == params[:id].to_i }
   end
 end
