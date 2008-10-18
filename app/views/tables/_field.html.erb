@@ -10,9 +10,7 @@ when nil %>
 <% when DateTime, Time, Date %>
   <%= datetime value %>
 <% when String %>
-  <% content_tag 'span', :title => value do %>
-    <%= truncate value, 20 %>
-  <% end %>
+  <%= string value %>
 <% when TrueClass, FalseClass %>
   <%= yes_no value %>
 <% else %>

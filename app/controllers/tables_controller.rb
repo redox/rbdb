@@ -17,7 +17,7 @@ class TablesController < ApplicationController
   def show
     @table = Table.new params[:table_id], params[:id]
     if params.has_key? :browse
-      @rows = @table.ar_class.all :limit => 30
+      @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3
     end
     @columns = @table.columns
 

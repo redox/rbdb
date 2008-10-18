@@ -24,6 +24,7 @@
 		<% end %>
 		</tbody>
 	</table>
+	<%= will_paginate @rows %>
 <% else %>
 	<ul>
 	<% for column in @columns %>
@@ -32,6 +33,5 @@
 	</ul>
 	<%= link_to 'Browse', params.merge(:browse => '') %>
 <% end %>
-
 
 <%= link_to 'Edit', edit_table_path(@table) %>
