@@ -9,10 +9,12 @@ class Datab < Base
   end
 
   def self.all
+    Datab.fetch_all if @@databs.empty?
     @@databs.values
   end
-
+  
   def self.find name
+    Datab.fetch_all if @@databs.empty?
     @@databs[name]
   end
 
@@ -22,7 +24,7 @@ class Datab < Base
     ActiveRecord::Base.connection.execute "use #{name}"
     ActiveRecord::Base.connection.execute("show tables").each do |name|
       name = name.first
-      @tables << (Table.new name, self.name)
+      @tables << (Table.new name, self)
     end
     @tables
   end

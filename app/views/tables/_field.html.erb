@@ -1,18 +1,27 @@
-<% case value
-when nil %>
-  -
-<% when Fixnum %>
-  <% if column.name == "id" %>
-    <%= value %>
+<% case column
+when ForeignKey %>
+  <% if r = column.dest.ar_class.find_by_id(value) %>
+    <%= link_to r.name, table_path(column.dest, column.dest.db) %>
   <% else %>
-    <%= number_with_delimiter value, '.' %>
+    <% value %>
   <% end %>
-<% when DateTime, Time, Date %>
-  <%= datetime value %>
-<% when String %>
-  <%= string value %>
-<% when TrueClass, FalseClass %>
-  <%= yes_no value %>
 <% else %>
-  <%= value.to_s %>
+  <% case value
+  when nil %>
+    -
+  <% when Fixnum %>
+    <% if column.name == "id" %>
+      <%= value %>
+    <% else %>
+      <%= number_with_delimiter value, '.' %>
+    <% end %>
+  <% when DateTime, Time, Date %>
+    <%= datetime value %>
+  <% when String %>
+    <%= string value %>
+  <% when TrueClass, FalseClass %>
+    <%= yes_no value %>
+  <% else %>
+    <%= value.to_s %>
+  <% end %>
 <% end %>
