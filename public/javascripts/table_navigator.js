@@ -24,8 +24,10 @@ TableNavigator.prototype = {
 	},
 	
 	search:function(e){
-		if (e.keyCode == 13)
+		if (e.keyCode == Event.KEY_RETURN)
 			return this.navigate()
+		if (e.keyCode == Event.KEY_ESC)
+			this.input.value = ''
 		this.results = this.tables.findAll(function(e){
 			return e[0].startsWith(this.input.value)
 		}, this)

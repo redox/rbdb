@@ -3,7 +3,8 @@ class DatabsController < ApplicationController
   # GET /databs.xml
   def index
     @databs = Datab.all
-
+    @datab = Datab.new
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @databs }
@@ -21,17 +22,6 @@ class DatabsController < ApplicationController
     end
   end
 
-  # GET /databs/new
-  # GET /databs/new.xml
-  def new
-    @datab = Datab.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @datab }
-    end
-  end
-
   # GET /databs/1/edit
   def edit
     @datab = Datab.find params[:id]
@@ -41,17 +31,12 @@ class DatabsController < ApplicationController
   # POST /databs.xml
   def create
     @datab = Datab.new(params[:datab])
-
-    respond_to do |format|
-      if @datab.save
-        flash[:notice] = 'Datab was successfully created.'
-        format.html { redirect_to(@datab) }
-        format.xml  { render :xml => @datab, :status => :created, :location => @datab }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @datab.errors, :status => :unprocessable_entity }
-      end
+    if @datab.save
+      flash[:notice] = 'Datab was successfully created.'
+    else
+      flash[:error] = 'Pas bon'
     end
+    redirect_to datab_path
   end
 
   # PUT /databs/1
