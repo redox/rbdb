@@ -1,4 +1,4 @@
-require 'test/test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class TablesHelperTest < ActionView::TestCase
   
@@ -16,6 +16,18 @@ class TablesHelperTest < ActionView::TestCase
   
   should "match days ago" do
     assert_match 'days ago', datetime(12.days.ago)
+  end
+
+  should "add mailto link" do
+    assert_match '<a href="mailto', string('jacko@gmail.com')
+  end
+  
+  should "add http link" do
+    assert_match '<a href="http://', string('http://massivebraingames.com')
+  end
+  
+  should "truncate long string" do
+    assert_match '<span title="en voila une longue string">en voila une long...</span>', string('en voila une longue string')
   end
   
 end
