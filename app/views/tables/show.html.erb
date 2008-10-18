@@ -47,7 +47,5 @@
   :height => 400
 } %>
 <% content_for :sidebar do %>
-<ul>
-<%= render :partial => @datab.tables %>
-</ul>
+<%= render :partial => '/databs/table_navigation' %>
 <% end %>
