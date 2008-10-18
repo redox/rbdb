@@ -24,7 +24,7 @@ class Sql < Base
   end
   
   def results
-    @results ||= execute(self.body)
+    @results ||= Base.execute(self.body)
   end
   
   def to_param
