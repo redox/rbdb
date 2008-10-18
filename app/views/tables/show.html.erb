@@ -20,7 +20,11 @@
   :height => 400
 } %>
 <% content_for :sidebar do %>
-<ul>
+<div id="table_navigator"></div>
+<script type="text/javascript" charset="utf-8">
+new TableNavigator(
+[
 <%= render :partial => @datab.tables %>
-</ul>
+], 'table_navigator')
+</script>
 <% end %>

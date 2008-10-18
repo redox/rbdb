@@ -39,7 +39,7 @@ module TablesHelper
     if r.respond_to? :name
       r.name
     else
-      r.attributes.find {|c| c.is_a? String }
+      r.attributes.find {|c, v| v.is_a? String }[1]
     end
   end
   
