@@ -12,6 +12,14 @@ class Table < Base
     @view
   end
   
+  def engine
+    return @engine if @engine
+    return @engine = '' if view?
+    set_db
+    ActiveRecord::Base.connection.execute("show create table #{name}").fetch_row.to_s =~ /ENGINE=(\S+)/
+    @engine = $1
+  end
+  
   def ar_class
     model_name = name.singularize.camelize
     c = nil
@@ -26,7 +34,7 @@ class Table < Base
   end
   
   def columns
-    ActiveRecord::Base.connection.execute "use #{@db.name}"
+    set_db
     # resolve foreign keys
     res = []
     ar_class.columns.each do |c|
@@ -38,6 +46,11 @@ class Table < Base
       res << c
     end
     return res
+  end
+  
+  private
+  def set_db
+    ActiveRecord::Base.connection.execute "use #{@db.name}"
   end
     
 end

@@ -1,5 +1,6 @@
 class TablesController < ApplicationController
   before_filter :select_db
+  before_filter :load_tables
   
   # GET /tables
   # GET /tables.xml
@@ -15,7 +16,7 @@ class TablesController < ApplicationController
   # GET /tables/1
   # GET /tables/1.xml
   def show
-    @table = Table.new params[:id], Datab.find(params[:datab_id])
+    @table = @tables.find_by_id params[:id]
     if params.has_key? :browse
       @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3, :order => params[:order]
     end
@@ -88,4 +89,13 @@ class TablesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  def load_tables
+    @tables = Datab.find(params[:datab_id]).tables
+    def @tables.find_by_id id
+      find {|e| e.id == id }
+    end
+  end
+  
 end
