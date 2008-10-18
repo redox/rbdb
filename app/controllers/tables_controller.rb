@@ -1,8 +1,9 @@
 class TablesController < ApplicationController
+  
   # GET /tables
   # GET /tables.xml
   def index
-    @tables = Table.find(:all)
+    @tables = Table.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +14,11 @@ class TablesController < ApplicationController
   # GET /tables/1
   # GET /tables/1.xml
   def show
-    @table = Table.find(params[:id])
+    @table = Table.new params[:table_id], params[:id]
+    if params.has_key? :browse
+      @rows = @table.ar_class.all :limit => 30
+    end
+    @columns = @table.columns
 
     respond_to do |format|
       format.html # show.html.erb
@@ -82,4 +87,5 @@ class TablesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+        
 end

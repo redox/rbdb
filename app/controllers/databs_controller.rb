@@ -1,8 +1,10 @@
 class DatabsController < ApplicationController
+  before_filter :fetch_all
+
   # GET /databs
   # GET /databs.xml
   def index
-    @databs = Datab.find(:all)
+    @databs = Datab.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -82,4 +84,10 @@ class DatabsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private 
+  def fetch_all
+    Datab.fetch_all
+  end
+
 end

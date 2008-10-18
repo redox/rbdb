@@ -1,3 +1,8 @@
-
+<%= @datab.name %>
+<ul>
+<% for table in @datab.tables %>
+<li><%= link_to table.name, table %></li>
+<% end %>
+</ul>
 <%= link_to 'Edit', edit_datab_path(@datab) %> |
 <%= link_to 'Back', databs_path %>

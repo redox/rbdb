@@ -1,3 +1,32 @@
+<%= @table.name %>
 
-<%= link_to 'Edit', edit_table_path(@table) %> |
-<%= link_to 'Back', tables_path %>
+<% if @rows %>
+	<table>
+		<thead>
+		<tr>
+		<% for column in @columns %>
+			<th><%= column.name %></th>
+		<% end %>
+		</tr>
+		</thead>
+		<tbody>
+		<% for row in @rows %>
+		<tr>
+			<% for column in @columns %>
+			<td><%= row[column.name] %></td>
+			<% end %>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
+<% else %>
+	<ul>
+	<% for column in @columns %>
+	<li><%= column.name %></li>
+	<% end %>
+	</ul>
+	<%= link_to 'Browse', params.merge(:browse => '') %>
+<% end %>
+
+
+<%= link_to 'Edit', edit_table_path(@table) %>

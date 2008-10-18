@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :tables
-
+  
   map.resources :databs
+  map.resources :tables, :path_prefix => '/databs/:table_id'
 
   # The priority is based upon order of creation: first created -> highest priority.
 
