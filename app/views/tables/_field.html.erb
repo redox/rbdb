@@ -1,27 +1,27 @@
 <% case column
 when ForeignKey %>
-  <% if r = column.dest.ar_class.find_by_id(value) %>
+  <% if r = column.dest.ar_class.find_by_id(row[column.name]) %>
     <%= link_to most_likely_name(r), datab_table_path(column.dest.db, column.dest) %>
   <% else %>
-    <% value %>
+    <% row[column.name] %>
   <% end %>
 <% else %>
-  <% case value
+  <% case row[column.name]
   when nil %>
     -
   <% when Fixnum %>
     <% if column.name == "id" %>
-      <%= value %>
+      <%= row[column.name] %>
     <% else %>
-      <%= number_with_delimiter value, '.' %>
+      <%= number_with_delimiter row[column.name], '.' %>
     <% end %>
   <% when DateTime, Time, Date %>
-    <%= date_ago value %>
+    <%= date_ago row[column.name] %>
   <% when String %>
-    <%= string value %>
+    <%= edit_in_place row, column.name, :url => datab_table_row_path(@datab, @table, row[:id]), :content => string(row[column.name]), :dom_id => "row_#{row[:id]}" %>
   <% when TrueClass, FalseClass %>
-    <%= yes_no value %>
+    <%= yes_no row[column.name] %>
   <% else %>
-    <%= value.to_s %>
+    <%= row[column.name].to_s %>
   <% end %>
 <% end %>

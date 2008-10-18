@@ -16,7 +16,7 @@
 		<% for column in columns %>
 		<td>
 		  <%= render :partial => "/tables/field", :locals => {
-		    :value => row[column.name],
+		    :row => row,
 		    :column => column
 		  } %>
 		</td>

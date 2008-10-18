@@ -12,7 +12,7 @@
 			}
 		</script>
 		   my databases: 
-		   <select onchange="onchange_database(this.value)" class="database-selector">
+		   <select onchange="onchange_database(this.value)" class="database-selector" accesskey="d">
 				<option value=""></option>
 				<% Datab.all.each do |db| %>
 				  <% selected = (@datab and @datab.name == db.name) %>

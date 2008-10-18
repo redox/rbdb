@@ -55,12 +55,6 @@
 
 <%= link_to 'Edit', edit_datab_table_path(@table.db, @table) %>
 
-<%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
-  :table => @table,
-  :type => "pie",
-  :width => 400,
-  :height => 400
-} %>
 <% content_for :sidebar do %>
 <div id="table_navigator"></div>
 <script type="text/javascript" charset="utf-8">

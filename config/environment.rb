@@ -11,3 +11,5 @@ Rails::Initializer.run do |config|
     :secret      => '8131eeb6763dab3748795b74ff0257e3d55bd3608f6a829942d942abf1f7791f4784b7ce40d90c6f2f5c32652f907d77548da81076450ecff07d5f4aaeb738ac'
   }
 end
+
+ActiveRecord::Base.include_root_in_json = false

@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :databs do |datab|
     datab.resources :tables do |table|
+      table.resources :rows
       table.resources :graphs
     end
     datab.resources :sqls
