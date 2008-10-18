@@ -1,0 +1,13 @@
+<% case field
+when Fixnum %>
+<% when DateTime, Time, Date %>
+  <%= datetime field %>
+<% when String %>
+  <% content_tag 'span', :title => field do %>
+    <%= truncate field, 32 %>
+  <% end %>
+<% when TrueClass, FalseClass %>
+  <%= yes_no field %>
+<% else %>
+  <%= field %>
+<% end %>
