@@ -1,8 +1,22 @@
-<%= @datab.name %>
-<ul>
+<% @title = "#{@datab.name}" %>
+<h2><%= @datab.tables.size %> tables</h2>
+<table class="database-content">
+	<thead>
+		<tr></tr><th colspan="2">Name</th><th>Records</th><th>Storage Engine</th></tr>
+	</thead>
+	<tbody>
 <% for table in @datab.tables %>
-<li><%= table_icon table %><%= link_to table.name, datab_table_path(@datab, table) %> <%= table.engine %></li>
+<tr>
+	<td><%= table_icon table %></td>
+	<td><%= link_to table.name, datab_table_path(@datab, table) %></td>
+	<td>//FIXME</td>
+	<td><%= table.engine %></td>
+</tr>
 <% end %>
-</ul>
+</tbody>
+<tfoot>
+	<tr><th colspan="2">Total</th><td>//FIXME</td><td></td></tr>
+</tfoot>
+</table>
 <%= link_to 'Edit', edit_datab_path(@datab) %> |
 <%= link_to 'Back', databs_path %>

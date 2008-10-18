@@ -1,5 +1,6 @@
 <div class="header">
-	<h1>rbDB</h1>
+	<h1><i>rb</i>DB</h1>
+
 	<div class="db-selection">
 		<script type="text/javascript" charset="utf-8">
 			function onchange_database(url) {  
@@ -13,4 +14,18 @@
 				<% end %>
 			</select>
 	</div>
+	<ul class="menu">
+		<% if controller.controller_name == "databs" %>
+			<li class="current">Dashboard</li>
+		<% else %>
+			<li><%= link_to 'Dashboard', datab_path(@datab) %></li>
+		<% end %>
+		<% if controller.controller_name == "sqls" %>
+			<li class="current">SQL Query</li>
+		<% else %>
+			<li><%= link_to 'SQL Query', new_datab_sql_path(@datab) %></li>
+		<% end %>
+		<li>Import Export</li>
+		<li>Report</li>
+	</ul>
 </div>

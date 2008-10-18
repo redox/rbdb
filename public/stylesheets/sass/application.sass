@@ -1,5 +1,5 @@
 //reset values
-h1
+h1, ul, li
   :padding 0px
   :margin 0px
 body
@@ -21,17 +21,19 @@ a:hover
 
 
 // Header section
-.header
-  :width 100%
+.header 
   :height 50px
+  :width 100%
   :color white
   :margin 0px
   :background-color #333333
   h1
-    :padding 5px
+    :float left
+    :padding 15px 25px
 
 .db-selection
   :float right
+  :margin 10px 10px 0px 0px
 .database-selector  
   :position relative
 
@@ -41,13 +43,12 @@ a:hover
 .layout
   :margin-top 0px
   :overflow hidden
-  :width 600px
+  :width 100%
   :border-collpase collapse
   :clear left
   .content
     :padding 20px
     :overflow hidden
-    :width 500px !important
     :background-color white
   .sidebar
     :width 300px
@@ -57,6 +58,28 @@ a:hover
 .bottom
   :background #EFEFEF url(/images/bottom-bg.png)
   :height 8px
+.corner
+  :background #EFEFEF url(/images/corner-bg.png) no-repeat
 .footer        
   :color #999
   :padding 20px
+
+.menu
+  :padding 30px
+  :margin-left 90px
+  li
+    :display inline
+    :position relative
+    :bottom 0px
+    :padding 2px 10px
+    :color #999
+    a
+      :color white
+      &:hover
+        :text-decoration none
+    &:hover
+      :background-color #666
+      
+  .current
+    :background-color white !important
+    :color #333    
