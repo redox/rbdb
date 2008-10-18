@@ -27,7 +27,7 @@ class Sql < Base
   end
   
   def results
-    @results ||= ActiveRecord::Base.connection.execute(self.body)
+    @results ||= execute(self.body)
   end
   
   def to_param

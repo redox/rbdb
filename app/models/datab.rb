@@ -4,7 +4,7 @@ class Datab < Base
 
   def self.databs
     return @@databs unless @@databs.empty?
-    ActiveRecord::Base.connection.execute("show databases").each do |name|
+    execute("show databases").each do |name|
       name = name.first
       @@databs[name] = (new name)
     end
@@ -22,7 +22,7 @@ class Datab < Base
   def tables
     return @tables if @tables
     @tables = []
-    ActiveRecord::Base.connection.execute("show full tables from #{name}").each do |table|
+    Base.execute("show full tables from #{name}").each do |table|
       @tables << (Table.new table[0], self, table[1])
     end
     @tables.instance_eval do

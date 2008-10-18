@@ -16,7 +16,7 @@ class Table < Base
     return @engine if @engine
     return @engine = '' if view?
     set_db
-    ActiveRecord::Base.connection.execute("show create table #{name}").fetch_row.to_s =~ /ENGINE=(\S+)/
+    execute("show create table #{name}").fetch_row.to_s =~ /ENGINE=(\S+)/
     @engine = $1
   end
   
@@ -47,9 +47,32 @@ class Table < Base
     return res
   end
   
+  def indexes
+    return @indexes if @indexes
+    current_index = nil
+    Base.execute("SHOW KEYS FROM #{name}").each do |row|
+      @indexes ||= []
+      if current_index != row[2]
+        current_index = row[2]
+        # | Table     | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment |
+        @indexes << {:name => row[2], :unique => row[1] == "0", :cardinality => 6, :columns => [], :index_type => 10}
+      end
+      @indexes.last[:columns] << row[4]
+    end
+  end
+  
+  def fields
+    return @fields if @fields
+    @fields = []
+    Base.execute("show fields from #{name}").each do |row|
+      @fields << {:name => row[0], :type => row[1], :null => row[2], :default => row[4], :extra => row[5]}
+    end
+    @fields
+  end
+  
   private
   def set_db
-    ActiveRecord::Base.connection.execute "use #{@db.name}"
+    Base.execute "use #{@db.name}"
   end
   
   def db_module

@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
       return false
     end
     @datab = Datab.find(params[:datab_id])
-    ActiveRecord::Base.connection.execute "use #{@datab.name}"
+    Datab.execute "use #{@datab.name}"
   end
   
   def select_table
