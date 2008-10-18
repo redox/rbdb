@@ -3,10 +3,13 @@ require 'yaml'
 class Graph
   
   def self.generate(table, field)
-    filename = Rails.root.join('db', table.db.name + '_' + table.name + '.yml')
+    filename = File.join(Rails.root, 'tmp', table.db.name + '_' + table.name + '_' + field + '.yml')
     values = YAML.load_file(filename) rescue []
-    values += table.ar_class.count(:group => 'date(created_at)', :order => 'created_at ASC',
-      :conditions => ['created_at > ?', values.last.first])
+    conditions = values.empty? ? nil : ["#{field} > ?", values.last.first]
+    values += table.ar_class.find(:all, :group => field, :order => "#{field} ASC",
+      :select => "COUNT(*) AS nb, #{field}", :conditions => conditions).map do |u|
+      [(u.send(field).to_s(:db) rescue u.send(field).to_s), u.nb.to_i]
+    end
     File.open(filename, 'w') do |out|
       YAML.dump(values, out)
     end

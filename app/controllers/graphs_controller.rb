@@ -1,11 +1,13 @@
 class GraphsController < ApplicationController
   before_filter :select_db
+  before_filter :select_table
+  
+  layout false
 
   # GET /graphs
   # GET /graphs.xml
   def index
-    @graphs = Graph.find(:all)
-
+    @columns = @table.ar_class.columns
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @graphs }
@@ -15,7 +17,9 @@ class GraphsController < ApplicationController
   # GET /graphs/1
   # GET /graphs/1.xml
   def show
-    @graph = Graph.find(params[:id])
+    @column = params[:id] or 'created_at'
+    @type = ["pie", "line"].include?(params[:type]) ? params[:type] : "pie"
+    @graph = Graph.generate(@table, @column)
 
     respond_to do |format|
       format.html # show.html.erb

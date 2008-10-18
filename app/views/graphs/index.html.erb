@@ -1,18 +1,8 @@
-<h1>Listing graphs</h1>
+<h1>Graphs of <%= @table.name %></h1>
 
-<table>
-  <tr>
-  </tr>
-
-<% for graph in @graphs %>
-  <tr>
-    <td><%= link_to 'Show', graph %></td>
-    <td><%= link_to 'Edit', edit_graph_path(graph) %></td>
-    <td><%= link_to 'Destroy', graph, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New graph', new_graph_path %>
+<%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
+  :table => @table,
+  :type => "line",
+  :width => "100%",
+  :height => 300
+} %>

@@ -23,5 +23,9 @@ class ApplicationController < ActionController::Base
     end
     ActiveRecord::Base.connection.execute "use #{params[:datab_id]}"
   end
+  
+  def select_table
+    @table = Table.new params[:table_id], Datab.find(params[:datab_id])
+  end
         
 end

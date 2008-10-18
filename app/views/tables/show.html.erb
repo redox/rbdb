@@ -40,5 +40,9 @@
 
 <%= link_to 'Edit', edit_datab_table_path(@table.db, @table) %>
 
-<%# if @table.ar_class.attributes[:created_at] or @table.ar_class.attributes[:created_on] %>
-<%# end %>
+<%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
+  :table => @table,
+  :type => "pie",
+  :width => 400,
+  :height => 400
+} %>
