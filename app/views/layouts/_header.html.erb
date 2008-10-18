@@ -1,0 +1,16 @@
+<div class="header">
+	<h1><%= @title || controller.action_name  %></h1>
+	<div class="db-selection">
+		<script type="text/javascript" charset="utf-8">
+			function onchange_database(url) {  
+		  window.location = url
+			}
+		</script>
+		
+			Select your database : <select onchange="onchange_database(this.value)">
+				<% Datab.all.each do |db| %>
+					<option value="<%= datab_url(db.id) %>"><%= db.name %></option>
+				<% end %>
+			</select>
+	</div>
+</div>
