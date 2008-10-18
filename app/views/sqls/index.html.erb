@@ -3,12 +3,12 @@
 <table>
   <tr>
   </tr>
-
 <% for sql in @sqls %>
   <tr>
-    <td><%= link_to 'Show', datab_sql(@datab) %></td>
+    <td><%= sql.body %></td>
+    <td><%= link_to 'Show', [@datab, sql] %></td>
     <td><%= link_to 'Edit', edit_datab_sql_path(@datab, sql) %></td>
-    <td><%= link_to 'Destroy', sql, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', [@datab, sql], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
