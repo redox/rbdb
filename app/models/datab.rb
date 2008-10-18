@@ -2,17 +2,13 @@ class Datab < Base
 
   @@databs = {}
 
-  def initialize attributes = nil
-    @name = if attributes.is_a? Hash
-      attributes[:name]
-    else
-      attributes
-    end
+  def self.create attributes
+    ActiveRecord::Base.connection.create_database attributes[:name]
   end
 
   def self.databs
     return @@databs unless @@databs.empty?
-    execute("show databases").each do |name|
+    execute('show databases').each do |name|
       name = name.first
       @@databs[name] = (new name)
     end

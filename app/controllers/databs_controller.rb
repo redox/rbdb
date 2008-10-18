@@ -30,13 +30,12 @@ class DatabsController < ApplicationController
   # POST /databs
   # POST /databs.xml
   def create
-    @datab = Datab.new(params[:datab])
-    if @datab.save
+    if Datab.create params[:datab]
       flash[:notice] = 'Datab was successfully created.'
     else
       flash[:error] = 'Pas bon'
     end
-    redirect_to datab_path
+    redirect_to databs_path
   end
 
   # PUT /databs/1
