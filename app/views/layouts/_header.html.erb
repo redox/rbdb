@@ -1,5 +1,5 @@
 <div class="header">
-	<h1><i>rb</i>DB</h1>
+	<h1 class="title"><%= link_to "<i>rb</i>DB", databs_path %></h1>
 
 	<div class="db-selection">
 		
@@ -30,7 +30,7 @@
 		<% end %>
 		<% if controller.controller_name == "sqls" %>
 			<li class="current">SQL Query</li>
-		<% else %>
+		<% elsif !@datab.new_record? %>
 			<li><%= link_to 'SQL Query', new_datab_sql_path(@datab) %></li>
 		<% end %>
 		<li>Import Export</li>
