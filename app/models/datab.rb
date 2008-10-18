@@ -21,9 +21,15 @@ class Datab < Base
 
   def tables
     return @tables if @tables
+    req = ActiveRecord::Base.connection.execute("SHOW TABLE STATUS FROM #{name}")
+    columns = req.fetch_fields.map { |f| f.name }
     @tables = []
-    ActiveRecord::Base.connection.execute("show full tables from #{name}").each do |table|
-      @tables << (Table.new table[0], self, table[1])
+    req.each do |table|
+      status = {}
+      columns.each_with_index do |c, i|
+        status[c.to_s.downcase] = table[i]
+      end
+      @tables << (Table.new table[0], self, status)
     end
     @tables.instance_eval do
       alias :old_find :find
