@@ -1,4 +1,6 @@
-<h1>Graphs of <%= @table.name %></h1>
+<% @title = @table.name %> 
+
+<%= render :partial => '/tables/submenu' %>
 
 <%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
   :table => @table,

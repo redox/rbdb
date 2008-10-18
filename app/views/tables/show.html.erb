@@ -1,20 +1,5 @@
 <% @title = @table.name %>
-<% content_for :submenu do %>
-	<% if session[:structure] %>
-		<li class="current">Structure
-	<% else %>
-		<li><%= link_to 'Structure', params.merge(:structure => '') %>
-	<% end %>
-	</li>
-	<% if session[:browse] %>
-	<li class="current">
-		Content
-	<% else %>
-	<li><%= link_to 'Content', params.merge(:browse => '') %>
-	<% end %>
-	</li>
-	<li>Reports</li>
-<% end %>
+<%= render :partial => '/tables/submenu' %>
 
 <% if @rows %>
   <% if @rows.empty? %>
@@ -70,18 +55,9 @@
 		</tbody>
 	</table>
 	<% end %>
-	
-	<%= link_to 'Browse', params.merge(:browse => '') %>
+
 <% end %>
 
-<%= link_to 'Edit', edit_datab_table_path(@table.db, @table) %>
-
-<%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
-  :table => @table,
-  :type => "pie",
-  :width => 400,
-  :height => 400
-} %>
 <% content_for :sidebar do %>
 <div id="table_navigator"></div>
 <script type="text/javascript" charset="utf-8">
