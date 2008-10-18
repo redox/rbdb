@@ -2,13 +2,21 @@ set :user, "mbg"
 set :application, "rbdb"
 set :repository,  "git@github.com:railsrumble/mbg.git"
 
+set :deploy_via, :copy
+set :copy_strategy, :export
+set :copy_exclude, ['.git']
+set :branch, "master"
+set :git_enable_submodules, 1
+set :git_shallow_clone, 1
+set :ssh_options, { :forward_agent => true }
+
+
 role :app, "li47-145.members.linode.com"
 role :db, "li47-145.members.linode.com", :primary => true
 role :web, "li47-145.members.linode.com"
 
 set :deploy_to, "/var/www/apps/#{application}"
 set :scm, :git
-set :branch, "master"
 
 namespace :deploy do
   desc "restart passenger"
