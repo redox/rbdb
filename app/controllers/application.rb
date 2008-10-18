@@ -3,7 +3,8 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-
+  
+  before_filter :authenticate
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => 'a3d2d7d49f549afb2b0070bf2d5ae125'
@@ -15,6 +16,16 @@ class ApplicationController < ActionController::Base
 
 
   protected
+  
+  def authenticate
+    unless session[:authenticated]
+      session[:return_to] = request.request_uri
+      flash[:error] = 'please give your credentials'
+      redirect_to :controller => '/accounts', :action => :login
+      return false
+    end
+  end
+  
   def select_db
     if params[:datab_id].blank?
       flash[:notice] = 'You must select a database!'
@@ -22,7 +33,7 @@ class ApplicationController < ActionController::Base
       return false
     end
     @datab = Datab.find(params[:datab_id])
-    ActiveRecord::Base.connection.execute "use #{@datab.name}"
+    Datab.execute "use #{@datab.name}"
   end
 
   def do_login
@@ -39,6 +50,8 @@ class ApplicationController < ActionController::Base
       flash[:error] = ($!).to_s
       return false
     end
+    session[:authenticated] = true
+    session[:username] = params[:username]
     return true
   end
 

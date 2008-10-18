@@ -2,7 +2,7 @@ class Base
   
   attr_reader :name
   
-  def initialize name
+  def initialize name = nil
     @name = name
   end
   
@@ -11,5 +11,13 @@ class Base
   end
   
   alias :id :name
+
+  def self.execute sql
+    ActiveRecord::Base.connection.execute sql
+  end
+  
+  def new_record?
+    @name.nil?
+  end
   
 end

@@ -2,9 +2,13 @@ class Datab < Base
 
   @@databs = {}
 
+  def self.create attributes
+    ActiveRecord::Base.connection.create_database attributes[:name]
+  end
+
   def self.databs
     return @@databs unless @@databs.empty?
-    ActiveRecord::Base.connection.execute("show databases").each do |name|
+    execute('show databases').each do |name|
       name = name.first
       @@databs[name] = (new name)
     end
@@ -12,7 +16,7 @@ class Datab < Base
   end
 
   def self.all
-    databs.values
+    databs.values.sort_by &:name
   end
   
   def self.find name
