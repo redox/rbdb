@@ -1,11 +1,13 @@
-<% form_for [@datab, @sql] do |f| %>
+<div class="custom_sql_form">
+  <% form_for [@datab, @sql] do |f| %>
 
-  <%= error_messages_for :sql %>
+    <%= error_messages_for :sql %>
 
-  <div class="field">
-    <%= f.text_area :body %>
-  </div>
-  <div class="field">
-    <%= f.submit button_text %>
-  </div>
-<% end %>
+    <div class="field">
+      <%= f.text_area :body %>
+    </div>
+    <div class="field">
+      <%= f.submit button_text %>
+    </div>
+  <% end %>
+</div>
