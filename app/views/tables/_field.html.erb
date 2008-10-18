@@ -13,12 +13,12 @@ when ForeignKey %>
     <% if column.name == "id" %>
       <%= row[column.name] %>
     <% else %>
-      <%= number_with_delimiter row[column.name], '.' %>
+      <%= editable_field row, column, number_delimited(row[column.name]) %>
     <% end %>
   <% when DateTime, Time, Date %>
     <%= date_ago row[column.name] %>
   <% when String %>
-    <%= edit_in_place row, column.name, :url => datab_table_row_path(@datab, @table, row[:id]), :content => string(row[column.name]), :dom_id => "row_#{row[:id]}" %>
+    <%= editable_field row, column, string(row[column.name]) %>
   <% when TrueClass, FalseClass %>
     <%= yes_no row[column.name] %>
   <% else %>
