@@ -1,5 +1,4 @@
 module TablesHelper
-  
   def datetime(d)
     content_tag 'span', :title => d.to_s(:db) do
       at = d.is_a?(DateTime) ? (' at %d:%d' % [d.hours, d.min]) : ''
@@ -34,7 +33,7 @@ module TablesHelper
       end
     end
   end
-
+  
   def most_likely_name r
     if r.respond_to? :name
       r.name
