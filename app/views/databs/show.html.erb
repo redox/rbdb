@@ -12,7 +12,7 @@
 		</tr>
 	</thead>
 	<tbody>
-<% total = 0 %>
+<% total = total_size = 0 %>
 <% for table in @datab.tables %>
 <tr>
 	<td><%= table_icon table %></td>
@@ -24,10 +24,17 @@
 	<td><%= table.collation %></td>
 </tr>
 <% total += table.rows.to_i %>
+<% total_size += table.data_length.to_i %>
 <% end %>
 </tbody>
 <tfoot>
-	<tr><th colspan="2">Total</th><td><%= total %></td><td></td></tr>
+	<tr>
+	  <th colspan="2">Total</th>
+	  <td><%= total %></td>
+	  <td><%= number_to_human_size total_size %></td>
+	  <td></td>
+	  <td></td>
+	</tr>
 </tfoot>
 </table>
 <%= link_to 'Edit', edit_datab_path(@datab) %> |
