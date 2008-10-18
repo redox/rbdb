@@ -1,10 +1,10 @@
 class Table < Base
   
-  attr_reader :db_name
+  attr_reader :db
   
-  def initialize name, db_name
+  def initialize name, db
     super name
-    @db_name = db_name
+    @db = db
   end
   
   def ar_class
@@ -21,8 +21,18 @@ class Table < Base
   end
   
   def columns
-    ActiveRecord::Base.connection.execute "use #{db_name}"
-    ar_class.columns
+    ActiveRecord::Base.connection.execute "use #{@db.name}"
+    # resolve foreign keys
+    res = []
+    ar_class.columns.each do |c|
+      if c.name =~ /_id$/
+        if t = @db.tables.detect {|t| t.name == c.name.gsub(/_id$/, '').pluralize}
+          c = ForeignKey.new c, t
+        end
+      end
+      res << c
+    end
+    return res
   end
     
 end

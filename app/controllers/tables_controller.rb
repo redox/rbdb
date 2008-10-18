@@ -15,7 +15,7 @@ class TablesController < ApplicationController
   # GET /tables/1
   # GET /tables/1.xml
   def show
-    @table = Table.new params[:table_id], params[:id]
+    @table = Table.new params[:table_id], Datab.find(params[:id])
     if params.has_key? :browse
       @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3
     end
