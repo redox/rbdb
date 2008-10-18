@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   def rescue_connexion 
     yield
   rescue ActiveRecord::ConnectionNotEstablished
-    flash[:error] = 'The connection with the datase server was lost'
+    flash[:error] = 'The connection with the database server was lost'
     session[:authenticated] = nil
     redirect_to :controller => 'accounts', :action => 'login'
     return false
