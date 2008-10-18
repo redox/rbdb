@@ -1,13 +1,20 @@
-<% case field
-when Fixnum %>
+<% case value
+when nil %>
+  -
+<% when Fixnum %>
+  <% if column.name == "id" %>
+    <%= value %>
+  <% else %>
+    <%= number_with_delimiter value, '.' %>
+  <% end %>
 <% when DateTime, Time, Date %>
-  <%= datetime field %>
+  <%= datetime value %>
 <% when String %>
-  <% content_tag 'span', :title => field do %>
-    <%= truncate field, 32 %>
+  <% content_tag 'span', :title => value do %>
+    <%= truncate value, 20 %>
   <% end %>
 <% when TrueClass, FalseClass %>
-  <%= yes_no field %>
+  <%= yes_no value %>
 <% else %>
-  <%= field %>
+  <%= value.to_s %>
 <% end %>
