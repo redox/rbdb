@@ -1,0 +1,23 @@
+<% if flash[:error]%>
+	<p class="error"><%= flash[:error] %></p>
+<% end %>
+<div class="welcome">
+	<p>Hye, this is a demo example of rbDB designed for the <a href="http://www.railsrumble.com" target="_blank">RailsRumble '08 contest</a>.</p>
+	Use this credentials to get into it:<br/>
+	login : railsrumble<br/>
+	passwd : coconut<br/>
+</div>
+<div>
+<% form_tag do -%>
+<p><label for="username">login</label></p>
+<%= text_field_tag 'username', nil%>
+<p><label for="password">password</label></p>
+<%= password_field_tag 'password', nil%>
+<p><%= submit_tag 'Connexion', :class => 'submit' %></p>
+<% end %>                
+<script type="text/javascript">
+//<![CDATA[
+$("username").focus()
+//]]>
+</script>
+</div>

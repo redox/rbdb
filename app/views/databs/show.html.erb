@@ -2,20 +2,32 @@
 <h2><%= @datab.tables.size %> tables</h2>
 <table class="database-content">
 	<thead>
-		<tr></tr><th colspan="2">Name</th><th>Records</th><th>Storage Engine</th></tr>
+		<tr>
+		  <th colspan="2">Name</th>
+		  <th>Records</th>
+		  <th>Size</th>
+		  <th>Storage Engine</th>
+		  <th>Created at</th>
+		  <th>Collation</th>
+		</tr>
 	</thead>
 	<tbody>
+<% total = 0 %>
 <% for table in @datab.tables %>
 <tr>
 	<td><%= table_icon table %></td>
 	<td><%= link_to table.name, datab_table_path(@datab, table) %></td>
-	<td>//FIXME</td>
+	<td><%= table.rows %></td>
+	<td><%= number_to_human_size table.data_length.to_i %></td>
 	<td><%= table.engine %></td>
+	<td><%= table.create_time.to_s %></td>
+	<td><%= table.collation %></td>
 </tr>
+<% total += table.rows.to_i %>
 <% end %>
 </tbody>
 <tfoot>
-	<tr><th colspan="2">Total</th><td>//FIXME</td><td></td></tr>
+	<tr><th colspan="2">Total</th><td><%= total %></td><td></td></tr>
 </tfoot>
 </table>
 <%= link_to 'Edit', edit_datab_path(@datab) %> |

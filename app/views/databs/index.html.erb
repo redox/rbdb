@@ -6,7 +6,7 @@
 
 <% for datab in @databs %>
   <tr>
-	<td><%= datab.name %></td>
+	  <td><%= datab.name %></td>
     <td><%= link_to 'Show', datab %></td>
     <td><%= link_to 'Edit', edit_datab_path(datab) %></td>
     <td><%= link_to 'Destroy', datab, :confirm => 'Are you sure?', :method => :delete %></td>

@@ -1,23 +1,15 @@
 class Table < Base
   
-  attr_reader :db
+  attr_reader :db, :table_status
   
-  def initialize name, db, view
+  def initialize name, db, table_status
     super name
     @db = db
-    @view = view == 'VIEW'
+    @table_status = table_status
   end
   
   def view?
-    @view
-  end
-  
-  def engine
-    return @engine if @engine
-    return @engine = '' if view?
-    set_db
-    execute("show create table #{name}").fetch_row.to_s =~ /ENGINE=(\S+)/
-    @engine = $1
+    @table_status['comment'] == 'VIEW'
   end
   
   def ar_class
@@ -68,6 +60,12 @@ class Table < Base
       @fields << {:name => row[0], :type => row[1], :null => row[2], :default => row[4], :extra => row[5]}
     end
     @fields
+  end
+  
+  alias :old_method_missing :method_missing
+  def method_missing(method, *args)
+    return table_status[method.to_s] if table_status.has_key?(method.to_s)
+    return old_method_missing(method, *args)
   end
   
   private
