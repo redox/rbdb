@@ -28,6 +28,6 @@ class Datab < Base
     end
     @tables
   end
-
+  
 end
 

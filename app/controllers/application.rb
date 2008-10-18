@@ -21,7 +21,8 @@ class ApplicationController < ActionController::Base
       redirect_to :controller => '/databs', :action => :index
       return false
     end
-    ActiveRecord::Base.connection.execute "use #{params[:datab_id]}"
+    @datab = Datab.find(params[:datab_id])
+    ActiveRecord::Base.connection.execute "use #{@datab.name}"
   end
   
   def select_table

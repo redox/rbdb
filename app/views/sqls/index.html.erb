@@ -1,0 +1,18 @@
+<h1>Listing sqls</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for sql in @sqls %>
+  <tr>
+    <td><%= link_to 'Show', sql %></td>
+    <td><%= link_to 'Edit', edit_sql_path(sql) %></td>
+    <td><%= link_to 'Destroy', sql, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New sql', new_sql_path %>
