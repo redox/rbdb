@@ -24,6 +24,5 @@ class Table < Base
     ActiveRecord::Base.connection.execute "use #{db_name}"
     ar_class.columns
   end
-  
-  
+    
 end

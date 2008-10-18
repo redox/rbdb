@@ -13,7 +13,7 @@
 		<% for row in @rows %>
 		<tr>
 			<% for column in @columns %>
-			<td><%= row[column.name] %></td>
+			<td><%= render :partial => "/tables/field", :object => row[column.name] %></td>
 			<% end %>
 		</tr>
 		<% end %>
