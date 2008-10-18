@@ -1,7 +1,7 @@
 <% case column
 when ForeignKey %>
   <% if r = column.dest.ar_class.find_by_id(value) %>
-    <%= link_to r.name, table_path(column.dest, column.dest.db) %>
+    <%= link_to r.name, datab_table_path(column.dest.db, column.dest) %>
   <% else %>
     <% value %>
   <% end %>

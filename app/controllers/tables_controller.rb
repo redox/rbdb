@@ -15,7 +15,7 @@ class TablesController < ApplicationController
   # GET /tables/1
   # GET /tables/1.xml
   def show
-    @table = Table.new params[:table_id], Datab.find(params[:id])
+    @table = Table.new params[:id], Datab.find(params[:datab_id])
     if params.has_key? :browse
       @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3
     end
@@ -88,15 +88,4 @@ class TablesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  private
-  def select_db
-    if params[:id].blank?
-      flash[:notice] = 'You must select a database!'
-      redirect_to :controller => '/databs', :action => :index
-      return false
-    end
-    ActiveRecord::Base.connection.execute "use #{params[:id]}"
-  end
-        
 end

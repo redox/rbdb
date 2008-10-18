@@ -12,4 +12,16 @@ class ApplicationController < ActionController::Base
   # Uncomment this to filter the contents of submitted sensitive data parameters
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
+
+  
+  protected
+  def select_db
+    if params[:datab_id].blank?
+      flash[:notice] = 'You must select a database!'
+      redirect_to :controller => '/databs', :action => :index
+      return false
+    end
+    ActiveRecord::Base.connection.execute "use #{params[:datab_id]}"
+  end
+        
 end

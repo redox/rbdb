@@ -34,4 +34,7 @@
 	<%= link_to 'Browse', params.merge(:browse => '') %>
 <% end %>
 
-<%= link_to 'Edit', edit_table_path(@table) %>
+<%= link_to 'Edit', edit_datab_table_path(@table.db, @table) %>
+
+<%# if @table.ar_class.attributes[:created_at] or @table.ar_class.attributes[:created_on] %>
+<%# end %>
