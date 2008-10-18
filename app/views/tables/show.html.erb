@@ -1,34 +1,7 @@
 <%= @table.name %>
 
 <% if @rows %>
-	<table class="table-content">
-		<thead>
-		<tr>
-		<% for column in @columns %>
-			<th>
-				<%= column.name %>
-				<%= link_to image_tag('/images/bullet_arrow_up.png', :title => 'sort this column ASC'), params.merge(:order => column.name, :page => nil) %>
-				<%= link_to image_tag('/images/bullet_arrow_down.png', :title => 'sort this column DESC'), params.merge(:order => "#{column.name} desc", :page => nil) %>
-			</th>
-		<% end %>
-		</tr>
-		</thead>
-		<tbody>
-		<% for row in @rows %>
-		<tr>
-			<% for column in @columns %>
-			<td>
-			  <%= render :partial => "/tables/field", :locals => {
-			    :value => row[column.name],
-			    :column => column
-			  } %>
-			</td>
-			<% end %>
-		</tr>
-		<% end %>
-		</tbody>
-	</table>
-	<%= will_paginate @rows %>
+  <%= render :partial => "/tables/browse", :locals => {:columns => @columns, :rows => @rows} %>
 <% else %>
 	<ul>
 	<% for column in @columns %>
