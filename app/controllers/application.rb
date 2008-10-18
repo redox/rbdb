@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
   
   def select_table
-    @table = Table.new params[:table_id], Datab.find(params[:datab_id])
+    @table = @datab.tables.find params[:table_id]
   end
         
 end
