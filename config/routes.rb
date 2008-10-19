@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :databs do |datab|
     datab.resources :tables do |table|
       table.resources :rows
+      table.resources :searches
       table.resources :graphs
     end
     datab.relations_graph '/relations/:table_id/graph.:format', :controller => 'relations',

@@ -1,0 +1,11 @@
+<% @title = @conditions.inspect %>
+
+<%= render :partial => "/tables/submenu" %>
+
+<%= render :partial => "/tables/browse", :locals => {
+  :columns => @table.columns,
+  :rows => @rows
+} %>
+
+<%= link_to 'Edit', edit_datab_table_search_path(@datab, @table, params[:id]) %> |
+<%= link_to 'Back', datab_table_searches_path(@datab, @table) %>
