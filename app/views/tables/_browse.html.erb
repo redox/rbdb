@@ -3,8 +3,7 @@
 <table class="table-content alternate-rows">
 	<thead>
 	<tr>
-	  <th>Edit</th>
-	  <th>Destroy</th>
+	  <th colspan="2">Actions</th>
   <% for rel in relations %>
     <th>
       <em><%= rel %></em>
@@ -26,11 +25,11 @@
 	<tbody>
 	<% for row in rows %>
 	<tr>
-	  <td><%= link_to 'edit', datab_table_row_path(@datab, @table, row) %></td>
-	  <td><%= link_to 'destroy', datab_table_row_path(@datab, @table, row), :method => :delete %></td>
+	  <td><%= link_to image_tag('edit.png', :title => 'edit this row'), datab_table_row_path(@datab, @table, row) %></td>
+	  <td><%= link_to image_tag('delete.png', :title => 'destroy this row'), datab_table_row_path(@datab, @table, row), :method => :delete %></td>
 	  <% for rel in relations %>
 	    <td>
-	     <%= link_to "See", datab_table_rows_path(@datab, rel,
+	     <%= link_to image_tag('table_go.png', :title => "see all #{rel} for this #{@table.name.singularize}" ), datab_table_rows_path(@datab, rel,
 	            :field => @table.name.singularize + '_id',
 	            :value => row.id) %>
 	    </td>
