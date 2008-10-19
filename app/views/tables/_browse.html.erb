@@ -3,6 +3,8 @@
 <table class="table-content alternate-rows">
 	<thead>
 	<tr>
+	  <th>Edit</th>
+	  <th>Destroy</th>
   <% for rel in relations %>
     <th>
       <em><%= rel %></em>
@@ -24,6 +26,8 @@
 	<tbody>
 	<% for row in rows %>
 	<tr>
+	  <td><%= link_to 'edit', datab_table_row_path(@datab, @table, row) %></td>
+	  <td><%= link_to 'destroy', datab_table_row_path(@datab, @table, row), :method => :delete %></td>
 	  <% for rel in relations %>
 	    <td>
 	     <%= link_to "See", datab_table_rows_path(@datab, rel,

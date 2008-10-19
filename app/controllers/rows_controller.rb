@@ -3,6 +3,7 @@ class RowsController < ApplicationController
   before_filter :select_db
   before_filter :select_table
   before_filter :nullify_row_fields, :only => [:update, :create]
+  before_filter :select_row, :only => [:edit, :update, :destroy]
   
   def index
     if params[:field].nil? or params[:value].nil?
@@ -25,8 +26,6 @@ class RowsController < ApplicationController
   end
   
   def update
-    @row = @table.ar_class.find params[:id]
-    
     if request.xhr?
       if @row.update_attributes params[:row]
         render :json => @row
@@ -60,7 +59,6 @@ class RowsController < ApplicationController
 
   # GET /rows/1/edit
   def edit
-    @row = @table.ar_class.find(params[:id])
   end
 
   # POST /rows
@@ -88,11 +86,11 @@ class RowsController < ApplicationController
   # DELETE /rows/1
   # DELETE /rows/1.xml
   def destroy
-    @row = Row.find(params[:id])
     @row.destroy
 
     respond_to do |format|
-      format.html { redirect_to(rows_url) }
+      flash[:notice] = 'rows was successfully destroyed.'
+      format.html { redirect_to datab_table_path(@datab, @table) }
       format.xml  { head :ok }
     end
   end
@@ -103,5 +101,9 @@ class RowsController < ApplicationController
       next if v != "1"
       params[:row][k] = nil
     end if params[:null]
+  end
+  
+  def select_row
+    @row = @table.ar_class.find(params[:id])
   end
 end

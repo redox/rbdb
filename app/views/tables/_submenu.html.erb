@@ -9,7 +9,7 @@
       {:text => 'Relations', :path => datab_relation_path(@datab, @table)},
     ] %>
   
-  <% if controller.controller_name %>
+  <% if controller.controller_name == 'rows' %>
     <% links.insert 1, {:text => 'Rows', :path => datab_table_rows_path(@datab, @table),
         :force => true} %>
   <% end %>
