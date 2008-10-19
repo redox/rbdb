@@ -2,27 +2,28 @@
 	<p class="error"><%= flash[:error] %></p>
 <% end %>
 <div class="welcome">
-	<p>Hi,<p></p>this is a demo of rbDB, a MySQL admin interface designed for the <a href="http://www.railsrumble.com" target="_blank">RailsRumble '08 contest</a>.</p>
+	<p>Hi,</p>
+	<p>this is a demo of rbDB, a MySQL admin interface designed for the <a href="http://www.railsrumble.com" target="_blank">RailsRumble '08 contest</a>.</p>
 	<p>Use these credentials to log in and give it a try:</p>
 	login : railsrumble<br/>
 	passwd : coconut<br/>
 </div>
-<div class="form">
-<% unless session[:authenticated] %>
-<% form_tag do -%>
-<p><label for="username">login</label></p>
-<%= text_field_tag 'username', nil%>
-<p><label for="password">password</label></p>
-<%= password_field_tag 'password', nil%>
-<p><%= submit_tag 'Connexion', :class => 'submit' %></p>
-<% end %>                
-<script type="text/javascript">
-//<![CDATA[
-$("username").focus()
-//]]>
-</script>
-</div>
-<% else %>
+	<div class="form">
+	<% unless session[:authenticated] %>
+		<% form_tag do -%>
+		<p><label for="username">login</label></p>
+		<%= text_field_tag 'username', nil%>
+		<p><label for="password">password</label></p>
+		<%= password_field_tag 'password', nil%>
+		<p><%= submit_tag 'Connexion', :class => 'submit' %></p>
+		<script type="text/javascript">
+		//<![CDATA[
+		$("username").focus()
+		//]]>
+		</script>
+		<% end %>                
+	 <% else %>
 	You are already connected as <%= session[:username] %>, you must first <%= link_to 'logout', :action => 'logout' %> to change your credentials.<br/>
 	Or jump to the <%= link_to 'database list', :controller => '/databs' %>
-<% end %>
+	<% end %>
+	</div>
