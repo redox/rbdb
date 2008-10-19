@@ -4,12 +4,6 @@ pre {
   font-size: 11px;
 }
 
-.fieldWithErrors {
-  padding: 2px;
-  background-color: red;
-  display: table;
-}
-
 #errorExplanation {
   width: 400px;
   border: 2px solid red;

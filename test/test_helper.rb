@@ -41,8 +41,8 @@ class Test::Unit::TestCase
     :adapter  => "mysql",
     :host     => "localhost",
     :username => 'root',
-    :password => '123',
-    :database => ''
+    :password => '',
+    :database => 'rbdb_test'
   )
   
 end
