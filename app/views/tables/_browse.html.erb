@@ -3,12 +3,13 @@
 <table class="table-content alternate-rows">
 	<thead>
 	<tr>
-	  <th colspan="2">Actions</th>
+	  <th class="actions" colspan="2">Actions</th>
   <% for rel in relations %>
-    <th>
+    <th class="relation" title="we found a relation between <%= @table.name %> and <%= rel %>">
       <em><%= rel %></em>
     </th>
   <% end %>
+	<% first = true %>
 	<% for column in columns %>
 		<th>
 			<div style="display:table-cell; vertical-align:middle; width:100%">
