@@ -4,7 +4,8 @@
 
 <%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
   :table => @table,
-  :type => "line",
+  :type => "pie",
   :width => "100%",
   :height => 300
 } %>
+<%= render :partial => '/tables/navigator' %> 

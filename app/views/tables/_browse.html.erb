@@ -3,9 +3,13 @@
 	<tr>
 	<% for column in columns %>
 		<th>
+			<div style="display:table-cell; vertical-align:middle; width:100%">
 			<%= column.name %>
-			<%= link_to image_tag('/images/bullet_arrow_up.png', :title => 'sort this column ASC'), params.merge(:order => column.name, :page => nil) %>
+			</div>
+			<div style="display:table-cell; text-align-right">
+			<%= link_to image_tag('/images/bullet_arrow_up.png', :title => 'sort this column ASC'), params.merge(:order => column.name, :page => nil) %><br/>
 			<%= link_to image_tag('/images/bullet_arrow_down.png', :title => 'sort this column DESC'), params.merge(:order => "#{column.name} desc", :page => nil) %>
+			</div>
 		</th>
 	<% end %>
 	</tr>
@@ -14,12 +18,10 @@
 	<% for row in rows %>
 	<tr>
 		<% for column in columns %>
-		<td>
 		  <%= render :partial => "/tables/field", :locals => {
 		    :row => row,
 		    :column => column
 		  } %>
-		</td>
 		<% end %>
 	</tr>
 	<% end %>

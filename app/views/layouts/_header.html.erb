@@ -23,7 +23,7 @@
 			</select>
 	</div>
 	<ul class="menu">
-		<% if controller.controller_name == "databs" %>
+		<% if controller.controller_name == "databs" || controller.controller_name == "tables" %>
 			<li class="current">Dashboard</li>
 		<% else %>
 			<li><%= link_to 'Dashboard', datab_path(@datab) %></li>

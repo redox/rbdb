@@ -1,3 +1,10 @@
+<% case row[column.name]
+when Fixnum %> 
+<td class="int">
+<% else %>
+<td>
+<% end %>
+
 <% case column
 when ForeignKey %>
   <% if r = column.dest.ar_class.find_by_id(row[column.name]) %>
@@ -11,7 +18,7 @@ when ForeignKey %>
     -
   <% when Fixnum %>
     <% if column.name == "id" %>
-      <%= row[column.name] %>
+      <%= number_with_delimiter row[column.name] %>
     <% else %>
       <%= editable_field row, column, number_delimited(row[column.name]) %>
     <% end %>
@@ -25,3 +32,4 @@ when ForeignKey %>
     <%= row[column.name].to_s %>
   <% end %>
 <% end %>
+</td>
