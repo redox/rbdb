@@ -4,7 +4,7 @@ class RowsController < ApplicationController
   before_filter :select_table
   
   def show
-    @row = WillPaginate::Collection.create(1, 1) do |pager|
+    @rows = WillPaginate::Collection.create(1, 1) do |pager|
       pager.replace [@table.ar_class.find(params[:id])]
       pager.total_entries = 1
     end
@@ -17,6 +17,14 @@ class RowsController < ApplicationController
     else
       render :json => @table.errors, :status => :unprocessable_entity
     end
+  end
+  
+  def index
+    rows = @table.ar_class.all :conditions => {params[:field] => params[:value]}
+    @rows = WillPaginate::Collection.create(1, rows.size) do |pager|
+      pager.replace rows
+      pager.total_entries = rows.size
+    end    
   end
   
 end
