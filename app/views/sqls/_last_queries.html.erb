@@ -3,7 +3,7 @@
     <h3>Last SQL queries</h3>
     <ul>
       <% @sqls.reverse_each do |sql| %>
-        <li><%= link_to truncate(sql.body, 30), datab_sql_path(@datab, sql.id) %></li>
+        <li><%= link_to truncate(sql.body, 250), datab_sql_path(@datab, sql.id) %></li>
       <% end %>
     </ul>    
   </div>

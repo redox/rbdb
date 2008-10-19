@@ -4,7 +4,8 @@
 <% if @rows %>
   <% if @rows.empty? %>
   	<div class="notification">This table is empty</div>
-  <% else %>
+  <% else %>             
+	<b><%= @table.rows %></b> records in database. Displaying <b><%= @rows.size %> </b> records
   	<%= render :partial => "/tables/browse", :locals => {:columns => @columns, :rows => @rows} %>
   <% end%>
 <% else %>
