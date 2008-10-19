@@ -5,7 +5,7 @@ class GraphsController < ApplicationController
   # GET /graphs
   # GET /graphs.xml
   def index
-    @columns = @table.ar_class.columns
+    @columns = Graph.select_relevant_columns @table
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @graphs }
