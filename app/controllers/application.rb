@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
 
-  before_filter :fill_last_queries, :except => [:login]
+  before_filter :fill_last_queries
   around_filter :rescue_connexion
 
   protected
@@ -79,10 +79,11 @@ class ApplicationController < ActionController::Base
   end
 
   MAX_STORED_QUERIES = 5
-  def store_sql(sql)
+  def store_sql(sql, datab)
     session[:sqls] ||= []
     session[:sqls].shift if session[:sqls].size > MAX_STORED_QUERIES
-    session[:sqls] << {:body => @sql.body, :id => @sql.id, :num_rows => @sql.num_rows}
+    session[:sqls] << {:body => sql.body, :id => sql.id, :num_rows => sql.num_rows,
+      :db => datab.name}
   end
 
   def update_sql(sql)

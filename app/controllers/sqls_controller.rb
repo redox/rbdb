@@ -13,7 +13,7 @@ class SqlsController < ApplicationController
 
   # GET /sqls/1
   # GET /sqls/1.xml
-  def show
+  def show    
     raise ActiveRecord::RecordNotFound if @sql.nil?
     @sql.limit = params[:per_page]
     page = params[:page].nil? ? 1 : params[:page].to_i
@@ -50,7 +50,7 @@ class SqlsController < ApplicationController
     respond_to do |format|
       if @sql.save
         flash[:notice] = 'Sql was successfully created.'
-        store_sql(@sql)
+        store_sql(@sql, @datab)
         format.html { redirect_to datab_sql_path(@datab, @sql) }
         format.xml  { render :xml => @sql, :status => :created, :location => @sql }
       else
