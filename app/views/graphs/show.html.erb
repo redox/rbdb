@@ -12,7 +12,7 @@ when "line" -%>
 <%- when "pie" -%>
 &pie=60,#999999,{font-size: 12px; color: #0088CC;&
 &values=<%= @graph.map { |v| v[1] }.join(',') %>&
-&pie_labels=<%= @graph.map { |v| v[0].to_s.gsub(/[[:space:]]+/, '+') }.join(',') %>&
+&pie_labels=<%= @graph.map { |v| URI.encode(v[0]) }.join(',') %>&
 <% else %>
   <% raise "never reached #{@type}" %>
 <% end %>
