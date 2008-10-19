@@ -37,12 +37,13 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  config = YAML.load_file(File.join(Rails.root, 'config', 'database.yml'))[RAILS_ENV]
   ActiveRecord::Base.establish_connection(
     :adapter  => "mysql",
     :host     => "localhost",
-    :username => 'root',
-    :password => '',
-    :database => 'rbdb_test'
+    :username => config['user'],
+    :password => config['password'],
+    :database => config['database']
   )
   
 end
