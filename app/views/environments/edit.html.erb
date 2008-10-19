@@ -1,0 +1,12 @@
+<h1>Editing environment</h1>
+
+<% form_for(@environment) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @environment %> |
+<%= link_to 'Back', environments_path %>
