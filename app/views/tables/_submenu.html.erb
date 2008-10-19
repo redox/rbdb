@@ -1,13 +1,20 @@
 <% content_for :submenu do %>
   <% links = [
-      {:text => 'Structure', :path => datab_table_path(@datab, @table, :structure => '')},
-      {:text => 'Content', :path => datab_table_path(@datab, @table, :browse => '')},
+      {:text => 'Structure', :path => datab_table_path(@datab, @table, :structure => ''),
+        :default => true, :session => :structure},
+      {:text => 'Content', :path => datab_table_path(@datab, @table, :browse => ''),
+        :session => :browse},
       {:text => 'Reports', :path => datab_table_graphs_path(@datab, @table)},
       {:text => 'Relations', :path => datab_relation_path(@datab, @table)},
     ] %>
     
+  <% exact_match = links.detect { |link| request.request_uri == link[:path] } %>
+  <% session_match = links.detect { |link| link[:session] and session[link[:session]] } %>
+    
   <% links.each do |link| %>
-    <% if request.request_uri == link[:path] %>
+    <% if (request.request_uri == link[:path]) or
+            (!exact_match and ((link[:session] and session[link[:session]]) or
+              (!session_match and link[:default]))) %>
     <li class="current"><%= link[:text] %></li>
     <% else %>
     <li>
