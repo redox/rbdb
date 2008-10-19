@@ -3,7 +3,7 @@
   <%= render(:partial => "/tables/lasts", :object => last_tables) if last_tables %>  
   <h2>System</h2>
   <ul>
-    <li>Load average: FIXME</li>
+    <li>Load average: <%= IO.popen("uptime").read.split(" ")[-3] rescue 0 %></li>
     <li>Requests per second: FIXME</li>
   </ul>
 </div>

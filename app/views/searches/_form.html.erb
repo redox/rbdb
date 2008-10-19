@@ -21,7 +21,7 @@
         <td>
           <%= select_tag "modifiers[#{field[:name]}]",
                 options_for_select(@search.options_for(field[:name]),
-                  @search.modifiers[field[:name]].to_sym),
+                  (@search.modifiers[field[:name]].to_sym rescue nil)),
                 :onchange => "select_modifier(this.value, '#{field[:name]}')" %>
         </td>
         <td><%= field_for field[:name], column, f %></td>

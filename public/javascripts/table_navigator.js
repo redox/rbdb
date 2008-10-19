@@ -39,7 +39,7 @@ TableNavigator.prototype = {
 		var li, a
 		for (var i=0; i < coll.length; i++) {
 			li = document.createElement('li')
-			a = new Element('a', {href:coll[i][0]}).update(coll[i][0])
+			a = new Element('a', {href:coll[i][1]}).update(coll[i][0])
 			li.appendChild(a)
 			this.list.appendChild(li)
 		}

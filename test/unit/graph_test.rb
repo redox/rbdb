@@ -13,7 +13,8 @@ class GraphTest < ActiveSupport::TestCase
       t.string :language, :default => 'FR'
       t.integer :many_values
     end
-    @table = Datab.find('rbdb_test4').tables.first
+    @datab = Datab.find('rbdb_test4')
+    @table = @datab.tables.first
     1.upto 200 do |i| 
       @table.ar_class.create :another_field => (i % 4), :created_at => "10-10-2000".to_date + (i % 40).day + rand(1000).seconds, :many_values => i % 51
     end
@@ -62,12 +63,12 @@ class GraphTest < ActiveSupport::TestCase
   
   should "generate values grouped by day for the created_at column of a table" do
     @table = Datab.find('rbdb_test4').tables.first
-    assert Graph.generate_created_at @table
+    assert Graph.generate_created_at(@table)
   end
   
   should "generate values grouped by day for the created_at column of a table and sum every day" do
     @table = Datab.find('rbdb_test4').tables.first
-    assert Graph.generate_created_at @table, true
+    assert Graph.generate_created_at(@table, true)
   end
 
 end
