@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class GraphTest < ActiveSupport::TestCase
 
@@ -38,7 +38,9 @@ class GraphTest < ActiveSupport::TestCase
   
   should "not consider render a pie with more than 50 values" do
     @table = Datab.find('rbdb_test4').tables.first
-    assert_equal 50, Graph.compute(@table, @table.columns[5].name).size
+    g = Graph.new @table, @table.columns[5].name
+    g.compute
+    assert_equal 50, g.values.size
   end
   
   should "get all the relevant columns of the table" do
@@ -54,11 +56,15 @@ class GraphTest < ActiveSupport::TestCase
   end
   
   should "group max 5% of an array" do 
-    assert_equal [[0,90],[0,4],[0,2],["Other",4]], Graph.arrange_values([[0,90],[0,4],[0,2],  [0,1],[0,1],[0,1],[0,1]])
+    g = Graph.new '', ''
+    g.values = [[0,90],[0,4],[0,2],  [0,1],[0,1],[0,1],[0,1]]
+    assert_equal [[0,90],[0,4],[0,2],["Other",4]], g.arrange_values
   end
   
   should "group exactly 5% of the array" do
-    assert_equal [[0,90],[0,5], ["Other",5]], Graph.arrange_values([[0,90],[0,5],  [0,1],[0,1],[0,1],[0,1],[0,1]])
+    g = Graph.new nil, nil
+    g.values = [[0,90],[0,5],  [0,1],[0,1],[0,1],[0,1],[0,1]]
+    assert_equal [[0,90],[0,5], ["Other",5]], g.arrange_values
   end
   
   should "generate values grouped by day for the created_at column of a table" do
@@ -69,6 +75,15 @@ class GraphTest < ActiveSupport::TestCase
   should "generate values grouped by day for the created_at column of a table and sum every day" do
     @table = Datab.find('rbdb_test4').tables.first
     assert Graph.generate_created_at(@table, true)
+  end
+
+  should "limit to ten zones" do
+    g = Graph.new nil, nil
+    g.values = [['musique',20],[0,10],[0,10],[0,10],[0,10],[0,10],[0,5],[0,5],[0,5],[0,5],[0,5],[0,5]]
+    g.arrange_values
+    g.limit_to_ten
+    assert_equal 10, g.values.size
+    assert_equal 'Other', g.values.last.first
   end
 
 end

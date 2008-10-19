@@ -2,6 +2,7 @@ class AccountsController < ApplicationController
   
   skip_before_filter :authenticate, :only => [:login, :index]
   skip_before_filter :fill_last_queries
+  skip_before_filter :fill_system_stats
   
   def index
   end

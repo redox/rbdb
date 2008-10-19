@@ -42,7 +42,7 @@ class Table < Base
   def indexes
     return @indexes if @indexes
     current_index = nil
-    Base.execute("SHOW KEYS FROM #{name}").each do |row|
+    Base.execute("SHOW KEYS FROM #{sanitize_table name}").each do |row|
       @indexes ||= []
       if current_index != row[2]
         current_index = row[2]
@@ -56,7 +56,7 @@ class Table < Base
   def fields
     return @fields if @fields
     @fields = []
-    Base.execute("show fields from #{name}").each do |row|
+    Base.execute("show fields from #{sanitize_table name}").each do |row|
       @fields << {:name => row[0], :type => row[1], :null => row[2], :default => row[4], :extra => row[5]}
     end
     @fields

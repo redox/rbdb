@@ -61,6 +61,9 @@ a:hover
     :padding 20px
     :overflow hidden
     :background-color white
+    .include
+      :position relative
+      :min-height 800px
     .title_zone
       :margin-bottom 25px
       h2
@@ -84,13 +87,18 @@ a:hover
     :vertical-align top
     :padding 5px 10px
 .bottom
-  :background #EFEFEF url(/images/bottom-bg.png)
+  :background #EFEFEF url(/images/bottom-bg.png) no-repeat
   :height 8px
 .corner
   :background #EFEFEF url(/images/corner-bg.png) no-repeat
 .footer        
   :color #999
-  :padding 20px
+  :padding 5px
+.ie_support
+  :float right
+  :font-size 8px
+  img
+    :vertical-align top
 
 .menu
   :padding 34px
@@ -169,3 +177,21 @@ a:hover
 
 .null
   :color #CCCCCC
+.associations
+  li
+    :display inline
+    :margin-right 20px
+
+.home-information
+  :position absolute
+  :right 50px
+  :border 2px solid #ccc
+  :padding 20px
+  :padding-top 0px
+  :width 350px
+  h2
+    :text-align right
+.create-database
+  :top 0px
+.server-information
+  :top 150px

@@ -17,13 +17,14 @@ class ApplicationController < ActionController::Base
   before_filter :fill_last_queries
   before_filter :fill_last_tables
   around_filter :rescue_connexion
+  before_filter :fill_system_stats
 
   protected
 
   def authenticate
     unless session[:authenticated]
       session[:return_to] = request.request_uri
-      flash[:error] = 'please give your credentials'
+      flash[:error] = 'Please give your credentials'
       redirect_to :controller => '/accounts', :action => :login
       return false
     end
@@ -94,6 +95,22 @@ class ApplicationController < ActionController::Base
   
   def fill_last_tables
     @last_tables = session[:last_tables] or []
+  end
+  
+  def fill_system_stats
+    @load_average = IO.popen("uptime").read.split(" ")[-3] rescue 0
+    questions = 0
+    uptime = 0
+    ActiveRecord::Base.connection.execute("SHOW STATUS").each do |r|
+      questions = r[1].to_i if r[0] == 'Questions'
+      uptime = r[1].to_i if r[0] == 'Uptime'
+    end
+    @requests_per_second = questions.to_f / uptime rescue 0
+    
+    ActiveRecord::Base.connection.execute("SHOW VARIABLES").each do |r|
+      @server_version = r[1] if r[0] == 'version'
+    end
+    @server = 'localhost' # FIXME
   end
 
 end

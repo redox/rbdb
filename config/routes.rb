@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :settings
+
   map.resources :environments
 
   map.resources :databs do |datab|

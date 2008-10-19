@@ -1,12 +1,14 @@
 class Sql < Base
   attr_accessor :body, :limit, :offset
-  attr_reader :results, :errors, :id, :db
+  attr_reader :errors, :id, :db
   
   def initialize(params = nil)
     @errors = ActiveRecord::Errors.new(self)
     return if params.nil?
     self.body = params[:body]
     @id = params[:id]
+    @num_rows = params[:num_rows].to_i if params.has_key?(:num_rows)
+    @db = params[:db]
   end
   
   def new_record?
@@ -14,7 +16,7 @@ class Sql < Base
   end
   
   def save
-    @results = ActiveRecord::Base.connection.execute(self.body)
+    results
     @id = rand(999999)
     return true
   rescue StandardError => e
@@ -26,8 +28,12 @@ class Sql < Base
     @id
   end
   
+  def results
+    @results ||= ActiveRecord::Base.connection.execute(self.body)
+  end
+  
   def num_rows
-    return @num_rows.to_i if @num_rows
+    return @num_rows if @num_rows
     results.num_rows
   end
   
@@ -53,6 +59,7 @@ class Sql < Base
     end    
   end
   
+  DEFAULT_LIMIT = 30
   def limit=(v)
     @limit = v.to_i
     @limit = DEFAULT_LIMIT if @limit <= 0

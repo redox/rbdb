@@ -7,7 +7,6 @@ class Datab < Base
   end
 
   def self.databs
-    return @@databs unless @@databs.empty?
     execute('show databases').each do |name|
       name = name.first
       @@databs[name] = (new name)
@@ -25,7 +24,7 @@ class Datab < Base
 
   def tables
     return @tables if @tables
-    req = ActiveRecord::Base.connection.execute("SHOW TABLE STATUS FROM #{name}")
+    req = ActiveRecord::Base.connection.execute("SHOW TABLE STATUS FROM #{sanitize_table name}")
     columns = req.fetch_fields.map { |f| f.name }
     @tables = []
     req.each do |table|

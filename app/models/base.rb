@@ -20,4 +20,8 @@ class Base
     @name.nil?
   end
   
+  def sanitize_table(name)
+    ActiveRecord::Base.connection.quote_table_name(name)
+  end
+  
 end
