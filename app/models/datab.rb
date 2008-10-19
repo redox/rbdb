@@ -25,7 +25,7 @@ class Datab < Base
 
   def tables
     return @tables if @tables
-    req = ActiveRecord::Base.connection.execute("SHOW TABLE STATUS FROM #{name}")
+    req = ActiveRecord::Base.connection.execute("SHOW TABLE STATUS FROM #{sanitize_table name}")
     columns = req.fetch_fields.map { |f| f.name }
     @tables = []
     req.each do |table|
