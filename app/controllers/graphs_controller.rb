@@ -1,7 +1,6 @@
 class GraphsController < ApplicationController
   before_filter :select_db
-  before_filter :select_table
-  
+  before_filter :select_table  
 
   # GET /graphs
   # GET /graphs.xml

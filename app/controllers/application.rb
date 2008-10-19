@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   end
 
   def select_table
-    @table = @datab.tables.find params[:table_id]
+    @table = @datab.tables.find((params[:table_id] or params[:id]))
   end
 
   def fill_last_queries

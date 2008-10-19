@@ -1,5 +1,6 @@
 class TablesController < ApplicationController
   before_filter :select_db
+  before_filter :select_table, :only => [:show]
   
   # GET /tables
   # GET /tables.xml
@@ -15,7 +16,6 @@ class TablesController < ApplicationController
   # GET /tables/1
   # GET /tables/1.xml
   def show
-    @table = @datab.tables.find params[:id]
     if params.has_key? :structure
       session[:browse] = nil
       params[:structure] = nil
