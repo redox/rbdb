@@ -24,6 +24,6 @@
 <ul>
 	<li>Designed RESTfully</li>
 	<li>Classic features you need like custom SQL requests</li>
-	<li>Open-sourced and maintained if you like it and <%= link_to "make us win", "http://sociallibrary.vote.railsrumble.com" %> </li>
+	<li>Open-sourced and maintained if you like it and <%= link_to "make us win", "http://#{request.host.split(".").first}.vote.railsrumble.com" %> </li>
 </ul>  
 <%= link_to "Go to to the demo application", {:action => :login}, :class => 'demo-link' %>
