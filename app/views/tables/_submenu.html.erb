@@ -16,9 +16,8 @@
     
   <% exact_match = links.detect { |link| (request.request_uri == link[:path]) or link[:force] } %>
   <% session_match = links.detect { |link| link[:session] and session[link[:session]] } %>
-    
   <% links.each do |link| %>
-    <% if (request.request_uri == link[:path]) or link[:force]
+    <% if (request.request_uri == link[:path]) or link[:force] or
             (!exact_match and ((link[:session] and session[link[:session]]) or
               (!session_match and link[:default]))) %>
     <li class="current"><%= link[:text] %></li>
