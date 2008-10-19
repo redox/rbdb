@@ -65,6 +65,16 @@ EOL
     return res
   end
   
+  def self.has_many(table, datab)
+    res = []
+    datab.tables.each do |t|
+      next if t.name == table.name
+      next if !t.columns.detect { |c| c.is_a?(ForeignKey) and c.dest.name == table.name }
+      res << t.name
+    end
+    return res
+  end
+  
   def self.belongs_to(table)
     res = []
     tables = [table]

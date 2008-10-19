@@ -1,0 +1,6 @@
+<% @title = @table.name + " #{params[:field]} = " + params[:value] %>
+
+<%= render :partial => "/tables/browse", :locals => {
+      :columns => @table.columns,
+      :rows => @rows
+} %>

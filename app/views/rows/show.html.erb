@@ -1,0 +1,6 @@
+<% @title = @table.name + " id = " + params[:id] %>
+
+<%= render :partial => "/tables/browse", :locals => {
+      :columns => @table.columns,
+      :rows => @rows
+} %>

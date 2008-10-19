@@ -1,6 +1,13 @@
+<% relations = Relation.has_many(@table, @datab) %>
+
 <table class="table-content alternate-rows">
 	<thead>
 	<tr>
+  <% for rel in relations %>
+    <th>
+      <em><%= rel %></em>
+    </th>
+  <% end %>
 	<% for column in columns %>
 		<th>
 			<div style="display:table-cell; vertical-align:middle; width:100%">
@@ -17,6 +24,13 @@
 	<tbody>
 	<% for row in rows %>
 	<tr>
+	  <% for rel in relations %>
+	    <td>
+	     <%= link_to "See", datab_table_rows_path(@datab, rel,
+	            :field => @table.name.singularize + '_id',
+	            :value => row.id) %>
+	    </td>
+	  <% end %>
 		<% for column in columns %>
 		  <%= render :partial => "/tables/field", :locals => {
 		    :row => row,
