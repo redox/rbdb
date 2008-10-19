@@ -30,7 +30,14 @@
 			<%= yield(:sidebar) %>
 		</td>
     </tr>
-	<tr><td class="bottom"></td><td class="corner"></td></tr>
+	<tr>
+	  <td class="bottom">
+	   	<div class="ie_support">
+      	<%= image_tag "ie_not_supported.png" %> Internet Explorer© is not supported yet	 
+    	</div>
+	  </td>
+	  <td class="corner"></td>
+	</tr>
 </table>
 <div class="footer">
 	rbDB, for railsrumble 2008. Vote for us!
