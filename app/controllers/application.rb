@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
   before_filter :fill_last_queries
+  before_filter :fill_last_tables
   around_filter :rescue_connexion
 
   protected
@@ -89,6 +90,10 @@ class ApplicationController < ActionController::Base
   def update_sql(sql)
     s = session[:sqls].detect { |s| s[:id].to_i == sql.id }
     s[:body] = sql.body
+  end
+  
+  def fill_last_tables
+    @last_tables = session[:last_tables] or []
   end
 
 end
