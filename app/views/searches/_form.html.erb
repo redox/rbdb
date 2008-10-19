@@ -12,7 +12,7 @@
 <% form_for [@datab, @table, @search] do |f| %>
   <%= f.error_messages %>
 
-  <table>
+  <table class="fields">
     <% for field in @table.fields %>
       <% next if field[:extra] == "auto_increment" %>
       <% column = @row.class.columns.detect { |c| c.name == field[:name]} %>
