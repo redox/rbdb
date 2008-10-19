@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   def authenticate
     unless session[:authenticated]
       session[:return_to] = request.request_uri
-      flash[:error] = 'please give your credentials'
+      flash[:error] = 'Please give your credentials'
       redirect_to :controller => '/accounts', :action => :login
       return false
     end
