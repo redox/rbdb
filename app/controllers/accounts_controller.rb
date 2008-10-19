@@ -1,6 +1,7 @@
 class AccountsController < ApplicationController
   
   skip_before_filter :authenticate, :only => [:login]
+  skip_before_filter :fill_last_queries
   
   def login
     if request.post?

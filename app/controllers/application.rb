@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
 
-  before_filter :fill_last_queries, :except => [:login]
+  before_filter :fill_last_queries
   around_filter :rescue_connexion
 
   protected
