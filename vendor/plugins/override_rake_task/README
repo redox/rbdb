@@ -1,0 +1,30 @@
+OverrideRakeTask plugin by Eugene Bolshakov, eugene.bolshakov@gmail.com, http://www.taknado.com
+
+This plugin is based on the Matthew Bass's idea described here:
+http://matthewbass.com/2007/03/07/overriding-existing-rake-tasks/
+
+The installation script is based on the one found in the app_config plugin
+by Daniel Owsianski, http://jarmark.org/projects/app-config/
+
+When using rake with rails it loads the task in the following order:
+
+1. Default rails tasks (like db:migrate)
+2. The tasks in your app's lib/tasks directory
+3. The tasks in your vendor/plugins directory
+
+This plugin will allow to override rake tasks that were defined earlier. It means that 
+you'll be able to override default rails tasks with lib/tasks & plugins tasks and 
+override the taksks in lib/tasks with the tasks defined in plugins.
+
+In order to override a task you need to define it as usual, but using "override_task" 
+method instead of "task":
+
+namespace :db do
+	override_task :migrate do
+		...
+	end
+end
+
+In order to make this work the plugin should be loaded before the tasks and the install script
+supplied with the plugin adds a line to load itself to the Rakefile. If it won't be able to 
+modify your Rakefile, it will let you know and you'll have to modify it manually.
