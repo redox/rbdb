@@ -5,6 +5,8 @@
       {:text => 'Content', :path => datab_table_path(@datab, @table, :browse => ''),
         :session => :browse},
       {:text => 'Insert', :path => new_datab_table_row_path(@datab, @table)},
+      {:text => 'Search', :path => new_datab_table_search_path(@datab, @table),
+        :force => (controller.controller_name == 'searches')},
       {:text => 'Reports', :path => datab_table_graphs_path(@datab, @table)},
       {:text => 'Relations', :path => datab_relation_path(@datab, @table)},
     ] %>
