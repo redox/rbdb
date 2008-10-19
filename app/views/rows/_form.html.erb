@@ -1,0 +1,45 @@
+<script type="text/javascript" charset="utf-8">
+  var last_values = {}
+
+  function toggle_null(checked, attribute) {
+    var e = $('row_' + attribute)
+    if (checked) {
+      last_values[attribute] = e.value
+      e.value = ''
+    } else if (last_values[attribute]) {
+      e.value = last_values[attribute]
+    }
+  }
+  
+  function not_null(attribute) {
+    $('null_' + attribute).checked = false
+  }
+</script>
+
+<% form_for @row, :url => datab_table_row_path(@datab, @table, @row) do |form| %>
+  <% fields_for 'row', @row do |f| %>
+    <%= f.error_messages %>
+  
+    <table>
+      <% for field in @table.fields %>
+        <% next if field[:extra] == "auto_increment" %>
+        <% column = @row.class.columns.detect { |c| c.name == field[:name]} %>
+        <tr>
+          <td><%= f.label field[:name], column.human_name %></td>
+          <td>
+            <% if field[:null] == "YES"  %>
+              <%= check_box_tag("null[#{field[:name]}]", 1, @row[field[:name]].blank?,
+                    :onclick => "toggle_null(this.checked, '#{field[:name]}')",
+                    :id => "null_#{field[:name]}") %>
+            <% end %>
+          </td>
+          <td><%= field_for field[:name], column, f,
+                    :onfocus => "not_null('#{field[:name]}')" %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      <%= f.submit button_text %>
+    </p>
+  <% end %>
+<% end %>
