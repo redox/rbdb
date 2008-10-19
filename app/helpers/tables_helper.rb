@@ -1,11 +1,12 @@
 module TablesHelper
 
   def most_likely_name r
-    if r.respond_to? :name
-      r.name
-    else
-      r.attributes.find {|c, v| v.is_a? String}[1]
+    [:name, :login, :email].each do |m|
+      return r.send(m) if r.respond_to?(m)
     end
+    a = r.attributes.find {|c, v| v.is_a? String}[1]
+    return a if !a.nil?
+    return r.id
   end
 
   def editable_field row, column, content
