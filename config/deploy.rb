@@ -5,7 +5,7 @@ set :repository,  "git@github.com:railsrumble/mbg.git"
 set :deploy_via, :copy
 set :copy_strategy, :export
 set :copy_exclude, ['.git']
-set :branch, "master"
+set :branch, "railsrumble"
 set :git_enable_submodules, 1
 set :git_shallow_clone, 1
 set :ssh_options, { :forward_agent => true }
