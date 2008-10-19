@@ -1,16 +1,43 @@
 <% @title = 'Listing available databases' %>
 
-<% form_for @datab do |f| %>
-	<%= f.label :name, 'New database:' %>
-	<%= f.text_field :name %>
-	<%= f.submit 'Create' %>
-<% end %>
-<table>
+<div class="home-information create-database">
+  <h2>Create a new database</h2>
+  <% form_for @datab do |f| %>
+    <div class="field">
+    	<%= f.label :name, 'Name' %>
+    	<%= f.text_field :name %>
+    	<%= f.submit 'Create' %>    
+    </div>
+  <% end %>  
+</div>
+
+<div class="home-information server-information">
+  <h2>Server information</h2>
+  <table class="database-content">
+    <tr>
+      <td>Server version:</td>
+      <td><em><%= @server_version %></em></td>
+    </tr>
+    <tr>
+      <td>Server:</td>
+      <td><em><%= @server %></em></td>
+    </tr>
+    <tr>
+      <td>User:</td>
+      <td><em><%= session[:username] %></em></td>
+    </tr>
+  </table>
+</div>
+
+<table class="database-content sortable alternate-rows">
   <tr>
+    <th>Name</th>
+    <th>Tables</th>
   </tr>
 <% for datab in @databs %>
   <tr>
 	  <td><%= link_to datab.name, datab %></td>
+	  <td><%= datab.tables.size %></td>
   </tr>
 <% end %>
 </table>

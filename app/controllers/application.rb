@@ -106,6 +106,11 @@ class ApplicationController < ActionController::Base
       uptime = r[1].to_i if r[0] == 'Uptime'
     end
     @requests_per_second = questions.to_f / uptime rescue 0
+    
+    ActiveRecord::Base.connection.execute("SHOW VARIABLES").each do |r|
+      @server_version = r[1] if r[0] == 'version'
+    end
+    @server = 'localhost' # FIXME
   end
 
 end
