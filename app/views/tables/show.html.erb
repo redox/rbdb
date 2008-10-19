@@ -61,6 +61,15 @@
 		</tbody>
 	</table>
 	
+	<% if @relations.size > 0 %>
+	  <h3>Associations</h3>
+	  <ul class="associations">
+	   <% @relations.each do |relation| %>
+	    <li>» <%= link_to relation, datab_table_path(@datab, relation) %></li>
+	   <% end %>
+	  </ul>
+	<% end %>
+	
 	<% if @table.indexes %>
 	<h3>Indexes</h3>
 	<table>
