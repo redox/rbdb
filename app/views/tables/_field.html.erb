@@ -15,7 +15,7 @@ when ForeignKey %>
 <% else %>
   <% case row[column.name]
   when nil %>
-    <em>NULL</em>
+    <em class="null">NULL</em>
   <% when Fixnum %>
     <% if column.name == "id" %>
       <%= number_with_delimiter row[column.name] %>
