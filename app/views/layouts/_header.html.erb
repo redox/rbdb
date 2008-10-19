@@ -40,10 +40,15 @@
 		<% end %>
 		<% if controller.controller_name == "sqls" %>
 			<li class="current">SQL Query</li>
-		<% elsif !@datab.new_record? %>
+		<% elsif @datab and !@datab.new_record? %>
 			<li><%= link_to 'SQL Query', new_datab_sql_path(@datab) %></li>
 		<% end %>
 		<li>Import Export</li>
 		<li>Report</li>
+		<% if controller.controller_name == "environment" %>
+		  <li class="current">Environment</li>
+		<% else %>
+		  <li><%= link_to 'Environment', environments_path %></li>
+		<% end %>
 	</ul>
 </div>
