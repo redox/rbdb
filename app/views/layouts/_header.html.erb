@@ -4,7 +4,7 @@
 	<div class="db-selection">
 		
 		
-		<p><b><%= session[:username] %></b> | setttings | help | <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %><p/>
+		<p><b><%= session[:username] %></b> | <%= link_to 'settings', settings_path %> | <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %><p/>
 		
 		<script type="text/javascript" charset="utf-8">
 			function onchange_database(url) { 
@@ -12,12 +12,12 @@
 			}
 		</script>
 		   my databases: 
-		   <select onchange="onchange_database(this.value)" class="database-selector" accesskey="d">
+		   <select onchange="onchange_database(this.value)" class="database-selector" accesskey="d" title="Access key: d">
 				<option value=""></option>
 				<% current_prefix = nil %>
 				<% Datab.all.each do |db| %>
 				  <% s = db.name.split('_') %>
-				  <% prefix, suffix = s.size < 2 ? [nil, db.name] : [s.first, s[1..-1]] %>
+				  <% prefix, suffix = s.size < 2 ? [nil, db.name] : [s[0..-2].join('_'), s.last] %>
 				  <% if current_prefix != prefix %>
 				    <%= '</optgroup>' if current_prefix %>
 				    <% if prefix %>
