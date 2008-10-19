@@ -13,7 +13,7 @@
         <li>
           <%= link_to truncate(sql.body, 200), datab_sql_path(@datab, sql.id) %>
           <%= link_to truncate(sql.body, 200), datab_sql_path(sql.db, sql.id) %>
-          <span class="num_rows">(<%= pluralize sql.num_rows, 'row' %>)</span>
+          <span class="infos">(<%= pluralize sql.num_rows, 'row' %>)</span>
         </li>
       <% end %>
       </ul>

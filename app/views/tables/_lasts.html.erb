@@ -1,0 +1,13 @@
+<% if lasts.size > 0 %>
+  <div class="last_tables">
+    <h2>Last tables</h2>
+    <ul>
+      <% lasts.reverse_each do |last| %>
+        <li>
+          <%= link_to last[:name] + '', datab_table_path(last[:db], last[:name]) %>
+          <span class="infos">« <%= last[:db] %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>  
+<% end %>

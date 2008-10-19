@@ -1,0 +1,9 @@
+<div class="last">
+  <%= render(:partial => "/sqls/last_queries", :object => last_queries) if last_queries %>
+  <%= render(:partial => "/tables/lasts", :object => last_tables) if last_tables %>  
+  <h2>System</h2>
+  <ul>
+    <li>Load average: FIXME</li>
+    <li>Requests per second: FIXME</li>
+  </ul>
+</div>

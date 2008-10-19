@@ -37,6 +37,7 @@ class TablesController < ApplicationController
       @rows = @table.ar_class.paginate :page => params[:page], :per_page => session[:per_page], :order => params[:order]
     end
     @columns = @table.columns
+    store_table(@table)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -104,6 +105,16 @@ class TablesController < ApplicationController
       format.html { redirect_to(tables_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  MAX_STORED_TABLES = 3
+  def store_table(table)
+    t = {:name => table.name, :db => @datab.name}
+    session[:last_tables] ||= []
+    session[:last_tables].delete t
+    session[:last_tables].shift if session[:last_tables].size >= MAX_STORED_TABLES
+    session[:last_tables] << t
   end
     
 end

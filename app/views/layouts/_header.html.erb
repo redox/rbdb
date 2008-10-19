@@ -14,10 +14,20 @@
 		   my databases: 
 		   <select onchange="onchange_database(this.value)" class="database-selector" accesskey="d">
 				<option value=""></option>
+				<% current_prefix = nil %>
 				<% Datab.all.each do |db| %>
+				  <% s = db.name.split('_') %>
+				  <% prefix, suffix = s.size < 2 ? [nil, db.name] : [s.first, s[1..-1]] %>
+				  <% if current_prefix != prefix %>
+				    <%= '</optgroup>' if current_prefix %>
+				    <% if prefix %>
+  				    <optgroup label="<%= prefix %>">
+  				  <% end %>
+				    <% current_prefix = prefix %>
+				  <% end %>
 				  <% selected = (@datab and @datab.name == db.name) %>
 					<option value="<%= datab_url(db.id) %>"<%= 'selected="selected"' if selected %>>
-					  <%= db.name %>
+					  <%= suffix %>
 					</option>
 				<% end %>
 			</select>
