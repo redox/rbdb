@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   def rescue_connexion 
     yield
   rescue ActiveRecord::ConnectionNotEstablished
-    flash[:error] = 'The connection with the datase server was lost'
+    flash[:error] = 'The connection with the database server was lost'
     session[:authenticated] = nil
     redirect_to :controller => 'accounts', :action => 'login'
     return false
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
   def store_sql(sql)
     session[:sqls] ||= []
     session[:sqls].shift if session[:sqls].size > MAX_STORED_QUERIES
-    session[:sqls] << {:body => @sql.body, :id => @sql.id}
+    session[:sqls] << {:body => @sql.body, :id => @sql.id, :num_rows => @sql.num_rows}
   end
 
   def update_sql(sql)

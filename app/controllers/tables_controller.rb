@@ -28,7 +28,7 @@ class TablesController < ApplicationController
     end
     session[:structure] = session[:structure] || (!session[:structure] && !session[:browse])
     if (session[:browse])
-      @rows = @table.ar_class.paginate :page => params[:page], :per_page => 3, :order => params[:order]
+      @rows = @table.ar_class.paginate :page => params[:page], :per_page => 30, :order => params[:order]
     end
     @columns = @table.columns
 

@@ -65,6 +65,7 @@ class Sql < Base
   def update_attributes(params)
     self.body = params[:body]
     @id = params[:id] if @id.nil?
+    @num_rows = params[:num_rows].to_i
     return true
   end
   

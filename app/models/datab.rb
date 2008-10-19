@@ -6,10 +6,6 @@ class Datab < Base
     ActiveRecord::Base.connection.create_database attributes[:name]
   end
 
-  def self.destroy attributes
-    ActiveRecord::Base.connection.destroy_database attributes[:name]
-  end
-
   def self.databs
     return @@databs unless @@databs.empty?
     execute('show databases').each do |name|
