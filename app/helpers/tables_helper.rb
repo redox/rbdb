@@ -4,7 +4,7 @@ module TablesHelper
     [:name, :login, :email].each do |m|
       return r.send(m) if r.respond_to?(m)
     end
-    return (r.attributes.find {|c, v| v.is_a? String}[1] rescue r.id)
+    return ((r.attributes.find {|c, v| v.is_a? String}[1] rescue r.id) or r.id)
   end
 
   def editable_field row, column, content
