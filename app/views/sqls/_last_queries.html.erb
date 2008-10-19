@@ -11,7 +11,6 @@
           <% db = sql.db %>
         <% end %>
         <li>
-          <%= link_to truncate(sql.body, 200), datab_sql_path(@datab, sql.id) %>
           <%= link_to truncate(sql.body, 200), datab_sql_path(sql.db, sql.id) %>
           <span class="infos">(<%= pluralize sql.num_rows, 'row' %>)</span>
         </li>
