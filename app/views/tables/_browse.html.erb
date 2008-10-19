@@ -1,4 +1,4 @@
-<% relations = Relation.has_many(@table, @datab) %>
+<% relations = @table ? Relation.has_many(@table, @datab) : [] %>
 
 <table class="table-content alternate-rows">
 	<thead>
