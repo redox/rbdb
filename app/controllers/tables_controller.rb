@@ -38,6 +38,7 @@ class TablesController < ApplicationController
     end
     @columns = @table.columns
     store_table(@table)
+    @relations = Relation.has_many(@table, @datab)
 
     respond_to do |format|
       format.html # show.html.erb

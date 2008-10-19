@@ -77,6 +77,10 @@ class Search < Base
     @id.nil?
   end
   
+  def name
+    @row.name
+  end
+  
   def to_param
     @id
   end 
