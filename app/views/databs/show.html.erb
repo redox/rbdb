@@ -1,4 +1,7 @@
 <% @title = "#{@datab.name}" %>
+<% if @datab.tables.empty? %>
+	<div class="notification">This database is empty</div>
+<% else %>
 <h2><%= @datab.tables.size %> tables</h2>
 <table class="database-content sortable">
 	<thead>
@@ -40,3 +43,4 @@
 <%= link_to 'Edit', edit_datab_path(@datab) %> |
 <%= link_to 'Back', databs_path %>
 <%= render :partial => 'tables/navigator' %>
+<% end %>
