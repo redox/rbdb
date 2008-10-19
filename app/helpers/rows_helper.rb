@@ -3,9 +3,9 @@ module RowsHelper
   def field_for(attribute, column, form, options = {})
     case column.type
     when :datetime, :time
-      "FIXME DATETIME"
+      form.calendar_date_select attribute
     when :date
-      "FIXME DATE"
+      form.calendar_date_select attribute
     when :boolean
       form.check_box attribute, options
     else
