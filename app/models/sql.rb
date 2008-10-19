@@ -1,6 +1,6 @@
 class Sql < Base
   attr_accessor :body, :limit, :offset
-  attr_reader :results, :errors, :id
+  attr_reader :results, :errors, :id, :db
   
   DEFAULT_LIMIT = 30
   
@@ -32,6 +32,7 @@ class Sql < Base
   end
   
   def num_rows
+    return @num_rows.to_i if @num_rows
     results.num_rows
   end
   
@@ -63,9 +64,10 @@ class Sql < Base
   end
   
   def update_attributes(params)
-    self.body = params[:body]
     @id = params[:id] if @id.nil?
-    @num_rows = params[:num_rows].to_i
+    self.body = params[:body]
+    @num_rows = params[:num_rows].to_i if params[:num_rows]
+    @db = params[:db]
     return true
   end
   

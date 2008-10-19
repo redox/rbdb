@@ -79,10 +79,11 @@ class ApplicationController < ActionController::Base
   end
 
   MAX_STORED_QUERIES = 5
-  def store_sql(sql)
+  def store_sql(sql, datab)
     session[:sqls] ||= []
     session[:sqls].shift if session[:sqls].size > MAX_STORED_QUERIES
-    session[:sqls] << {:body => @sql.body, :id => @sql.id, :num_rows => @sql.num_rows}
+    session[:sqls] << {:body => sql.body, :id => sql.id, :num_rows => sql.num_rows,
+      :db => datab.name}
   end
 
   def update_sql(sql)
