@@ -13,3 +13,7 @@ Rails::Initializer.run do |config|
 end
 
 ActiveRecord::Base.include_root_in_json = false
+
+Mime::Type.register "image/svg+xml", :svg
+Mime::Type.register "image/png", :png
+Mime::Type.register "application/pdf", :pdf

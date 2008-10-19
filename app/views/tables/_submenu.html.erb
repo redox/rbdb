@@ -1,16 +1,18 @@
 <% content_for :submenu do %>
-	<% if session[:structure] %>
-		<li class="current">Structure
-	<% else %>
-		<li><%= link_to 'Structure', datab_table_path(@datab, @table, :structure => '') %>
-	<% end %>
-	</li>
-	<% if session[:browse] %>
-	<li class="current">
-		Content
-	<% else %>
-	<li><%= link_to 'Content', datab_table_path(@datab, @table, :browse => '') %>
-	<% end %>
-	</li>
-	<li><%= link_to 'Reports', datab_table_graphs_path(@datab, @table) %>
+  <% links = [
+      {:text => 'Structure', :path => datab_table_path(@datab, @table, :structure => '')},
+      {:text => 'Content', :path => datab_table_path(@datab, @table, :browse => '')},
+      {:text => 'Reports', :path => datab_table_graphs_path(@datab, @table)},
+      {:text => 'Relations', :path => datab_relation_path(@datab, @table)},
+    ] %>
+    
+  <% links.each do |link| %>
+    <% if request.request_uri == link[:path] %>
+    <li class="current"><%= link[:text] %></li>
+    <% else %>
+    <li>
+      <%= link_to link[:text], link[:path] %>
+    </li>
+    <% end %>
+  <% end %>
 <% end %>
