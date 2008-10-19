@@ -2,8 +2,6 @@ class Sql < Base
   attr_accessor :body, :limit, :offset
   attr_reader :results, :errors, :id, :db
   
-  @@id = 0
-  
   def initialize(params = nil)
     @errors = ActiveRecord::Errors.new(self)
     return if params.nil?
@@ -17,7 +15,7 @@ class Sql < Base
   
   def save
     @results = ActiveRecord::Base.connection.execute(self.body)
-    @id = (@@id += 1)
+    @id = rand(999999)
     return true
   rescue StandardError => e
     @errors.add :body, e

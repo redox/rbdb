@@ -4,15 +4,22 @@
         :default => true, :session => :structure},
       {:text => 'Content', :path => datab_table_path(@datab, @table, :browse => ''),
         :session => :browse},
+      {:text => 'Insert', :path => new_datab_table_row_path(@datab, @table)},
+      {:text => 'Search', :path => new_datab_table_search_path(@datab, @table),
+        :force => (controller.controller_name == 'searches')},
       {:text => 'Reports', :path => datab_table_graphs_path(@datab, @table)},
       {:text => 'Relations', :path => datab_relation_path(@datab, @table)},
     ] %>
+  
+  <% if controller.controller_name == 'rows' and controller.action_name == 'show' %>
+    <% links.insert 1, {:text => 'Rows', :path => datab_table_rows_path(@datab, @table),
+        :force => true} %>
+  <% end %>
     
-  <% exact_match = links.detect { |link| request.request_uri == link[:path] } %>
+  <% exact_match = links.detect { |link| (request.request_uri == link[:path]) or link[:force] } %>
   <% session_match = links.detect { |link| link[:session] and session[link[:session]] } %>
-    
   <% links.each do |link| %>
-    <% if (request.request_uri == link[:path]) or
+    <% if (request.request_uri == link[:path]) or link[:force] or
             (!exact_match and ((link[:session] and session[link[:session]]) or
               (!session_match and link[:default]))) %>
     <li class="current"><%= link[:text] %></li>
