@@ -32,12 +32,16 @@
     </tr>
 	<tr>
 	  <td class="bottom">
-	   	<div class="ie_support">
+	   	<div class="ie_support" id="ie_support">
       	<%= image_tag "ie_not_supported.png" %> Internet Explorer© is not supported yet	 
     	</div>
 	  </td>
 	  <td class="corner"></td>
 	</tr>
+	<script type="text/javascript" charset="utf-8">
+		if (!Prototype.Browser.IE)
+			$('ie_support').hide()
+	</script>
 </table>
 <div class="footer">
 	rbDB, for railsrumble 2008. <%= link_to 'Vote for us!', 'http://sociallibrary.vote.railsrumble.com' %>
