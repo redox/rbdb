@@ -6,7 +6,8 @@
 <table class="database-content sortable">
 	<thead>
 		<tr>
-		  <th colspan="2">Name</th>
+		  <th></th>
+		  <th>Name</th>
 		  <th class="sorttable_numeric">Records</th>
 		  <th class="sorttable_numeric">Size</th>
 		  <th>Storage Engine</th>
@@ -21,7 +22,7 @@
 	<td><%= table_icon table %></td>
 	<td><%= link_to table.name, datab_table_path(@datab, table) %></td>
 	<td class="int" sorttable_customkey="<%= table.rows %>"><%= number_with_delimiter table.rows %></td>
-	<td sorttable_customkey="<%= table.data_length.to_i %>"><%= number_to_human_size table.data_length.to_i %></td>
+	<td class="int" sorttable_customkey="<%= table.data_length.to_i %>"><%= number_to_human_size table.data_length.to_i %></td>
 	<td><%= table.engine %></td>
 	<td sorttable_customkey="<%= table.create_time %>"><%= table.create_time.to_s %></td>
 	<td><%= table.collation %></td>
