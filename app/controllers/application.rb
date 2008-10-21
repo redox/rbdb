@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
   end
   
   def fill_system_stats
-    @load_average = IO.popen("uptime").read.split(" ")[-3] rescue 0
+    @load_average = IO.popen("uptime") {|pipe| pipe.read}.split(" ")[-3] rescue 0
     questions = 0
     uptime = 0
     ActiveRecord::Base.connection.execute("SHOW STATUS").each do |r|

@@ -30,7 +30,7 @@ class DatabsController < ApplicationController
   # POST /databs
   # POST /databs.xml
   def create
-    if Datab.create params[:datab]
+    if (Datab.create(params[:datab]) rescue nil)
       flash[:notice] = 'Datab was successfully created.'
     else
       flash[:error] = 'Pas bon'

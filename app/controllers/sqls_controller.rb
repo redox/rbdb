@@ -48,7 +48,7 @@ class SqlsController < ApplicationController
     @sql = Sql.new(params[:sql])
 
     respond_to do |format|
-      if @sql.save
+      if (@sql.save rescue nil)
         flash[:notice] = 'Sql was successfully created.'
         store_sql(@sql, @datab)
         format.html { redirect_to datab_sql_path(@datab, @sql) }
