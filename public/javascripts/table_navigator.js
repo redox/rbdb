@@ -12,9 +12,9 @@ TableNavigator.prototype = {
 	},
 	
 	navigate:function(){
-		if (!this.results[0])
+		if (!this.results[this.selectedResult])
 			return
-		window.location = this.results[0][1]
+		window.location = this.results[this.selectedResult][1]
 	},
 	
 	buildInitialList:function(){
@@ -26,12 +26,30 @@ TableNavigator.prototype = {
 	search:function(e){
 		if (e.keyCode == Event.KEY_RETURN)
 			return this.navigate()
+		if (e.keyCode == Event.KEY_UP || e.keyCode == Event.KEY_DOWN)
+			return this.move(e.keyCode)
 		if (e.keyCode == Event.KEY_ESC)
 			this.input.value = ''
 		this.results = this.tables.findAll(function(e){
 			return e[0].startsWith(this.input.value)
 		}, this)
 		this.displayList(this.results)
+		this.select(0)
+	},
+	
+	move:function(keyCode){
+		if (this.selectedResult == null)
+			return this.select(0)
+		if (keyCode == Event.KEY_UP)
+			if (this.selectedResult == 0)
+				this.select(this.results.length - 1)
+			else
+				this.select(this.selectedResult - 1)
+		else
+			if (this.selectedResult == (this.results.length - 1))
+				this.select(0)
+			else
+				this.select(this.selectedResult + 1)
 	},
 	
 	displayList:function(coll){
@@ -43,5 +61,12 @@ TableNavigator.prototype = {
 			li.appendChild(a)
 			this.list.appendChild(li)
 		}
-	}	
+	},
+	
+	select:function(index){
+		if (this.selectedResult != null)
+			Element.removeClassName(this.list.childNodes[this.selectedResult], 'selected')
+		this.selectedResult = index
+		Element.addClassName(this.list.childNodes[index], 'selected')
+	}
 }

@@ -44,7 +44,7 @@
 	</script>
 </table>
 <div class="footer">
-	rbDB, for railsrumble 2008. <%= link_to 'Vote for us!', "http://#{request.host.split(".").first}.vote.railsrumble.com" %>
+	<%= link_to 'rbDB', 'http://rbdb.org' %>, bringing conventions to database administration.
 </div>
 <%= render :partial => '/layouts/last', :locals => {
       :last_queries => @sqls,
