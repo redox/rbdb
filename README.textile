@@ -5,12 +5,12 @@ h1. rbDB
 
 h2. Screencast
 
-You can see the demo here : http://www.vimeo.com/2046491
+You can see the demo here : "http://www.vimeo.com/2046491":http://www.vimeo.com/2046491
 
 
 h2. Official website
 
-http://www.rbdb.org
+"http://www.rbdb.org":http://www.rbdb.org
 
 
 h2. Description
@@ -20,7 +20,7 @@ rbDB is a web-based mysql database administration bringing conventions to databa
 
 h2. Why this project ?
 
-Because we found phpMyAdmin boring, ugly and feature-less
+We found phpMyAdmin boring, ugly and feature-less.
 
 
 h2. So what's the difference ?
