@@ -3,7 +3,7 @@
 	<div class="notification">This database is empty</div>
 <% else %>
   <h2><%= @datab.tables.size %> tables</h2>
-  <table class="database-content sortable">
+  <table class="database-content sortable alternate-rows">
   	<thead>
   		<tr>
   		  <th></th>
@@ -34,7 +34,7 @@
   <tfoot>
   	<tr>
   	  <th colspan="2">Total</th>
-  	  <td><%= number_with_delimiter total %></td>
+  	  <td class="numeric"><%= number_with_delimiter total %></td>
   	  <td><%= number_to_human_size total_size %></td>
   	  <td></td>
   	  <td></td>
