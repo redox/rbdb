@@ -13,6 +13,11 @@ h2. Official website
 "http://www.rbdb.org":http://www.rbdb.org
 
 
+h2. Found a bug?
+
+Tell us on lighthouse: "http://rbdb.lighthouseapp.com":http://rbdb.lighthouseapp.com/dashboard
+
+
 h2. Description
 
 rbDB is a web-based mysql database administration bringing conventions to database administration
