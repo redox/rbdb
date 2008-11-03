@@ -1,0 +1,13 @@
+<div class="custom_sql_form">
+  <% form_for [@datab, @sql] do |f| %>
+	<% if @sql && !@sql.errors.empty? %>
+    <div class="sql_error"><%= h @sql.errors[:body].message %></div>
+	<% end %>
+    <div class="field">
+      <%= f.text_area :body %>
+    </div>
+    <div class="field">
+      <%= f.submit button_text %>
+    </div>
+  <% end %>
+</div>

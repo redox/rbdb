@@ -1,0 +1,35 @@
+<% case row[column.name]
+when Fixnum %> 
+<td class="int">
+<% else %>
+<td>
+<% end %>
+
+<% case column
+when ForeignKey %>
+  <% if r = column.dest.ar_class.find_by_id(row[column.name]) %>
+    <%= link_to most_likely_name(r), datab_table_row_path(column.dest.db, column.dest, r.id) %>
+  <% else %>
+    <% row[column.name] %>
+  <% end %>
+<% else %>
+  <% case row[column.name]
+  when nil %>
+    <em class="null">NULL</em>
+  <% when Fixnum %>
+    <% if column.name == "id" %>
+      <%= number_with_delimiter row[column.name] %>
+    <% else %>
+      <%= editable_field row, column, number_delimited(row[column.name]) %>
+    <% end %>
+  <% when DateTime, Time, Date %>
+    <%= date_ago row[column.name] %>
+  <% when String %>
+    <%= editable_field row, column, string(row[column.name]) %>
+  <% when TrueClass, FalseClass %>
+    <%= yes_no row[column.name] %>
+  <% else %>
+    <%= row[column.name].to_s %>
+  <% end %>
+<% end %>
+</td>

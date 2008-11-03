@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>rbDB - <%= @title || controller.action_name  %></title>
+  <%= stylesheet_link_tag 'application', 'tables', 'scaffold', 'sqls' %>
+  <%= javascript_include_tag :defaults, 'table_navigator', 'editable', 'sorttable', 'alternate_rows' %>
+  <%= calendar_date_select_includes "silver" %>
+</head>
+<body>
+<%= render :partial => '/layouts/header' %>
+<table class="layout" cellspacing="0">
+	<tr>
+		<td class="content">
+			<p style="color: green"><%= flash[:notice] %></p>
+			<div class="title_zone">
+			<h2><%= @title || controller.action_name  %></h2>
+			<% if (submenu =  yield :submenu) %>
+            <ul class="submenu">
+            	<%= submenu %>
+            </ul>
+			<% end %>
+			
+			</div>
+			<div style="width:1000px; overflow:auto" class="include"><%= yield  %></div>
+		</td>
+		<td class="sidebar">
+			<%= yield(:sidebar) %>
+		</td>
+    </tr>
+	<tr>
+	  <td class="bottom">
+	   	<div class="ie_support" id="ie_support">
+      	<%= image_tag "ie_not_supported.png" %> Internet Explorer© is not supported yet	 
+    	</div>
+	  </td>
+	  <td class="corner"></td>
+	</tr>
+	<script type="text/javascript" charset="utf-8">
+		if (!Prototype.Browser.IE)
+			$('ie_support').hide()
+	</script>
+</table>
+<div class="footer">
+	rbDB, for railsrumble 2008. <%= link_to 'Vote for us!', "http://#{request.host.split(".").first}.vote.railsrumble.com" %>
+</div>
+<%= render :partial => '/layouts/last', :locals => {
+      :last_queries => @sqls,
+      :last_tables => @last_tables
+} %>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<% @title = "#{@datab.name}" %>
+<% if @datab.tables.empty? %>
+	<div class="notification">This database is empty</div>
+<% else %>
+<h2><%= @datab.tables.size %> tables</h2>
+<table class="database-content sortable">
+	<thead>
+		<tr>
+		  <th></th>
+		  <th>Name</th>
+		  <th class="sorttable_numeric">Records</th>
+		  <th class="sorttable_numeric">Size</th>
+		  <th>Storage Engine</th>
+		  <th>Created at</th>
+		  <th>Collation</th>
+		</tr>
+	</thead>
+	<tbody>
+<% total = total_size = 0 %>
+<% for table in @datab.tables %>
+<tr>
+	<td><%= table_icon table %></td>
+	<td><%= link_to table.name, datab_table_path(@datab, table) %></td>
+	<td class="int" sorttable_customkey="<%= table.rows %>"><%= number_with_delimiter table.rows %></td>
+	<td class="int" sorttable_customkey="<%= table.data_length.to_i %>"><%= number_to_human_size table.data_length.to_i %></td>
+	<td><%= table.engine %></td>
+	<td sorttable_customkey="<%= table.create_time %>"><%= table.create_time.to_s %></td>
+	<td><%= table.collation %></td>
+</tr>
+<% total += table.rows.to_i %>
+<% total_size += table.data_length.to_i %>
+<% end %>
+</tbody>
+<tfoot>
+	<tr>
+	  <th colspan="2">Total</th>
+	  <td><%= number_with_delimiter total %></td>
+	  <td><%= number_to_human_size total_size %></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+</tfoot>
+</table>
+<%= link_to 'Back', databs_path %>
+<%= render :partial => 'tables/navigator' %>
+<% end %>

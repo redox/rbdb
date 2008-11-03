@@ -1,0 +1,21 @@
+<% if !@sqls.empty? %>
+  <div class="last_sql_queries">
+    <h3>Last SQL queries</h3>
+    <ul>
+      <% db = nil %>
+      <% @sqls.sort_by {|a| a.db + a.id.to_s}.each do |sql| %>
+        <% if db != sql.db %>
+          <%= '</ul>' if db != nil %>
+          <li><%= sql.db %></li>
+          <ul>
+          <% db = sql.db %>
+        <% end %>
+        <li>
+          <%= link_to truncate(sql.body, 200), datab_sql_path(sql.db, sql.id) %>
+          <span class="infos">(<%= pluralize sql.num_rows, 'row' %>)</span>
+        </li>
+      <% end %>
+      </ul>
+    </ul>    
+  </div>
+<% end %>

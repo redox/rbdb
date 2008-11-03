@@ -1,0 +1,26 @@
+<% @title = @table.name %> 
+<%= render :partial => '/tables/submenu' %>
+<% if created_at_chart = (@table.columns.find {|c| c.name == "created_at" }) && @table.rows && @table.rows.size > 1 %>
+<h2>Number of records created by day</h2>
+	<% 
+	#//TODO
+	#Should be an Ajax Call
+	%>
+     <%= link_to (@evolution) ? "switch to the day-to-day graph" : "switch to the evolution graph", datab_table_graphs_path(@table.db, @table, :evolution => !@evolution) %>
+	 <%= OpenFlashChart.swf_object 900, 200, datab_table_graph_path(@table.db, @table, 'created_at', :type => "line", :title => '', :evolution => @evolution) %>
+<% end %>
+<br/>
+<% if created_at_chart || !@columns.empty? %>
+<h2>Proportions</h2>
+<%= render :partial => "/graphs/graph", :collection => @columns, :locals => {
+  :table => @table,
+  :type => "pie",
+  :width => 300,
+  :height => 300
+} %>
+<% else %>
+<div class="notification">
+	We didn't find anything worth graphing.
+</div>
+<% end %>
+<%= render :partial => "tables/navigator"%>

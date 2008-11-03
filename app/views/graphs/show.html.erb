@@ -1,0 +1,19 @@
+&title=<%= @title %>,{font-size: 20px; font-family: "Lucida Grande"; color: #0088CC}&
+&bg_colour=#FFFFFF&
+&colours=#d01f3c,#356aa0,#C79810&
+<%- case @type
+when "line" -%>
+&y_legend=Number of records,12,#0088CC&
+&line=4,0x0088CC,<%= @column %>,10&
+&values=<%= @graph.map { |v| v[1] }.join(',') %>&
+&x_labels=<%= @graph.map { |v| v[0].to_s.gsub(/[[:space:]]+/, '+') }.join(',') %>&
+&y_min=0&
+&y_max=<%= @graph.inject(0) { |max,x| max = max > x[1] ? max : x[1] } %>&
+<%- when "pie" -%>
+&pie=60,#999999,{font-size: 12px; color: #0088CC;&
+&values=<%= @graph.map { |v| v[1] }.join(',') %>&
+&pie_labels=<%= @graph.map { |v| URI.encode(v[0]) }.join(',') %>&
+<% else %>
+  <% raise "never reached #{@type}" %>
+<% end %>
+&tool_tip=%23val%23%25&

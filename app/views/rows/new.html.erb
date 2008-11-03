@@ -1,0 +1,7 @@
+<% @title = "Insert a #{@row.class.to_s.split('::').last}" %>
+
+<%= render :partial => "/tables/submenu" %>
+
+<%= render :partial => "/rows/form", :locals => {:button_text => "Create"} %>
+
+<%= link_to 'Back', datab_table_path(@datab, @table) %>

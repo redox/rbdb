@@ -1,0 +1,54 @@
+<div class="header">
+	<h1 class="title"><%= link_to "<i>rb</i>DB", databs_path %></h1>
+
+	<div class="db-selection">
+		
+		
+		<p><b><%= session[:username] %></b> | <%= link_to 'settings', settings_path %> | <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %><p/>
+		
+		<script type="text/javascript" charset="utf-8">
+			function onchange_database(url) { 
+					window.location = (url == "") ? '<%= databs_path %>' : url
+			}
+		</script>
+		   my databases: 
+		   <select onchange="onchange_database(this.value)" class="database-selector" accesskey="d" title="Access key: d">
+				<option value=""></option>
+				<% current_prefix = nil %>
+				<% Datab.all.each do |db| %>
+				  <% s = db.name.split('_') %>
+				  <% prefix, suffix = s.size < 2 ? [nil, db.name] : [s[0..-2].join('_'), s.last] %>
+				  <% if current_prefix != prefix %>
+				    <%= '</optgroup>' if current_prefix %>
+				    <% if prefix %>
+  				    <optgroup label="<%= prefix %>">
+  				  <% end %>
+				    <% current_prefix = prefix %>
+				  <% end %>
+				  <% selected = (@datab and @datab.name == db.name) %>
+					<option value="<%= datab_url(db.id) %>"<%= 'selected="selected"' if selected %>>
+					  <%= suffix %>
+					</option>
+				<% end %>
+			</select>
+	</div>
+	<ul class="menu">
+		<% if controller.controller_name == "databs" || controller.controller_name == "tables" %>
+			<li class="current">Dashboard</li>
+		<% else %>
+			<li><%= link_to 'Dashboard', datab_path(@datab) %></li>
+		<% end %>
+		<% if controller.controller_name == "sqls" %>
+			<li class="current">SQL Query</li>
+		<% elsif @datab and !@datab.new_record? %>
+			<li><%= link_to 'SQL Query', new_datab_sql_path(@datab) %></li>
+		<% end %>
+		<li>Import Export</li>
+		<li>Report</li>
+		<% if controller.controller_name == "environments" %>
+		  <li class="current">Environment</li>
+		<% else %>
+		  <li><%= link_to 'Environment', environments_path %></li>
+		<% end %>
+	</ul>
+</div>

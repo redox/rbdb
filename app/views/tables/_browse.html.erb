@@ -1,0 +1,48 @@
+<% relations = @table ? Relation.has_many(@table, @datab) : [] %>
+
+<table class="table-content alternate-rows">
+	<thead>
+	<tr>
+	  <th class="actions" colspan="2">Actions</th>
+  <% for rel in relations %>
+    <th class="relation" title="we found a relation between <%= @table.name %> and <%= rel %>">
+      <em><%= rel %></em>
+    </th>
+  <% end %>
+	<% first = true %>
+	<% for column in columns %>
+		<th>
+			<div style="display:table-cell; vertical-align:middle; width:100%">
+			<%= column.name %>
+			</div>
+			<div style="display:table-cell; text-align-right">
+			<%= link_to image_tag('/images/bullet_arrow_up.png', :title => 'sort this column ASC'), params.merge(:order => column.name, :page => nil) %><br/>
+			<%= link_to image_tag('/images/bullet_arrow_down.png', :title => 'sort this column DESC'), params.merge(:order => "#{column.name} desc", :page => nil) %>
+			</div>
+		</th>
+	<% end %>
+	</tr>
+	</thead>
+	<tbody>
+	<% for row in rows %>
+	<tr>
+	  <td><%= link_to image_tag('edit.png', :title => 'edit this row'), datab_table_row_path(@datab, @table, row) %></td>
+	  <td><%= link_to image_tag('delete.png', :title => 'destroy this row'), datab_table_row_path(@datab, @table, row), :method => :delete %></td>
+	  <% for rel in relations %>
+	    <td>
+	     <%= link_to image_tag('table_go.png', :title => "see all #{rel} for this #{@table.name.singularize}" ), datab_table_rows_path(@datab, rel,
+	            :field => @table.name.singularize + '_id',
+	            :value => row.id) %>
+	    </td>
+	  <% end %>
+		<% for column in columns %>
+		  <%= render :partial => "/tables/field", :locals => {
+		    :row => row,
+		    :column => column
+		  } %>
+		<% end %>
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+<%= will_paginate rows %>

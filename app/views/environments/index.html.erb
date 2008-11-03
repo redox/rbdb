@@ -1,0 +1,18 @@
+<% @title = 'Environment' %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @environments.each do |env| %>
+      <tr>
+        <td><%= env[0] %></td>
+        <td><%= env[1] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

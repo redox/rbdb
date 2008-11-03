@@ -1,0 +1,8 @@
+<% @title = "Modify search" %>
+
+<%= render :partial => "/tables/submenu" %>
+
+<%= render :partial => "/searches/form", :locals => {:button_text => "Modify"} %>
+
+<%= link_to 'Show', [@datab, @table, @search] %> |
+<%= link_to 'Back', datab_table_searches_path %>
