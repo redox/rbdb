@@ -1,7 +1,5 @@
 <% @title = @table.name + " #{params[:field]} = " + params[:value] %>
 
-<%= render :partial => "/tables/submenu" %>
-
 <%= render :partial => "/tables/browse", :locals => {
       :columns => @table.columns,
       :rows => @rows

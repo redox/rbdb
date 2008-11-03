@@ -3,17 +3,6 @@ class SearchesController < ApplicationController
   before_filter :select_table
   before_filter :remove_blank_fields, :only => [:create, :update]
   
-  # GET /searches
-  # GET /searches.xml
-  def index
-    @searches = Search.find(:all)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @searches }
-    end
-  end
-
   # GET /searches/1
   # GET /searches/1.xml
   def show
@@ -89,18 +78,6 @@ class SearchesController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @search.errors, :status => :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /searches/1
-  # DELETE /searches/1.xml
-  def destroy
-    @search = Search.find(params[:id])
-    @search.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(searches_url) }
-      format.xml  { head :ok }
     end
   end
   

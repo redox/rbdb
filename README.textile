@@ -1,5 +1,36 @@
-h1. Welcome to your RailsRumble Repository.
+h1. rbDB
 
-Please note, if you start not by cloning from
-this repository, you will need to append
-"--force" to the end of your first git push.
+/!\ Warning /!\ This is an alpha released of our Railsrumble 48hr-project ("Rails rumble 2008":http://railsrumble.com). You should NOT use rbDB in production yet. We'll develop missing features in the next days/weeks.
+
+
+h2. Screencast
+
+You can see the demo here : http://www.vimeo.com/2046491
+
+
+h2. Official website
+
+http://www.rbdb.org
+
+
+h2. Description
+
+rbDB is a web-based mysql database administration bringing conventions to database administration
+
+
+h2. Why this project ?
+
+Because we found phpMyAdmin boring, ugly and feature-less
+
+
+h2. So what's the difference ?
+
+* Smart browsing between tables
+* Smart display of foreign keys and fields
+* Smart graphs and relation between tables
+* Quick access to databases and tables
+* Memorize the last tables visited and SQL queries executed
+* In place edit on fields
+* No need of PHP anymore on your production server !
+* Designed RESTfully
+* Classic features you need like custom SQL requests, insert, search...

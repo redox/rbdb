@@ -7,7 +7,7 @@ class Datab < Base
   end
 
   def self.databs
-    execute('show databases').each do |name|
+    execute('SHOW DATABASES').each do |name|
       name = name.first
       @@databs[name] = (new name)
     end

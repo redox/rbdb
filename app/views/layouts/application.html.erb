@@ -18,16 +18,16 @@
 			<div class="title_zone">
 			<h2><%= @title || controller.action_name  %></h2>
 			<% if (submenu =  yield :submenu) %>
-            <ul class="submenu">
-            	<%= submenu %>
-            </ul>
+        <ul class="submenu">
+        	<%= submenu %>
+        </ul>
 			<% end %>
 			
 			</div>
 			<div style="width:1000px; overflow:auto" class="include"><%= yield  %></div>
 		</td>
 		<td class="sidebar">
-			<%= yield(:sidebar) %>
+			<%= yield :sidebar %>
 		</td>
     </tr>
 	<tr>

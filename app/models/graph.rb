@@ -8,16 +8,10 @@ class Graph
   end
 
   def self.generate(table, field)
-    #filename = File.join(Rails.root, 'tmp', table.db.name + '_' + table.name + '_' + field + '.yml')
-    graph = new table, field#YAML.load_file(filename) rescue []
-    # conditions = values.empty? ? nil : ["#{field} > ?", values.last.first]
+    graph = new table, field
     graph.compute
     graph.arrange_values
     graph.limit_to_ten
-    # graph.limit_to_ten
-    #File.open(filename, 'w') do |out|
-    #  YAML.dump(values, out)
-    #end
     return graph.values
   end
 

@@ -4,7 +4,6 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
-  before_filter :authenticate
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery # :secret => 'a3d2d7d49f549afb2b0070bf2d5ae125'
@@ -14,20 +13,22 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
 
+  before_filter :authenticate
   before_filter :fill_last_queries
   before_filter :fill_last_tables
-  around_filter :rescue_connexion
   before_filter :fill_system_stats
+
+#  around_filter :rescue_connexion
 
   protected
 
   def authenticate
-    unless session[:authenticated]
-      session[:return_to] = request.request_uri
-      flash[:error] = 'Please give your credentials'
-      redirect_to :controller => '/accounts', :action => :login
-      return false
-    end
+    return true if session[:authenticated]
+
+    session[:return_to] = request.request_uri
+    flash[:error] = 'Please give your credentials'
+    redirect_to :controller => '/accounts', :action => :login
+    return false
   end
 
   def rescue_connexion 
@@ -84,8 +85,12 @@ class ApplicationController < ActionController::Base
   def store_sql(sql, datab)
     session[:sqls] ||= []
     session[:sqls].shift if session[:sqls].size > MAX_STORED_QUERIES
-    session[:sqls] << {:body => sql.body, :id => sql.id, :num_rows => sql.num_rows,
-      :db => datab.name}
+    session[:sqls] << {
+      :body => sql.body,
+      :id => sql.id,
+      :num_rows => sql.num_rows,
+      :db => datab.name
+    }
   end
 
   def update_sql(sql)
@@ -98,7 +103,7 @@ class ApplicationController < ActionController::Base
   end
   
   def fill_system_stats
-    @load_average = IO.popen("uptime") {|pipe| pipe.read}.split(" ")[-3] rescue 0
+    @load_average = IO.popen("uptime") { |pipe| pipe.read }.split(" ")[-3] rescue 0
     questions = 0
     uptime = 0
     ActiveRecord::Base.connection.execute("SHOW STATUS").each do |r|

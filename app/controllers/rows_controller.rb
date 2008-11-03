@@ -5,6 +5,8 @@ class RowsController < ApplicationController
   before_filter :nullify_row_fields, :only => [:update, :create]
   before_filter :select_row, :only => [:edit, :update, :destroy]
   
+  layout 'table'
+  
   def index
     if params[:field].nil? or params[:value].nil?
       redirect_to datab_table_path(@datab, @table)

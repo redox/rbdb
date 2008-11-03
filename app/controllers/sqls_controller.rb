@@ -2,6 +2,8 @@ class SqlsController < ApplicationController
   before_filter :select_db
   before_filter :select_sql
   
+  layout 'database'
+  
   # GET /sqls
   # GET /sqls.xml
   def index
@@ -73,18 +75,6 @@ class SqlsController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @sql.errors, :status => :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /sqls/1
-  # DELETE /sqls/1.xml
-  def destroy
-    @sql = Sql.find(params[:id])
-    @sql.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(sqls_url) }
-      format.xml  { head :ok }
     end
   end
   

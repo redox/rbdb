@@ -1,7 +1,5 @@
 <% @title = "Edit #{@row.class.to_s.split('::').last} id = #{params[:id]}" %>
 
-<%= render :partial => "/tables/submenu" %>
-
 <%= render :partial => "/rows/form", :locals => {:button_text => "Edit"} %>
 
 <%= link_to 'Back', datab_table_path(@datab, @table) %>

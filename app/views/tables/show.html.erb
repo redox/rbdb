@@ -1,5 +1,4 @@
 <% @title = @table.name %>
-<%= render :partial => '/tables/submenu' %>
 
 <% if @rows %>
   <% if @rows.empty? %>
@@ -55,7 +54,6 @@
 				<td><%= field[:null] %></td>
 				<td><%= field[:default] %></td>
 				<td><%= field[:extra] %></td>
-				
 			</tr>
 			<% end %>
 		</tbody>
@@ -74,16 +72,23 @@
 	<h3>Indexes</h3>
 	<table>
 		<thead>
-			<tr><th>Name</th><th>Columns</th><th>Unique</th><th>Cardinality</th></tr>
+			<tr>
+			  <th>Name</th>
+			  <th>Columns</th>
+			  <th>Unique</th>
+			  <th>Cardinality</th>
+			</tr>
 		</thead>
 		<tbody>
 			<% for index in @table.indexes %>
-			<tr><td><%= index[:name] %></td><td><%= index[:columns] %></td><td><%= index[:unique] %></td><td><%= index[:cardinality] %></td></tr>
+			  <tr>
+			    <td><%= index[:name] %></td>
+			    <td><%= index[:columns] %></td>
+			    <td><%= index[:unique] %></td>
+			    <td><%= index[:cardinality] %></td>
+			  </tr>
 			<% end %>
 		</tbody>
 	</table>
 	<% end %>
-
 <% end %>
-
-<%= render :partial => 'navigator' %>

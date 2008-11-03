@@ -38,33 +38,4 @@ class DatabsController < ApplicationController
     redirect_to databs_path
   end
 
-  # PUT /databs/1
-  # PUT /databs/1.xml
-  def update
-    @datab = Datab.find(params[:id])
-
-    respond_to do |format|
-      if @datab.update_attributes(params[:datab])
-        flash[:notice] = 'Datab was successfully updated.'
-        format.html { redirect_to(@datab) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @datab.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /databs/1
-  # DELETE /databs/1.xml
-  def destroy
-    @datab = Datab.find(params[:id])
-    @datab.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(databs_url) }
-      format.xml  { head :ok }
-    end
-  end
-
 end

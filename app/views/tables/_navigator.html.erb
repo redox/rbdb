@@ -1,9 +1,8 @@
 <% content_for :sidebar do %>
-<div id="table_navigator"></div>
-<script type="text/javascript" charset="utf-8">
-new TableNavigator(
-[
-<%= render :partial => @datab.tables %>
-], 'table_navigator')
-</script>
+  <div id="table_navigator"></div>
+  <script type="text/javascript" charset="utf-8">
+    new TableNavigator([
+      <%= render :partial => @datab.tables %>
+    ], 'table_navigator')
+  </script>
 <% end %>
