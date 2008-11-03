@@ -5,6 +5,9 @@ require File.join(File.dirname(__FILE__), 'boot')
 require "#{Rails.root}/lib/rails_ar_initializer.rb"
 
 Rails::Initializer.run do |config|
+  
+  config.gem "haml"
+  
   config.time_zone = 'UTC'
   config.action_controller.session = {
     :session_key => '_mbg_session',
