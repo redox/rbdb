@@ -31,7 +31,7 @@ TableNavigator.prototype = {
 		if (e.keyCode == Event.KEY_ESC)
 			this.input.value = ''
 		this.results = this.tables.findAll(function(e){
-			return e[0].startsWith(this.input.value)
+			return e[0].toLowerCase().startsWith(this.input.value.toLowerCase())
 		}, this)
 		this.displayList(this.results)
 		this.select(0)
