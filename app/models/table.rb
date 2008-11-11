@@ -17,7 +17,7 @@ class Table < Base
     model_name = name.singularize.camelize
     c = "#{mod}::#{model_name}".constantize
   rescue NameError
-    c = Class.new ActiveRecord::Base
+    c = create_custom_ar_class
     c = mod.const_set model_name, c
     c.set_table_name name
   ensure
@@ -84,6 +84,16 @@ class Table < Base
     Object.const_set db_camelized, mod
   ensure
     db_camelized.constantize
+  end
+
+  def create_custom_ar_class
+    c = Class.new ActiveRecord::Base
+    c.class_eval do
+      define_method :attributes_protected_by_default do 
+        []
+      end
+    end
+    c
   end
     
 end

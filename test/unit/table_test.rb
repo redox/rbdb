@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class TableTest < ActiveSupport::TestCase
   
@@ -32,6 +32,12 @@ class TableTest < ActiveSupport::TestCase
     
     t2 = @datab.tables[1]    
     assert_equal 3, t2.columns.size
+  end
+  
+  should "allow mass assignment on id" do
+    @datab = Datab.find('rbdb_test3')
+    row = @datab.tables[0].ar_class.create :id => 137, :field1 => 3378
+    assert_equal 137, row.id
   end
   
 end
