@@ -6,13 +6,13 @@ class DatabTest < ActiveSupport::TestCase
     super
     create_database 'rbdb_test1'
     create_database 'rbdb_test2'
-    create_database 'rbdb_test3'
-    ActiveRecord::Base.connection.execute "use rbdb_test3"
-    ActiveRecord::Base.connection.create_table 'table1' do |t|
-      t.integer :field1
-    end
-    ActiveRecord::Base.connection.create_table 'table2' do |t|
-      t.string :field1
+    create_database 'rbdb_test3' do |datab|
+      datab.create_table 'table1' do |t|
+        t.integer :field1
+      end
+      datab.create_table 'table2' do |t|
+        t.string :field1
+      end
     end
   end
   

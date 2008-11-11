@@ -2,16 +2,16 @@ require 'test_helper'
 
 class TableTest < ActiveSupport::TestCase
   
-  setup do
-    ActiveRecord::Base.connection.execute "drop database rbdb_test3" rescue nil
-    Datab.create :name => 'rbdb_test3'
-    ActiveRecord::Base.connection.execute "use rbdb_test3"
-    ActiveRecord::Base.connection.create_table 'table1' do |t|
-      t.integer :field1
-    end
-    ActiveRecord::Base.connection.create_table 'table2' do |t|
-      t.string :field1
-      t.string :field2
+  def setup
+    super
+    create_database 'rbdb_test3' do |datab|
+      datab.create_table 'table1' do |t|
+        t.integer :field1
+      end
+      datab.create_table 'table2' do |t|
+        t.string :field1
+        t.string :field2
+      end
     end
   end
   
