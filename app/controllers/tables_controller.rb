@@ -4,8 +4,6 @@ class TablesController < ApplicationController
   
   layout 'table'
   
-  # GET /tables/1
-  # GET /tables/1.xml
   def show
     session[:mode] ||= 'structure'
     session[:mode] = params[:mode] if params[:mode]
@@ -22,10 +20,7 @@ class TablesController < ApplicationController
     end
     @columns = @table.columns
     store_table(@table)
-    respond_to do |format|
-      format.html { render :action => session[:mode] }
-      format.xml  { render :xml => @table }
-    end
+    render :action => session[:mode]
   end
 
   private

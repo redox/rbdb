@@ -34,67 +34,45 @@ class RowsController < ApplicationController
       else
         render :json => @table.errors, :status => :unprocessable_entity
       end
+      return
+    end
+
+    if @row.update_attributes(params[:row])
+      flash[:notice] = 'row was successfully updated.'
+      redirect_to datab_table_row_path(@datab, @table, @row)
     else
-      respond_to do |format|
-        if @row.update_attributes(params[:row])
-          flash[:notice] = 'row was successfully updated.'
-          format.html { redirect_to datab_table_row_path(@datab, @table, @row) }
-          format.xml  { head :ok }
-        else
-          format.html { render :action => "edit" }
-          format.xml  { render :xml => @row.errors, :status => :unprocessable_entity }
-        end
-      end
+      render :action => "edit"
     end
   end
   
-  # GET /rows/new
-  # GET /rows/new.xml
   def new
     @row = @table.ar_class.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @row }
-    end
   end
 
-  # GET /rows/1/edit
   def edit
   end
 
-  # POST /rows
-  # POST /rows.xml
   def create
     @row = @table.ar_class.new(params[:row])
     
-    respond_to do |format|
-      begin
-        @row.save
-      rescue StandardError => e
-        @row.errors.add :id, e
-      end
-      if !@row.new_record?
-        flash[:notice] = 'row was successfully created.'
-        format.html { redirect_to datab_table_row_path(@datab, @table, @row) }
-        format.xml  { render :xml => @row, :status => :created, :location => @row }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @row.errors, :status => :unprocessable_entity }
-      end
+    begin
+      @row.save
+    rescue StandardError => e
+      @row.errors.add :id, e
+    end
+    if !@row.new_record?
+      flash[:notice] = 'row was successfully created.'
+      redirect_to datab_table_row_path(@datab, @table, @row)
+    else
+      render :action => "new"
     end
   end
 
-  # DELETE /rows/1
-  # DELETE /rows/1.xml
   def destroy
     @row.destroy
 
-    respond_to do |format|
-      flash[:notice] = 'rows was successfully destroyed.'
-      format.html { redirect_to datab_table_path(@datab, @table) }
-      format.xml  { head :ok }
-    end
+    flash[:notice] = 'rows was successfully destroyed.'
+    redirect_to datab_table_path(@datab, @table)
   end
   
   private

@@ -4,77 +4,44 @@ class SqlsController < ApplicationController
   
   layout 'database'
   
-  # GET /sqls
-  # GET /sqls.xml
   def index
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @sqls }
-    end
   end
 
-  # GET /sqls/1
-  # GET /sqls/1.xml
   def show    
     raise ActiveRecord::RecordNotFound if @sql.nil?
     @sql.limit = params[:per_page]
     page = params[:page].nil? ? 1 : params[:page].to_i
     page = 1 if page < 0
     @sql.offset = @sql.limit * (page - 1)
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @sql }
-    end
   end
 
-  # GET /sqls/new
-  # GET /sqls/new.xml
   def new
     @sql = Sql.new
-    
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @sql }
-    end
   end
 
-  # GET /sqls/1/edit
   def edit
     @sql = Sql.find(params[:id])
   end
 
-  # POST /sqls
-  # POST /sqls.xml
   def create
     @sql = Sql.new(params[:sql])
 
-    respond_to do |format|
-      if (@sql.save rescue nil)
-        flash[:notice] = 'Sql was successfully created.'
-        store_sql(@sql, @datab)
-        format.html { redirect_to datab_sql_path(@datab, @sql) }
-        format.xml  { render :xml => @sql, :status => :created, :location => @sql }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @sql.errors, :status => :unprocessable_entity }
-      end
+    if (@sql.save rescue nil)
+      flash[:notice] = 'Sql was successfully created.'
+      store_sql(@sql, @datab)
+      redirect_to datab_sql_path(@datab, @sql)
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /sqls/1
-  # PUT /sqls/1.xml
   def update
-    respond_to do |format|
-      if @sql.update_attributes(params[:sql])
-        flash[:notice] = 'Sql was successfully updated.'
-        store_sql(@sql, @datab)
-        format.html { redirect_to [@datab, @sql] }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @sql.errors, :status => :unprocessable_entity }
-      end
+    if @sql.update_attributes(params[:sql])
+      flash[:notice] = 'Sql was successfully updated.'
+      store_sql(@sql, @datab)
+      redirect_to [@datab, @sql]
+    else
+      render :action => "edit"
     end
   end
   

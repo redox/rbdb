@@ -4,13 +4,7 @@ class RelationsController < ApplicationController
   
   layout 'table'
 
-  # GET /relations/1
-  # GET /relations/1.xml
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @relation }
-    end
   end
   
   def graph

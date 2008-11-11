@@ -21,8 +21,6 @@ class ApplicationController < ActionController::Base
   before_filter :fill_last_tables
   before_filter :fill_system_stats
 
-  # around_filter :rescue_connexion
-
   protected
 
   def authenticate
@@ -37,15 +35,6 @@ class ApplicationController < ActionController::Base
     ActiveRecord::Base.establish_connection :username => session[:username], :password => session[:password],
       :adapter => 'mysql', :database => '', :host => 'localhost'
     true
-  end
-
-  def rescue_connexion 
-    yield
-  rescue ActiveRecord::ConnectionNotEstablished
-    flash[:error] = 'The connection with the database server was lost'
-    session[:authenticated] = nil
-    redirect_to :controller => 'accounts', :action => 'login'
-    return false
   end
 
   def select_db
