@@ -1,9 +1,9 @@
 <% content_for :submenu do %>
   <% links = [
       {:text => 'Structure', :path => datab_table_path(@datab, @table, :mode => 'structure'),
-        :default => true, :session => :structure},
+        :session_key => :mode, :session_value => 'structure'},
       {:text => 'Content', :path => datab_table_path(@datab, @table, :mode => 'browse'),
-        :session => :browse},
+        :session_key => :mode, :session_value => 'browse'},
       {:text => 'Insert', :path => new_datab_table_row_path(@datab, @table)},
       {:text => 'Search', :path => new_datab_table_search_path(@datab, @table),
         :force => (controller.controller_name == 'searches')},
@@ -16,12 +16,11 @@
         :force => true} %>
   <% end %>
     
-  <% exact_match = links.detect { |link| (request.request_uri == link[:path]) or link[:force] } %>
-  <% session_match = links.detect { |link| link[:session] and session[link[:session]] } %>
+  <% exact_match = links.detect { |link| (request.path == link[:path]) or link[:force] } %>
+  <% session_match = links.detect { |link| link[:session_key] and session[link[:session_key]] == link[:session_value] } %>
   <% links.each do |link| %>
     <% if (request.request_uri == link[:path]) or link[:force] or
-            (!exact_match and ((link[:session] and session[link[:session]]) or
-              (!session_match and link[:default]))) %>
+          (!exact_match and link[:session_key] and session[link[:session_key]] == link[:session_value]) %>
     <li class="current"><%= link[:text] %></li>
     <% else %>
     <li>
