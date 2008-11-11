@@ -1,0 +1,66 @@
+<% @title = @table.name %>
+
+<h3><%= @table.fields.size %> Columns</h3>
+<h4><%= number_with_delimiter @table.rows%> records</h4>
+<table class="database-content sortable alternate-rows">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Null</th>
+			<th>Default</th>
+			<th>Extra</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% for field in @table.fields %>
+		<tr>
+			<th>
+				<% column = @columns.find {|c| c.name == field[:name]} %>
+				<% if column.is_a? ForeignKey %>
+					<%= link_to column.name, datab_table_path(column.dest.db, column.dest) %>
+				<% else %>
+					<%= column.name %>
+				<% end %>
+			</td>
+			<td><%= field[:type] %></td>
+			<td><%= field[:null] %></td>
+			<td><%= field[:default] %></td>
+			<td><%= field[:extra] %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<% if @relations.size > 0 %>
+  <h3>Associations</h3>
+  <ul class="associations">
+   <% @relations.each do |relation| %>
+    <li>» <%= link_to relation, datab_table_path(@datab, relation) %></li>
+   <% end %>
+  </ul>
+<% end %>
+
+<% if @table.indexes %>
+<h3>Indexes</h3>
+<table>
+	<thead>
+		<tr>
+		  <th>Name</th>
+		  <th>Columns</th>
+		  <th>Unique</th>
+		  <th>Cardinality</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% for index in @table.indexes %>
+		  <tr>
+		    <td><%= index[:name] %></td>
+		    <td><%= index[:columns] %></td>
+		    <td><%= index[:unique] %></td>
+		    <td><%= index[:cardinality] %></td>
+		  </tr>
+		<% end %>
+	</tbody>
+</table>
+<% end %>

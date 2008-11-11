@@ -7,33 +7,23 @@ class TablesController < ApplicationController
   # GET /tables/1
   # GET /tables/1.xml
   def show
-    if params.has_key? :structure
-      session[:browse] = nil
-      params[:structure] = nil
-      session[:structure] = true
-    end
-    if params.has_key? :browse
-      session[:structure] = nil
-      params[:browse] = nil
-      session[:browse] = true
-    end
-    if params.has_key? :per_page
-      session[:per_page] = params[:per_page].to_i
-    end
-    session[:per_page] ||= 30
-    session[:structure] = session[:structure] || (!session[:structure] && !session[:browse])
-    @page = (params.has_key? :page) ? params[:page].to_i : 1
+    session[:mode] ||= 'structure'
+    session[:mode] = params[:mode] if params[:mode]
+    session[:per_page] = params[:per_page].to_i if params.has_key? :per_page
+    session[:per_page] = 30 if session[:per_page].to_i <= 0
+    @page = params[:page].to_i
+    @page = 1 if @page < 1
     @order = params[:order]
-    if session[:browse]
-      @rows = @table.ar_class.paginate :page => params[:page], :per_page => session[:per_page],
-        :order => params[:order]
+    if session[:mode] == 'browse'
+      @rows = @table.ar_class.paginate :page => @page, :per_page => session[:per_page],
+        :order => @order
+    else
+      @relations = Relation.has_many(@table, @datab)  
     end
     @columns = @table.columns
     store_table(@table)
-    @relations = Relation.has_many(@table, @datab)
-
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :action => session[:mode] }
       format.xml  { render :xml => @table }
     end
   end

@@ -1,0 +1,26 @@
+<% @title = @table.name %>
+
+<% if @rows.empty? %>
+	<div class="notification">This table is empty</div>
+<% else %>
+	<%= 1 + (@page - 1) * session[:per_page] %> - <%= (@page - 1) * session[:per_page] + @rows.size %>  of <b><%= number_with_delimiter @table.rows %></b> records
+
+	<%= render :partial => "/tables/browse", :locals => {
+	      :columns => @columns,
+	      :rows => @rows
+	  } %>
+
+	rows per page: 
+		<select onchange="onchange_show_rows(this.value)">
+				<% [10,25,50,100,200,500].each do |r| %>
+					<option value="<%= r %>"<%= 'selected="selected"' if r == session[:per_page] %>>
+					  <%= r %>
+					</option>
+				<% end %>
+			</select>
+	  		<script type="text/javascript" charset="utf-8">
+				function onchange_show_rows(per_page) { 
+						window.location = '<%= datab_table_path(@datab, @table) %>?per_page=' + per_page
+				}
+			</script>
+<% end %>

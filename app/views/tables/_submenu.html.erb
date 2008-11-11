@@ -1,8 +1,8 @@
 <% content_for :submenu do %>
   <% links = [
-      {:text => 'Structure', :path => datab_table_path(@datab, @table, :structure => ''),
+      {:text => 'Structure', :path => datab_table_path(@datab, @table, :mode => 'structure'),
         :default => true, :session => :structure},
-      {:text => 'Content', :path => datab_table_path(@datab, @table, :browse => ''),
+      {:text => 'Content', :path => datab_table_path(@datab, @table, :mode => 'browse'),
         :session => :browse},
       {:text => 'Insert', :path => new_datab_table_row_path(@datab, @table)},
       {:text => 'Search', :path => new_datab_table_search_path(@datab, @table),
