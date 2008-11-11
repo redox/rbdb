@@ -12,7 +12,6 @@ class DatabsControllerTest < ActionController::TestCase
         next if s.blank?
         ActiveRecord::Base.connection.execute s
       end
-      @request.session[:authenticated] = true
       @request.session[:username] = 'root'
     end
   

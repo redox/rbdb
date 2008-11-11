@@ -20,4 +20,27 @@ class AccountsController < ApplicationController
     flash[:error] = 'You were logged out'
     redirect_to :action => 'login'
   end
+  
+  
+  private
+  def do_login
+    begin
+      ActiveRecord::Base.establish_connection(
+      :adapter  => "mysql",
+      :host     => params[:host] || "localhost",
+      :username => params[:username],
+      :password => params[:password],
+      :database => ''
+      )
+      ActiveRecord::Base.connection.execute "show databases"
+    rescue Mysql::Error
+      flash[:error] = ($!).to_s
+      return false
+    end
+    session[:authenticated] = true
+    session[:username] = params[:username]
+    session[:password] = params[:password]
+    return true
+  end
+  
 end

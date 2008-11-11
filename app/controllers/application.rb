@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
   before_filter :authenticate
+  before_filter :establish_connection
   before_filter :fill_last_queries
   before_filter :fill_last_tables
   before_filter :fill_system_stats
@@ -23,12 +24,18 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate
-    return true if session[:authenticated]
+    return true if logged_in?
 
     session[:return_to] = request.request_uri
     flash[:error] = 'Please give your credentials'
     redirect_to :controller => '/accounts', :action => :login
     return false
+  end
+
+  def establish_connection
+    ActiveRecord::Base.establish_connection :username => session[:username], :password => session[:password],
+      :adapter => 'mysql', :database => '', :host => 'localhost'
+    true
   end
 
   def rescue_connexion 
@@ -48,25 +55,6 @@ class ApplicationController < ActionController::Base
     end
     @datab = Datab.find(params[:datab_id])
     Datab.execute "use #{@datab.name}"
-  end
-
-  def do_login
-    begin
-      ActiveRecord::Base.establish_connection(
-      :adapter  => "mysql",
-      :host     => params[:host] || "localhost",
-      :username => params[:username],
-      :password => params[:password],
-      :database => ''
-      )
-      ActiveRecord::Base.connection.execute "show databases"
-    rescue Mysql::Error
-      flash[:error] = ($!).to_s
-      return false
-    end
-    session[:authenticated] = true
-    session[:username] = params[:username]
-    return true
   end
 
   def select_table
@@ -117,5 +105,8 @@ class ApplicationController < ActionController::Base
     end
     @server = 'localhost' # FIXME
   end
-
+  
+  def logged_in?
+    session[:username]
+  end
 end

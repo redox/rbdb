@@ -73,5 +73,9 @@ module ApplicationHelper
       ''
     end
   end
+
+  def logged_in?
+    session[:username]
+  end
   
 end
