@@ -4,7 +4,11 @@
 	<div class="db-selection">
 		
 		
-		<p><b><%= session[:username] %></b> | <%= link_to 'settings', settings_path %> | <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %><p/>
+		<p>
+		  <b><%= session[:username] %></b> |
+		  <%= link_to 'settings', settings_path %> |
+		  <%= link_to 'logout', :controller => 'accounts', :action => 'logout' %>
+		<p/>
 		
 		<script type="text/javascript" charset="utf-8">
 			function onchange_database(url) { 
@@ -32,23 +36,33 @@
 				<% end %>
 			</select>
 	</div>
+
 	<ul class="menu">
-		<% if controller.controller_name == "databs" || controller.controller_name == "tables" %>
-			<li class="current">Dashboard</li>
-		<% else %>
-			<li><%= link_to 'Dashboard', datab_path(@datab) %></li>
-		<% end %>
-		<% if controller.controller_name == "sqls" %>
-			<li class="current">SQL Query</li>
-		<% elsif @datab and !@datab.new_record? %>
-			<li><%= link_to 'SQL Query', new_datab_sql_path(@datab) %></li>
-		<% end %>
-		<li>Import Export</li>
-		<li>Report</li>
-		<% if controller.controller_name == "environments" %>
-		  <li class="current">Environment</li>
-		<% else %>
-		  <li><%= link_to 'Environment', environments_path %></li>
-		<% end %>
+	  <%= menu = [
+          { :title => 'Databases', :path => databs_path },
+          {
+            :title => 'Tables',
+            :path => datab_path(@datab),
+            :if => (@datab and !@datab.new_record?)
+          },
+          {
+            :title => 'SQL Query',
+            :path => new_datab_sql_path(@datab),
+            :if => (@datab and !@datab.new_record?)
+          },
+          { :title => 'Import/Export', :path => nil },
+          { :title => 'Report', :path => nil },
+          {
+            :title => 'Environment',
+            :path => environments_path,
+            :if => (@datab and @datab.new_record? or request.path == environments_path)
+          }
+	      ]
+	      menu.map do |entry|
+	        next if entry.has_key?(:if) and !entry[:if]
+	        active = request.path == entry[:path]
+	        v = entry[:path].nil? ? entry[:title] : link_to(entry[:title], entry[:path])
+	        "<li#{' class="current"' if active}>#{v}</li>"
+    	  end.join %>
 	</ul>
 </div>
