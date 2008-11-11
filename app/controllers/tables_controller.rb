@@ -41,11 +41,7 @@ class TablesController < ApplicationController
   private
   MAX_STORED_TABLES = 3
   def store_table(table)
-    t = {:name => table.name, :db => @datab.name}
-    session[:last_tables] ||= []
-    session[:last_tables].delete t
-    session[:last_tables].shift if session[:last_tables].size >= MAX_STORED_TABLES
-    session[:last_tables] << t
+    add_to_session :last_tables, {:name => table.name, :db => @datab.name}, MAX_STORED_TABLES
   end
     
 end

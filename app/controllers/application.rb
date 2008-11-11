@@ -4,6 +4,8 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
+  include SessionSizedList
+
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery # :secret => 'a3d2d7d49f549afb2b0070bf2d5ae125'
@@ -71,19 +73,12 @@ class ApplicationController < ActionController::Base
 
   MAX_STORED_QUERIES = 5
   def store_sql(sql, datab)
-    session[:sqls] ||= []
-    session[:sqls].shift if session[:sqls].size > MAX_STORED_QUERIES
-    session[:sqls] << {
+    add_to_session :sqls, {
       :body => sql.body,
       :id => sql.id,
       :num_rows => sql.num_rows,
       :db => datab.name
-    }
-  end
-
-  def update_sql(sql)
-    s = session[:sqls].detect { |s| s[:id].to_i == sql.id }
-    s[:body] = sql.body
+    }, MAX_STORED_QUERIES
   end
   
   def fill_last_tables

@@ -54,7 +54,6 @@ class Graph
   end
 
   def limit_to_ten
-    p values
     if @values.size > 10
       @values[9] = ['Other', @values[9..-1].sum{|e|e[1]}]
       @values = @values[0..9]

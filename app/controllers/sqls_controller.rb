@@ -68,7 +68,7 @@ class SqlsController < ApplicationController
     respond_to do |format|
       if @sql.update_attributes(params[:sql])
         flash[:notice] = 'Sql was successfully updated.'
-        update_sql(@sql)
+        store_sql(@sql, @datab)
         format.html { redirect_to [@datab, @sql] }
         format.xml  { head :ok }
       else
