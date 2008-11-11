@@ -13,15 +13,15 @@ class Table < Base
   end
   
   def ar_class
-    mod = db_module    
+    mod = db_module
     model_name = name.singularize.camelize
-    c = mod.const_get model_name
-  rescue
+    c = "#{mod}::#{model_name}".constantize
+  rescue NameError
     c = Class.new ActiveRecord::Base
     c = mod.const_set model_name, c
     c.set_table_name name
   ensure
-   return c
+    return c
   end
   
   def columns
@@ -78,6 +78,9 @@ class Table < Base
     mod = db_camelized.constantize
   rescue NameError
     mod = Module.new
+    def mod.const_missing name = nil
+      raise NameError
+    end
     Object.const_set db_camelized, mod
   ensure
     db_camelized.constantize

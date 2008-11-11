@@ -3,6 +3,7 @@ class AccountsController < ApplicationController
   skip_before_filter :authenticate, :only => [:login, :index]
   skip_before_filter :fill_last_queries
   skip_before_filter :fill_system_stats
+  skip_before_filter :establish_connection, :only => :login
   
   def index
   end
@@ -33,7 +34,7 @@ class AccountsController < ApplicationController
       :database => ''
       )
       ActiveRecord::Base.connection.execute "show databases"
-    rescue Mysql::Error
+    rescue
       flash[:error] = ($!).to_s
       return false
     end

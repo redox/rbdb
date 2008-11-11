@@ -21,13 +21,12 @@ class ApplicationController < ActionController::Base
   before_filter :fill_last_tables
   before_filter :fill_system_stats
 
-#  around_filter :rescue_connexion
+  # around_filter :rescue_connexion
 
   protected
 
   def authenticate
     return true if logged_in?
-
     session[:return_to] = request.request_uri
     flash[:error] = 'Please give your credentials'
     redirect_to :controller => '/accounts', :action => :login

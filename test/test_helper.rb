@@ -40,11 +40,22 @@ class Test::Unit::TestCase
   # Add more helper methods to be used by all tests here...
   config = YAML.load_file(File.join(Rails.root, 'config', 'database.yml'))[RAILS_ENV]
   ActiveRecord::Base.establish_connection(
-    :adapter  => "mysql",
-    :host     => "localhost",
-    :username => config['user'],
-    :password => config['password'],
-    :database => config['database']
+  :adapter  => "mysql",
+  :host     => "localhost",
+  :username => config['user'],
+  :password => config['password'],
+  :database => config['database']
   )
   
+  def create_database datab
+    ActiveRecord::Base.connection.execute "drop database if exists #{datab}"
+    ActiveRecord::Base.connection.create_database datab
+    return unless block_given?
+    ActiveRecord::Base.connection.execute "use #{datab}"
+    yield ActiveRecord::Base.connection
+  end
+
+  # We're not using the fixtures. Connection may be broken so let's skip this
+  def teardown_fixtures ; end
+
 end

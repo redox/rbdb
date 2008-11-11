@@ -1,14 +1,11 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class DatabTest < ActiveSupport::TestCase
   
-  setup do
-    ActiveRecord::Base.connection.execute "drop database rbdb_test1" rescue nil
-    Datab.create :name => 'rbdb_test1'
-    ActiveRecord::Base.connection.execute "drop database rbdb_test2" rescue nil
-    Datab.create :name => 'rbdb_test2'
-    ActiveRecord::Base.connection.execute "drop database rbdb_test3" rescue nil
-    Datab.create :name => 'rbdb_test3'
+  def setup
+    create_database 'rbdb_test1'
+    create_database 'rbdb_test2'
+    create_database 'rbdb_test3'
     ActiveRecord::Base.connection.execute "use rbdb_test3"
     ActiveRecord::Base.connection.create_table 'table1' do |t|
       t.integer :field1
