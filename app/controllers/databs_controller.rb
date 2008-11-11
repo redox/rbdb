@@ -31,7 +31,16 @@ class DatabsController < ApplicationController
   # POST /databs.xml
   def create
     if (Datab.create(params[:datab]) rescue nil)
-      flash[:notice] = 'Datab was successfully created.'
+      flash[:notice] = "Database #{params[:datab][:name]} was successfully created."
+    else
+      flash[:error] = 'Pas bon'
+    end
+    redirect_to databs_path
+  end
+
+  def destroy
+    if (Datab.destroy params[:id] rescue nil)
+      flash[:notice] = "Database #{params[:id]} was successfully deleted."
     else
       flash[:error] = 'Pas bon'
     end

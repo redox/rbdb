@@ -48,7 +48,7 @@ class Test::Unit::TestCase
   )
   
   def create_database datab
-    ActiveRecord::Base.connection.execute "drop database if exists #{datab}"
+    ActiveRecord::Base.connection.execute "drop database if exists `#{datab}`"
     ActiveRecord::Base.connection.create_database datab
     return unless block_given?
     ActiveRecord::Base.connection.execute "use #{datab}"

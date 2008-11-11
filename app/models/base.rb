@@ -19,9 +19,13 @@ class Base
   def new_record?
     @name.nil?
   end
-  
-  def sanitize_table(name)
+
+  def self.sanitize_table(name)
     ActiveRecord::Base.connection.quote_table_name(name)
+  end
+  
+  def sanitize_table name
+    self.class.sanitize_table name
   end
   
 end

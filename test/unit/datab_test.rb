@@ -6,6 +6,7 @@ class DatabTest < ActiveSupport::TestCase
     create_database 'rbdb_test1'
     create_database 'rbdb_test2'
     create_database 'rbdb_test3'
+    create_database 'database'
     ActiveRecord::Base.connection.execute "use rbdb_test3"
     ActiveRecord::Base.connection.create_table 'table1' do |t|
       t.integer :field1
@@ -32,6 +33,18 @@ class DatabTest < ActiveSupport::TestCase
   
   should "list tables" do
     assert_equal 2, Datab.find('rbdb_test3').tables.size
+  end
+
+  should 'delete a database' do
+    assert_difference 'Datab.all.size', -1 do
+      Datab.destroy 'rbdb_test1'
+    end
+  end
+
+  should 'delete a database named database' do
+    assert_difference 'Datab.all.size', -1 do
+      Datab.destroy 'database'
+    end
   end
 
 end

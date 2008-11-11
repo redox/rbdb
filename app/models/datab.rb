@@ -5,6 +5,11 @@ class Datab < Base
   def self.create attributes
     ActiveRecord::Base.connection.create_database attributes[:name]
   end
+  
+  def self.destroy name
+    ActiveRecord::Base.connection.execute "drop database #{sanitize_table name}"
+    @@databs.delete name
+  end
 
   def self.databs
     execute('SHOW DATABASES').each do |name|

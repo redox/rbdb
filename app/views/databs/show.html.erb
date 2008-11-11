@@ -1,4 +1,5 @@
 <% @title = "#{@datab.name}" %>
+<%= link_to "Delete", @datab, :method => :delete, :confirm => "Are you really sure you want to destroy the #{@datab.name} database?" %>
 <% if @datab.tables.empty? %>
 	<div class="notification">This database is empty</div>
 <% else %>
