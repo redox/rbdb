@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TablesControllerTest < ActionController::TestCase
 
   def setup
-    @request.session[:username] = 'root'
+    super
+    @request.session[:username] = @@config['user']
+    @request.session[:password] = @@config['password']
     create_database 'rbdb_test1' do |datab|
       datab.create_table 'databs' do end
       datab.create_table 'TABLES' do end

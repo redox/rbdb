@@ -38,14 +38,6 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  config = YAML.load_file(File.join(Rails.root, 'config', 'database.yml'))[RAILS_ENV]
-  ActiveRecord::Base.establish_connection(
-  :adapter  => "mysql",
-  :host     => "localhost",
-  :username => config['user'],
-  :password => config['password'],
-  :database => config['database']
-  )
   
   def create_database datab
     ActiveRecord::Base.connection.execute "drop database if exists #{datab}"
@@ -57,5 +49,16 @@ class Test::Unit::TestCase
 
   # We're not using the fixtures. Connection may be broken so let's skip this
   def teardown_fixtures ; end
+  
+  @@config = YAML.load_file(File.join(Rails.root, 'config', 'database.yml'))[RAILS_ENV]
+  def setup
+    ActiveRecord::Base.establish_connection(
+    :adapter  => "mysql",
+    :host     => "localhost",
+    :username => @@config['user'],
+    :password => @@config['password'],
+    :database => @@config['database']
+    )
+  end
 
 end

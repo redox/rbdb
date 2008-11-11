@@ -2,21 +2,23 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class GraphTest < ActiveSupport::TestCase
 
-  setup do
-    ActiveRecord::Base.connection.execute "drop database rbdb_test4" rescue nil
-    Datab.create :name => 'rbdb_test4'
-    ActiveRecord::Base.connection.execute "use rbdb_test4"
-    ActiveRecord::Base.connection.create_table 'table1' do |t|
-      t.string :email
-      t.integer :another_field
-      t.datetime :created_at
-      t.string :language, :default => 'FR'
-      t.integer :many_values
+  def setup
+    super
+    create_database 'rbdb_test4' do |datab|
+      datab.create_table 'table1' do |t|
+        t.string :email
+        t.integer :another_field
+        t.datetime :created_at
+        t.string :language, :default => 'FR'
+        t.integer :many_values
+      end
     end
     @datab = Datab.find('rbdb_test4')
     @table = @datab.tables.first
     1.upto 200 do |i| 
-      @table.ar_class.create :another_field => (i % 4), :created_at => "10-10-2000".to_date + (i % 40).day + rand(1000).seconds, :many_values => i % 51
+      @table.ar_class.create :another_field => (i % 4),
+        :created_at => "10-10-2000".to_date + (i % 40).day + rand(1000).seconds,
+        :many_values => i % 51
     end
   end
 
