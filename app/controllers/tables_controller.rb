@@ -22,6 +22,19 @@ class TablesController < ApplicationController
     store_table(@table)
     render :action => session[:mode]
   end
+  
+  def new
+    @table = Table.new
+  end
+  
+  def create
+    if @table.create params[:table], @datab
+      flash[:notice] = "Table #{@table.name} was successfully created."
+      redirect_to datab_table_path(@datab, @table)
+    else
+      render :action => "new"
+    end
+  end
 
   private
   MAX_STORED_TABLES = 3

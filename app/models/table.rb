@@ -2,10 +2,18 @@ class Table < Base
   
   attr_reader :db, :table_status
   
-  def initialize name, db, table_status
+  def initialize name, db, table_status = nil
     super name
     @db = db
     @table_status = table_status
+  end
+  
+  def self.create!(params, db, prim = nil)
+    ActiveRecord::Base.connection.create_table params[:name], :id => false, :primary => prim do |t|
+      params[:fields].each do |f|
+        t.column f[:name], f[:type], f[:options]
+      end
+    end
   end
   
   def view?

@@ -40,4 +40,53 @@ class TableTest < ActiveSupport::TestCase
     assert_equal 137, row.id
   end
   
+  should "create a new table" do
+    @datab = Datab.find('rbdb_test3')
+    params = {
+      :name => 'new_table',
+      :fields => [
+        {:name => 'id', :type => 'integer', :options => {}},
+        {:name => 'field1', :type => 'string', :options => {:limit => 32}}
+      ]
+    }
+    Table.create!(params, @datab, 'id')
+    t = @datab.tables.find 'new_table'
+    assert_not_nil t
+    assert_equal 2, t.columns.size
+    assert t.columns[0].primary
+    assert_equal 32, t.columns[1].limit
+  end
+  
+  should "create a new table without id/primary key" do
+    @datab = Datab.find('rbdb_test3')
+    params = {
+      :name => 'new_table2',
+      :fields => [
+        {:name => 'field1', :type => 'decimal', :options => {:precision => 2}}
+      ]
+    }
+    Table.create!(params, @datab)
+    t = @datab.tables.find 'new_table2'
+    assert_not_nil t
+    assert_equal 1, t.columns.size
+    assert_equal 2, t.columns[0].precision
+  end
+  
+  should "fail adding an existing table" do
+    @datab = Datab.find('rbdb_test3')
+    params = {
+      :name => 'new_table3',
+      :fields => [
+        {:name => 'field1', :type => 'decimal', :options => {:precision => 2}}
+      ]
+    }
+    Table.create!(params, @datab)
+    t = @datab.tables.find 'new_table3'
+    assert_not_nil t
+
+    assert_raise ActiveRecord::StatementInvalid do
+      Table.create!(params, @datab)
+    end
+  end
+
 end
