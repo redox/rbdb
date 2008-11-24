@@ -22,12 +22,7 @@ class Table < Base
     p = p.nil? ? {} : p[1]
     connection.create_table params[:name], :id => false, :primary => p[:name] do |t|
       params[:fields].each do |k,v|
-        t.column v[:name], v[:type].to_sym, {
-          :null => v[:null],
-          :limit => limit_value(v[:limit]),
-          :extra => v[:extra],
-          :default => sql_value(v[:default])
-        }
+        t.column *(Field.params_to_field_spec v)
       end
     end
     return Table.new(params[:name], db)
@@ -39,43 +34,20 @@ class Table < Base
   end
   
   def update(params)
-    # modify fields
     params[:fields].each do |k,v|
-      f = fields.detect { |f| f.name == k }
-      # a new field
-      next if f.nil?
-      # field name changed
-      if f.name != v[:name]
-        Base.connection.rename_column name, f.name, v[:name]
-      end
-      # column has not been modified
-      next if f.rtype == v[:type] and
-        (v[:null].blank? or f.null == (v[:null] == "1")) and 
-        (v[:extra].blank? or f.extra == v[:extra]) and
-        (v[:default].blank? or Table.sql_value(f.default) == Table.sql_value(v[:default])) and
-        (v[:limit].blank? or Table.limit_value(v[:limit]) == Table.limit_value(f.limit))
-      Base.connection.change_column name, v[:name], v[:type].to_sym, {
-        :null => v[:null],
-        :limit => Table.limit_value(v[:limit]),
-        :extra => v[:extra],
-        :default => Table.sql_value(v[:default])
-      }
+      args = [name, *(Field.params_to_field_spec v)]
+      if f = fields.detect { |f| f.name == k }
+	      if f.name != v[:name]
+	        Base.connection.rename_column name, f.name, v[:name]
+	      end
+	      Base.connection.change_column *args unless f.same_as? v
+			else
+				Base.connection.add_column *args
+			end
     end
-    # remove fields
     fields.each do |f|
       next if params[:fields].detect { |k,v| v[:name] == f.name }
       Base.connection.remove_column name, f.name
-      params[:fields].delete_if { |k,v| v[:name] == f.name }
-    end
-    # add fields
-    params[:fields].each do |k,v|
-      next if fields.detect { |f| f.name == v[:name] }
-      Base.connection.add_column name, v[:name], v[:type].to_sym, {
-        :null => v[:null],
-        :limit => Table.limit_value(v[:limit]),
-        :extra => v[:extra],
-        :default => Table.sql_value(v[:default])
-      }
     end
   rescue ActiveRecord::StatementInvalid => e
     @errors.add :name, e.to_s
@@ -171,16 +143,5 @@ class Table < Base
     end
     c
   end
-  
-  def self.sql_value(v)
-    return nil if v.blank? or v == "NULL"
-    return v
-  end
-  
-  def self.limit_value(v)
-    return v if v.is_a?(Fixnum)
-    return nil if v.blank? or v.to_i == 0
-    return v.to_i
-  end
-    
+      
 end
