@@ -1,6 +1,7 @@
 class Base
   
   attr_reader :name
+  attr_writer :new_record
   
   def initialize name = nil
     @name = name
@@ -13,15 +14,19 @@ class Base
   alias :id :name
 
   def self.execute sql
-    ActiveRecord::Base.connection.execute sql
+    connection.execute sql
+  end
+  
+  def self.connection
+    ActiveRecord::Base.connection
   end
   
   def new_record?
-    @name.nil?
+    @name.nil? or @new_record
   end
 
   def self.sanitize_table(name)
-    ActiveRecord::Base.connection.quote_table_name(name)
+    connection.quote_table_name(name)
   end
   
   def sanitize_table name

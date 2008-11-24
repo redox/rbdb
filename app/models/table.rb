@@ -1,19 +1,84 @@
 class Table < Base
   
   attr_reader :db, :table_status
+  attr_accessor :errors
   
-  def initialize name, db, table_status = nil
+  def initialize name, db
     super name
     @db = db
-    @table_status = table_status
-  end
-  
-  def self.create!(params, db, prim = nil)
-    ActiveRecord::Base.connection.create_table params[:name], :id => false, :primary => prim do |t|
-      params[:fields].each do |f|
-        t.column f[:name], f[:type], f[:options]
+    req = Base.execute("SHOW TABLE STATUS FROM #{sanitize_table db.name} WHERE name='#{name}'")
+    columns = req.fetch_fields.map { |f| f.name }
+    @table_status = {}
+    req.each do |v|
+      columns.each_with_index do |c,i|
+        @table_status[c.to_s.downcase] = v[i]
       end
     end
+    @errors = ActiveRecord::Errors.new(self)
+  end
+  
+  def self.create(params, db)
+    p = params[:fields].detect { |k,v| v[:primary] }
+    p = p.nil? ? {} : p[1]
+    connection.create_table params[:name], :id => false, :primary => p[:name] do |t|
+      params[:fields].each do |k,v|
+        t.column v[:name], v[:type].to_sym, {
+          :null => v[:null],
+          :limit => limit_value(v[:limit]),
+          :extra => v[:extra],
+          :default => sql_value(v[:default])
+        }
+      end
+    end
+    return Table.new(params[:name], db)
+  rescue ActiveRecord::StatementInvalid => e
+    t = Table.new params[:name], db
+    t.errors.add :name, e.to_s
+    t.new_record = true
+    return t
+  end
+  
+  def update(params)
+    # modify fields
+    params[:fields].each do |k,v|
+      f = fields.detect { |f| f.name == k }
+      # a new field
+      next if f.nil?
+      # field name changed
+      if f.name != v[:name]
+        Base.connection.rename_column name, f.name, v[:name]
+      end
+      # column has not been modified
+      next if f.rtype == v[:type] and
+        (v[:null].blank? or f.null == (v[:null] == "1")) and 
+        (v[:extra].blank? or f.extra == v[:extra]) and
+        (v[:default].blank? or Table.sql_value(f.default) == Table.sql_value(v[:default])) and
+        (v[:limit].blank? or Table.limit_value(v[:limit]) == Table.limit_value(f.limit))
+      Base.connection.change_column name, v[:name], v[:type].to_sym, {
+        :null => v[:null],
+        :limit => Table.limit_value(v[:limit]),
+        :extra => v[:extra],
+        :default => Table.sql_value(v[:default])
+      }
+    end
+    # remove fields
+    fields.each do |f|
+      next if params[:fields].detect { |k,v| v[:name] == f.name }
+      Base.connection.remove_column name, f.name
+      params[:fields].delete_if { |k,v| v[:name] == f.name }
+    end
+    # add fields
+    params[:fields].each do |k,v|
+      next if fields.detect { |f| f.name == v[:name] }
+      Base.connection.add_column name, v[:name], v[:type].to_sym, {
+        :null => v[:null],
+        :limit => Table.limit_value(v[:limit]),
+        :extra => v[:extra],
+        :default => Table.sql_value(v[:default])
+      }
+    end
+  rescue ActiveRecord::StatementInvalid => e
+    @errors.add :name, e.to_s
   end
   
   def view?
@@ -33,18 +98,18 @@ class Table < Base
   end
   
   def columns
-    set_db
     # resolve foreign keys
-    res = []
-    ar_class.columns.each do |c|
+    columns = Base.connection.columns(ar_class.table_name)
+    columns.each { |column| column.primary = column.name == ar_class.primary_key }
+    columns.map do |c|
       if c.name =~ /_id$/
         if t = @db.tables.detect {|t| t.name == c.name.gsub(/_id$/, '').pluralize}
-          c = ForeignKey.new c, t
+          ForeignKey.new c, t
+          next
         end
       end
-      res << c
+      c
     end
-    return res
   end
   
   def indexes
@@ -62,10 +127,16 @@ class Table < Base
   end
   
   def fields
-    return @fields if @fields
     @fields = []
     Base.execute("show fields from #{sanitize_table name}").each do |row|
-      @fields << {:name => row[0], :type => row[1], :null => row[2], :default => row[4], :extra => row[5]}
+      s = row[1].split('(')
+      @fields << Field.new(:name => row[0],
+        :type => s.first,
+        :limit => s.size == 2 ? s.last.split(')').first : nil,
+        :null => row[2] == "YES",
+        :default => row[4],
+        :extra => row[5],
+        :primary => row[3] == "PRI")
     end
     @fields
   end
@@ -77,9 +148,6 @@ class Table < Base
   end
   
   private
-  def set_db
-    Base.execute "use #{@db.name}"
-  end
   
   def db_module
     db_camelized = db.name.camelize
@@ -102,6 +170,17 @@ class Table < Base
       end
     end
     c
+  end
+  
+  def self.sql_value(v)
+    return nil if v.blank? or v == "NULL"
+    return v
+  end
+  
+  def self.limit_value(v)
+    return v if v.is_a?(Fixnum)
+    return nil if v.blank? or v.to_i == 0
+    return v.to_i
   end
     
 end

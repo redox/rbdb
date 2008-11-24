@@ -3,11 +3,11 @@ class Datab < Base
   @@databs = {}
 
   def self.create attributes
-    ActiveRecord::Base.connection.create_database attributes[:name]
+    connection.create_database attributes[:name]
   end
   
   def self.destroy name
-    ActiveRecord::Base.connection.execute "drop database #{sanitize_table name}"
+    execute "drop database #{sanitize_table name}"
     @@databs.delete name
   end
 
@@ -24,20 +24,15 @@ class Datab < Base
   end
   
   def self.find name
-    databs[name]
+    databs[name.to_s]
   end
 
   def tables
     return @tables if @tables
-    req = ActiveRecord::Base.connection.execute("SHOW TABLE STATUS FROM #{sanitize_table name}")
-    columns = req.fetch_fields.map { |f| f.name }
+    req = Base.execute("SHOW TABLES FROM #{sanitize_table name}")
     @tables = []
     req.each do |table|
-      status = {}
-      columns.each_with_index do |c, i|
-        status[c.to_s.downcase] = table[i]
-      end
-      @tables << (Table.new table[0], self, status)
+      @tables << Table.new(table[0], self)
     end
     @tables.instance_eval do
       alias :old_find :find

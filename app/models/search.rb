@@ -33,8 +33,8 @@ class Search < Base
     else
     end
     
-    field = @table.fields.detect { |f| f[:name] == attribute }
-    if field[:null] == "YES"
+    field = @table.fields.detect { |f| f.name == attribute }
+    if field.null == "YES"
       res += [
         ['IS NULL', :is_null],
         ['IS NOT NULL', :is_not_null]

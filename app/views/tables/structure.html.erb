@@ -16,21 +16,24 @@
 		<% for field in @table.fields %>
 		<tr>
 			<th>
-				<% column = @columns.find {|c| c.name == field[:name]} %>
+				<% column = @columns.find {|c| c.name == field.name} %>
 				<% if column.is_a? ForeignKey %>
 					<%= link_to column.name, datab_table_path(column.dest.db, column.dest) %>
 				<% else %>
 					<%= column.name %>
 				<% end %>
 			</td>
-			<td><%= field[:type] %></td>
-			<td><%= field[:null] %></td>
-			<td><%= field[:default] %></td>
-			<td><%= field[:extra] %></td>
+			<td><%= field.type %></td>
+			<td><%= field.null %></td>
+			<td><%= field.default %></td>
+			<td><%= field.extra %></td>
 		</tr>
 		<% end %>
 	</tbody>
 </table>
+<div class="edit_table">
+  <%= link_to 'Edit', edit_datab_table_path(@datab, @table) %>
+</div>
 
 <% if @relations.size > 0 %>
   <h3>Associations</h3>

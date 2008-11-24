@@ -1,8 +1,12 @@
 class TablesController < ApplicationController
   before_filter :select_db
-  before_filter :select_table, :only => [:show]
+  before_filter :select_table, :only => [:show, :edit, :update]
   
   layout 'table'
+  
+  def index
+    redirect_to datab_path(@datab)
+  end
   
   def show
     session[:mode] ||= 'structure'
@@ -24,11 +28,13 @@ class TablesController < ApplicationController
   end
   
   def new
-    @table = Table.new
+    @table = Table.new params[:name], @datab
+    @table.new_record = true
   end
   
   def create
-    if @table.create params[:table], @datab
+    @table = Table.create params[:table], @datab
+    if @table.errors.empty?
       flash[:notice] = "Table #{@table.name} was successfully created."
       redirect_to datab_table_path(@datab, @table)
     else
@@ -36,6 +42,20 @@ class TablesController < ApplicationController
     end
   end
 
+  def edit
+  end
+  
+  def update
+    params[:table][:fields].delete_if { |k,v| v[:name].blank? }
+    @table.update params[:table]
+    if @table.errors.empty?
+      flash[:notice] = "Table #{@table.name} was successfully edited."
+      redirect_to datab_table_path(@datab, @table)      
+    else
+      render :action => "edit"
+    end
+  end
+  
   private
   MAX_STORED_TABLES = 3
   def store_table(table)

@@ -44,3 +44,12 @@
   </table>
   <%= render :partial => 'tables/navigator' %>
 <% end %>
+
+<div class="create_table">
+  <% form_tag new_datab_table_path(@datab), :method => :get do %>
+    <div class"field">
+      Create a new table: <%= text_field_tag :name %>
+      <%= submit_tag 'Create' %>
+    </div>
+  <% end %>
+</div>

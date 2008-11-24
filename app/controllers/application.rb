@@ -32,9 +32,12 @@ class ApplicationController < ActionController::Base
   end
 
   def establish_connection
-    ActiveRecord::Base.establish_connection :username => session[:username], :password => session[:password],
-      :adapter => 'mysql', :database => '', :host => 'localhost'
-    true
+    ActiveRecord::Base.establish_connection :username => session[:username],
+      :password => session[:password],
+      :adapter => 'mysql',
+      :database => '',
+      :host => 'localhost'
+    return true
   end
 
   def select_db
@@ -49,6 +52,10 @@ class ApplicationController < ActionController::Base
 
   def select_table
     @table = @datab.tables.find((params[:table_id] or params[:id]))
+    return true if !@table.nil?
+    flash[:notice] = "The table #{params[:table_id] or params[:id]} does not exist"
+    redirect_to :controller => '/databs', :action => :index
+    return false
   end
 
   def fill_last_queries

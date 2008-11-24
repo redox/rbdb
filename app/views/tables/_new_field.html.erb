@@ -1,0 +1,17 @@
+<% uniq_name = 'new_field_' + (new_field.name.blank? ? 'REPLACE_ME' : new_field.name) %>
+<tr class="new_field" id="<%= uniq_name %>">
+  <% f.fields_for :fields, new_field, :index => new_field.name do |fc| %>
+    <td><%= link_to_function 'x', "Element.remove('#{uniq_name}')" %></td>
+    <td><%= fc.text_field :name %></td>
+    <td>
+      <%= fc.select :type, Field.types, {:selected => new_field.rtype},
+            {:index => new_field.name} %>
+    </td>
+    <td><%= fc.text_field :limit %></td>
+    <td><%= fc.text_field :default %></td>
+    <!--<td><%#= fc.check_box :unsigned %></td>-->
+    <td><%= fc.check_box :null %></td>
+    <td><%= f.radio_button :primary, new_field.name, :checked => new_field.primary %></td>
+    <td><%= fc.select :extra, Field.extra, {}, {:index => new_field.name} %></td>
+  <% end %>
+</tr>

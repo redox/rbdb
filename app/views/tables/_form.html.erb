@@ -1,0 +1,40 @@
+<%= error_messages_for :table %>
+
+<% form_for [@datab, @table] do |f| %>
+  <table>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Limit</th>
+      <th>Default</th>
+      <th>Nullable</th>
+      <th>Primary</th>
+      <th>Extra</th>
+    </tr>
+    <%= render :partial => '/tables/new_field', :collection => @table.fields, :locals => {:f=>f} %>
+    <tr id="add_field">
+      <td colspan="8">
+        <script type="text/javascript" charset="utf-8">
+          var field_id = 0
+          function add_field() {
+            var e = '<%= escape_javascript render(:partial => "/tables/new_field",
+                :object => Field.new, :locals => {:f => f}) %>'
+            var uniq_name = 'uniq_name_' + ++field_id
+            e = e.gsub("\\[\\]", '[' + uniq_name + ']')
+            e = e.gsub("__", '_' + uniq_name + '_')
+            e = e.gsub('new_field_REPLACE_ME', 'new_field_' + uniq_name)
+            Element.insert('add_field', {before: e})
+          }
+          add_field()
+        </script>
+        <%= link_to_function 'Add a new field', 'add_field()' %>
+      </td>
+    </tr>
+  </table>
+  
+  <div class="field">
+    <%= f.hidden_field :name %>
+    <%= f.submit text %> <%= link_to 'Back', [@datab, @table] %>
+  </div>
+<% end %>

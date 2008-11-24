@@ -22,18 +22,18 @@
   
     <table class="fields">
       <% for field in @table.fields %>
-        <% column = @row.class.columns.detect { |c| c.name == field[:name]} %>
+        <% column = @row.class.columns.detect { |c| c.name == field.name} %>
         <tr>
-          <td><%= f.label field[:name], column.human_name %></td>
+          <td><%= f.label field.name, column.human_name %></td>
           <td>
-            <% if field[:null] == "YES"  %>
-              <%= check_box_tag("null[#{field[:name]}]", 1, @row[field[:name]].blank?,
-                    :onclick => "toggle_null(this.checked, '#{field[:name]}')",
-                    :id => "null_#{field[:name]}") %>
+            <% if field.null  %>
+              <%= check_box_tag("null[#{field.name}]", 1, @row[field.name].blank?,
+                    :onclick => "toggle_null(this.checked, '#{field.name}')",
+                    :id => "null_#{field.name}") %>
             <% end %>
           </td>
-          <td><%= field_for field[:name], column, f,
-                    :onfocus => "not_null('#{field[:name]}')" %></td>
+          <td><%= field_for field.name, column, f,
+                    :onfocus => "not_null('#{field.name}')" %></td>
         </tr>
       <% end %>
     </table>

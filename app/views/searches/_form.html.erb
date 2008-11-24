@@ -14,16 +14,16 @@
 
   <table class="fields">
     <% for field in @table.fields %>
-      <% column = @row.class.columns.detect { |c| c.name == field[:name]} %>
+      <% column = @row.class.columns.detect { |c| c.name == field.name} %>
       <tr>
-        <td><%= f.label field[:name], column.human_name %></td>
+        <td><%= f.label field.name, column.human_name %></td>
         <td>
-          <%= select_tag "modifiers[#{field[:name]}]",
-                options_for_select(@search.options_for(field[:name]),
-                  (@search.modifiers[field[:name]].to_sym rescue nil)),
-                :onchange => "select_modifier(this.value, '#{field[:name]}')" %>
+          <%= select_tag "modifiers[#{field.name}]",
+                options_for_select(@search.options_for(field.name),
+                  (@search.modifiers[field.name].to_sym rescue nil)),
+                :onchange => "select_modifier(this.value, '#{field.name}')" %>
         </td>
-        <td><%= field_for field[:name], column, f %></td>
+        <td><%= field_for field.name, column, f %></td>
       </tr>
     <% end %>
   </table>
