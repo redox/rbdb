@@ -11,7 +11,7 @@ class AccountsController < ApplicationController
   def login
     if request.post?
       if do_login(params[:username], params[:password])
-        redirect_to session[:return_to] || '/databs'
+        redirect_to session[:return_to] || databs_path
        end
     end
   end

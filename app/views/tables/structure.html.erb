@@ -16,7 +16,11 @@
 		<% for field in @table.fields %>
 		<tr>
 			<th>
-				<% column = @columns.find {|c| c.name == field.name} %>
+				<% 
+				column = @columns.find do |c|
+				  c.name == field.name
+				end
+				%>
 				<% if column.is_a? ForeignKey %>
 					<%= link_to column.name, datab_table_path(column.dest.db, column.dest) %>
 				<% else %>

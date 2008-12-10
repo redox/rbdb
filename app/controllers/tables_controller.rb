@@ -21,8 +21,8 @@ class TablesController < ApplicationController
         :order => @order
     else
       @relations = Relation.has_many(@table, @datab)  
-    end
-    @columns = @table.columns
+    end 
+    @columns = @table.columns    
     store_table(@table)
     render :action => session[:mode]
   end

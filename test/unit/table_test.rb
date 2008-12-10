@@ -12,6 +12,14 @@ class TableTest < ActiveSupport::TestCase
         t.string :field1
         t.string :field2
       end
+      
+      datab.create_table 'users' do |t|
+      end
+      
+      datab.create_table 'addresses' do |t|
+        t.integer :user_id
+      end   
+      
     end
   end
   
@@ -27,16 +35,16 @@ class TableTest < ActiveSupport::TestCase
   
   should "get the columns of a table" do
     @datab = Datab.find('rbdb_test3')
-    t1 = @datab.tables[0]
+    t1 = @datab.tables.detect{|table|table.name == 'table1'}
     assert_equal 2, t1.columns.size
     
-    t2 = @datab.tables[1]    
+    t2 = @datab.tables.detect{|table|table.name == 'table2'}
     assert_equal 3, t2.columns.size
   end
   
   should "allow mass assignment on id" do
     @datab = Datab.find('rbdb_test3')
-    row = @datab.tables[0].ar_class.create :id => 137, :field1 => 3378
+    row = @datab.tables.detect{|table|table.name == 'table1'}.ar_class.create :id => 137, :field1 => 3378
     assert_equal 137, row.id
   end
   
@@ -128,7 +136,7 @@ class TableTest < ActiveSupport::TestCase
     assert t.errors.empty?
     assert_equal 1, t.columns.size
   end
-  
+
   should "modify columns" do
     @datab = Datab.find('rbdb_test3')
     params = {
@@ -169,5 +177,10 @@ class TableTest < ActiveSupport::TestCase
     assert_equal 255, t.columns.detect { |c| c.name == "field1" }.limit
     assert t.columns.detect { |c| c.name == "id3" }
     assert_nil t.columns.detect { |c| c.name == "id" }
+  end
+  
+  should "handle foreign key fields" do
+    @datab = Datab.find('rbdb_test3')
+    assert_equal ['id', 'user_id'], @datab.tables.detect{ |table| table.name == "addresses" }.columns.map(&:name)
   end
 end

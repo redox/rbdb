@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :environments
 
-  map.resources :databs do |datab|
+  map.resources :databs, :as => 'databases' do |datab|
     datab.resources :tables do |table|
       table.resources :rows
       table.resources :searches
