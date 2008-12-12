@@ -1,7 +1,7 @@
 <div class="last">
   <%= render(:partial => "/sqls/last_queries", :object => last_queries) if last_queries %>
   <%= render(:partial => "/tables/lasts", :object => last_tables) if last_tables %>  
-  <h2>System</h2>
+  <h3>System</h3>
   <ul>
     <li>Load average: <%= @load_average %></li>
     <li>Requests per second: <%= "%.3f" % @requests_per_second %></li>

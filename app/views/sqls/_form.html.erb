@@ -3,6 +3,7 @@
 	<% if @sql && !@sql.errors.empty? %>
     <div class="sql_error"><%= h @sql.errors[:body].message %></div>
 	<% end %>
+	default database used is : <%= @datab.name %>
     <div class="field">
       <%= f.text_area :body %>
     </div>
