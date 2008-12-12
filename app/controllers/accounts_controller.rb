@@ -4,10 +4,7 @@ class AccountsController < ApplicationController
   skip_before_filter :fill_last_queries
   skip_before_filter :fill_system_stats
   skip_before_filter :establish_connection, :only => :login
-  
-  def index
-  end
-  
+
   def login
     if request.post?
       if do_login(params[:username], params[:password])

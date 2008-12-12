@@ -12,11 +12,12 @@ ActionController::Routing::Routes.draw do |map|
     datab.relations_graph '/relations/:table_id/graph.:format', :controller => 'relations',
       :action => 'graph'
     datab.resources :relations
-    datab.resources :sqls
+    datab.resources :sqls    
   end
 
+ 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
   
-  map.root :controller => 'accounts', :action => 'index'
+  map.root :controller => 'databs'
 end
