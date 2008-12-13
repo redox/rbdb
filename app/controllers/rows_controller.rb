@@ -12,11 +12,14 @@ class RowsController < ApplicationController
       redirect_to datab_table_path(@datab, @table)
       return
     end
-
     rows = @table.ar_class.all :conditions => {params[:field] => params[:value]}
-    @rows = WillPaginate::Collection.create(1, rows.size) do |pager|
-      pager.replace rows
-      pager.total_entries = rows.size
+    if rows.empty?
+      @rows = []
+    else
+      @rows = WillPaginate::Collection.create(1, rows.size) do |pager|
+        pager.replace rows
+        pager.total_entries = rows.size
+      end
     end
   end
   

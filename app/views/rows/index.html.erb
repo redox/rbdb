@@ -1,6 +1,13 @@
 <% @title = @table.name + " #{params[:field]} = " + params[:value] %>
 
+<% if @rows.empty? %>
+	<div class="notification">0 results found in <%= @table.name %> matching <%= params[:field] %> = <%= params[:value] %></div>
+<% else %>
+	<%= number_with_delimiter @rows.size %> records
+
 <%= render :partial => "/tables/browse", :locals => {
       :columns => @table.columns,
       :rows => @rows
 } %>
+
+<% end%>
