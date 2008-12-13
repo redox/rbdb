@@ -26,7 +26,7 @@
 	<tbody>
 	<% for row in rows %>
 	<tr>
-	  <td><%= link_to image_tag('edit.png', :title => 'edit this row'), datab_table_row_path(@datab, @table, row) %></td>
+	  <td><%= link_to image_tag('edit.png', :title => 'edit this row'), edit_datab_table_row_path(@datab, @table, row) %></td>
 	  <td><%= link_to image_tag('delete.png', :title => 'destroy this row'), datab_table_row_path(@datab, @table, row), :method => :delete %></td>
 	  <% for rel in relations %>
 	    <td>
