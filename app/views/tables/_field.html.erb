@@ -1,5 +1,4 @@
-<% case row[column.name]
-when Fixnum %> 
+<% if row[column.name].is_a?(Fixnum) && !column.is_a?(ForeignKey) %>
 <td class="int">
 <% else %>
 <td>
@@ -8,7 +7,8 @@ when Fixnum %>
 <% case column
 when ForeignKey %>
   <% if r = column.dest.ar_class.find_by_id(row[column.name]) %>
-    <%= link_to most_likely_name(r), datab_table_row_path(column.dest.db, column.dest, r.id) %>
+    <span class='foreign_key_id'>#<%= editable_field row, column, string(row[column.name].to_s) %></span>
+	<%= link_to most_likely_name(r), datab_table_row_path(column.dest.db, column.dest, r.id) %>
   <% else %>
     <% row[column.name] %>
   <% end %>
@@ -25,7 +25,8 @@ when ForeignKey %>
   <% when DateTime, Time, Date %>
     <%= date_ago row[column.name] %>
   <% when String %>
-    <%= editable_field row, column, string(row[column.name]) %>
+    <%= editable_field row, column, string(row[column.name]) %><br/>
+	<%= analyze_value row[column.name] %>
   <% when TrueClass, FalseClass %>
     <%= yes_no row[column.name] %>
   <% else %>

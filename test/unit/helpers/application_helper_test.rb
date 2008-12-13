@@ -19,11 +19,11 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   should "add mailto link" do
-    assert_match '<a href="mailto', string('jacko@gmail.com')
+    assert_match '<a href="mailto', analyze_value('jacko@gmail.com')
   end
   
   should "add http link" do
-    assert_match '<a href="http://', string('http://massivebraingames.com')
+    assert_match '<a href="http://', analyze_value('http://massivebraingames.com')
   end
   
   should "truncate long string" do

@@ -19,22 +19,21 @@ module ApplicationHelper
   def yes_no(d)
     d == true ? 'Yes' : 'No'
   end
+  
+  def analyze_value value
+    if value =~ /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+      return link_to(image_tag("email_go.png"), "mailto:#{value}", :title => "send a email to #{value}")
+    end
+    if value =~ /^(http:\/\/)|(www\.).*/
+      return link_to(image_tag('link_go.png', :style => 'display:inline'), value, :title => "visit #{value}", :target => '_blank')
+    end
+  end
 
   def string value
-    disp = truncate value, 20
-    content_tag 'span', :title => value do
-      if value =~ /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
-        content_tag 'a', :href => "mailto:#{value}" do
-          disp
-        end
-      elsif value =~ /http:\/\/.*/
-        content_tag 'a', :href => value do
-          disp
-        end
-      else
-        disp
-      end
+    content_tag :span, :title => value do
+      truncate value, 20
     end
+    
   end
   
   def error_messages_for(*params)

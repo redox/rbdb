@@ -65,6 +65,7 @@ var Editable = Class.create({
 
   // Event Handler that activates form and hides element
   edit: function(event) {
+	
     this.element.hide();
     this.editForm.show();
     this.editInput.activate();
