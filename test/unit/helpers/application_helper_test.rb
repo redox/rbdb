@@ -23,15 +23,15 @@ class ApplicationHelperTest < ActionView::TestCase
   end
   
   should "add http link" do
-    assert_match '<a href="http://', string('http://massivebraingames.com')
+    assert_match '<a href="http://', analyze_value('http://massivebraingames.com')
   end
   
   should "not add any link on empty string" do
-    assert_match nil, analyze_value('')
+    assert_nil analyze_value('')
   end
   
   should "show empty string to be able to edit them" do
-    assert_match '<span title="" class="empty">EMPTY</span>', string('')
+    assert_match '<span class="null" title="">EMPTY</span>', string('')
   end
   
   should "truncate long string" do
