@@ -7,8 +7,8 @@
       <%= fc.select :type, Field.types, {:selected => new_field.rtype},
             {:index => new_field.name} %>
     </td>
-    <td><%= fc.text_field :limit %></td>
-    <td><%= fc.text_field :default %></td>
+    <td><%= fc.text_field :limit, :size => 10 %></td>
+    <td><%= fc.text_field :default, :size => 10 %></td>
     <!--<td><%#= fc.check_box :unsigned %></td>-->
     <td><%= fc.check_box :null %></td>
     <td><%= f.radio_button :primary, new_field.name, :checked => new_field.primary %></td>

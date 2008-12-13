@@ -3,16 +3,17 @@
     <h3>Last SQL queries <span>(<%= link_to 'see all', datab_sqls_path(@datab) %>)</span></h3>
     <ul>
       <% db = nil %>
-      <% @sqls.sort_by {|a| a.db + a.id.to_s}.each do |sql| %>
+      <% @sqls.sort_by {|a| a.db + a.id.to_s}.reverse.each do |sql| %>
         <% if db != sql.db %>
           <%= '</ul>' if db != nil %>
-          <li title="#{sql.db}"><%= sql.db %></li>
+          <li class='infos' style='text-align:left' title="#{sql.db}"><%= sql.db %></li>
           <ul>
           <% db = sql.db %>
         <% end %>
         <li>
           <%= link_to truncate(sql.body, 200), datab_sql_path(sql.db, sql.id) %>
-          <br/><span class="infos">&rarr; <%= pluralize sql.num_rows, 'result' %></span>
+          <br/><span class="infos">&rarr; <%= pluralize sql.num_rows, 'result' %>
+<%= link_to image_tag('delete.png', :title => 'destroy this request', :style=>'border:none;position:relative;top:4px'), [@datab, sql], :method => :delete %></span>
         </li>
       <% end %>
       </ul>

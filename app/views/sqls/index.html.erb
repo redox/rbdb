@@ -1,14 +1,15 @@
-<% @title = 'Listing sqls' %>
+<% @title = 'Listing last SQL requests of this session' %>
 
 <table>
   <tr>
   </tr>
 <% for sql in @sqls %>
   <tr>
-    <td><%= sql.body %></td>
+	<td><%= link_to image_tag('delete.png', :title => 'destroy this request', :style=>'border:none'), [@datab, sql], :method => :delete %></td>    
+	<td><%= sql.body %></td>
+	<td>(<%= sql.num_rows %> results)</td>
     <td><%= link_to 'Show', [@datab, sql] %></td>
-    <td><%= link_to 'Edit', edit_datab_sql_path(@datab, sql) %></td>
-    <td><%= link_to 'Destroy', [@datab, sql], :confirm => 'Are you sure?', :method => :delete %></td>
+    
   </tr>
 <% end %>
 </table>

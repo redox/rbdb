@@ -24,8 +24,8 @@
       <% for field in @table.fields %>
         <% column = @row.class.columns.detect { |c| c.name == field.name} %>
         <tr>
-          <td><%= f.label field.name, column.human_name %></td>
-          <td>
+          <td valign="top"><%= f.label field.name, column.human_name %></td>
+          <td valign="top">
             <% if field.null  %>
               <%= check_box_tag("null[#{field.name}]", 1, @row[field.name].blank?,
                     :onclick => "toggle_null(this.checked, '#{field.name}')",

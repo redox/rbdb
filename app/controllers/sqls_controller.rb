@@ -29,21 +29,26 @@ class SqlsController < ApplicationController
     if (@sql.save rescue nil)
       flash[:notice] = 'Sql was successfully created.'
       store_sql(@sql, @datab)
-      redirect_to datab_sql_path(@datab, @sql)
+      redirect_to [@datab, @sql]
     else
       render :action => "new"
     end
   end
 
-  def update
-    if @sql.update_attributes(params[:sql])
-      flash[:notice] = 'Sql was successfully updated.'
-      store_sql(@sql, @datab)
-      redirect_to [@datab, @sql]
-    else
-      render :action => "edit"
-    end
+  def destroy
+    remove_from_session :sqls, @sql
+    flash[:notice] = "SQL query removed"
+    redirect_to datab_sqls_path(@datab)
   end
+  # def update
+  #   if @sql.update_attributes(params[:sql])
+  #     flash[:notice] = 'Sql was successfully updated.'
+  #     store_sql(@sql, @datab)
+  #     redirect_to [@datab, @sql]
+  #   else
+  #     render :action => "edit"
+  #   end
+  # end
   
   private
   def select_sql

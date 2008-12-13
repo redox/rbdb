@@ -1,6 +1,8 @@
 <% @title = 'Custom SQL query'%>
-<%= render :partial => "/sqls/form", :locals => {:button_text => 'Edit'} %>
-
+<% orginal_sql_id = @sql.id
+   @sql.id= nil %>
+<%= render :partial => "/sqls/form", :locals => {:button_text => 'Execute'} %>
+<% @sql.id= orginal_sql_id %>
 <%= @sql.num_rows %> rows
 
 <%= render :partial => "/tables/browse", :locals => {
@@ -8,5 +10,4 @@
       :rows => @sql.rows(@datab)
 } %>
 
-<%= link_to 'Edit', edit_datab_sql_path(@datab, @sql) %> |
-<%= link_to 'Back', datab_sqls_path %>
+
