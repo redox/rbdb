@@ -17,11 +17,7 @@ when ForeignKey %>
   when nil %>
     <%= editable_field row, column, string(row[column.name]) %>
   <% when Fixnum %>
-    <% if column.name == "id" %>
-      <%= number_with_delimiter row[column.name] %>
-    <% else %>
       <%= editable_field row, column, number_delimited(row[column.name]) %>
-    <% end %>
   <% when DateTime, Time, Date %>
     <%= date_ago row[column.name] %>
   <% when String %>

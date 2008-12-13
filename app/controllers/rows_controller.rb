@@ -30,8 +30,14 @@ class RowsController < ApplicationController
     end
   end
   
+  #TODO do something prettier about the id update, maybe an alias_method on update_attributes˝
   def update
     if request.xhr?
+      if params[:row].has_key? :id
+        ActiveRecord::Base.connection.execute("UPDATE #{@table.name} SET id=#{params[:row][:id].to_i} WHERE id=#{@row.id}")
+        render :json => @table.ar_class.find(params[:row][:id])
+        return
+      end
       if @row.update_attributes params[:row]
         render :json => @row
       else
