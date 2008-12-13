@@ -21,7 +21,7 @@ module ApplicationHelper
   end
   
   def analyze_value value
-    if value =~ /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+    if value =~ /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)/i
       return link_to(image_tag("email_go.png"), "mailto:#{value}", :title => "send a email to #{value}")
     end
     if value =~ /^(http:\/\/)|(www\.).*/
@@ -30,8 +30,10 @@ module ApplicationHelper
   end
 
   def string value
-    content_tag :span, :title => value do
-      truncate value, 20
+    options = {:title => value}
+    options[:class] = 'null' if value.blank?  
+    content_tag :span, options do
+      (value.blank?) ? (value.nil?) ? 'NULL' : 'EMPTY' : truncate(value, 20)
     end
     
   end

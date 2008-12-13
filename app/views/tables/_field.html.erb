@@ -15,7 +15,7 @@ when ForeignKey %>
 <% else %>
   <% case row[column.name]
   when nil %>
-    <em class="null">NULL</em>
+    <%= editable_field row, column, string(row[column.name]) %>
   <% when Fixnum %>
     <% if column.name == "id" %>
       <%= number_with_delimiter row[column.name] %>
