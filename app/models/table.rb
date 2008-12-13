@@ -65,6 +65,7 @@ class Table < Base
     c = create_custom_ar_class
     c = mod.const_set model_name, c
     c.set_table_name name
+    c.set_inheritance_column
   ensure
     return c
   end
