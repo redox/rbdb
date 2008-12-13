@@ -3,15 +3,27 @@ require 'yaml'
 class Graph
   attr_accessor :values
 
-  def initialize table, field
-    @table, @field, @values = table, field, []
+  def initialize db, table, field
+    @db, @table, @field, @values = db, table, field, []
   end
 
-  def self.generate(table, field)
-    graph = new table, field
+  def self.generate(db, table, field)
+    graph = new db, table, field 
     graph.compute
     graph.arrange_values
     graph.limit_to_ten
+    graph.display_empty_string_and_null
+    if field =~ /_id$/ && t = db.tables.detect {|t| t.name == field.gsub(/_id$/, '').pluralize}
+      if t.columns.detect { |c| c.name == "name" }
+        ids = graph.values.map {|v| v[0] if (v[0] && v[0] != "Other") }
+        ars = t.ar_class.find(ids, :select => 'id, name')
+        graph.values.each_with_index do |orignal_value, index|
+          if ar_found = ars.find {|ar| ar.id.to_s == orignal_value[0] }
+            graph.values[index][0] = ar_found.name
+          end
+        end
+      end
+    end
     return graph.values
   end
 
@@ -52,7 +64,18 @@ class Graph
     return @values if i == 0 
     @values = @values[0..i].push ["Other", other]
   end
-
+  
+  def display_empty_string_and_null
+    @values = @values.map do |data|
+      if (data[0])
+        val = (data[0] == "") ? "EMPTY" : data[0]
+      else
+        val = "NULL"
+      end
+      [val, data[1]]
+    end
+  end
+  
   def limit_to_ten
     if @values.size > 10
       @values[9] = ['Other', @values[9..-1].sum{|e|e[1]}]
