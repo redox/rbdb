@@ -36,6 +36,11 @@ class TablesControllerTest < ActionController::TestCase
     }
     assert_response :success
   end
+
+  should "should go to the new table form" do
+    get :new, :datab_id => 'rbdb_test1', :name => "toto"
+    assert_response :success
+  end
   
   should "get edit page" do
     get :edit, :datab_id => "rbdb_test1", :id => 'new_table1'

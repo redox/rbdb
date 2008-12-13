@@ -107,7 +107,7 @@ class Table < Base
         :default => row[4],
         :extra => row[5],
         :primary => row[3] == "PRI")
-      end
+      end unless new_record?
       @fields
     end
 
