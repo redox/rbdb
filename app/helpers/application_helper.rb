@@ -29,7 +29,7 @@ module ApplicationHelper
       return link_to(image_tag('link_go.png', :style => 'display:inline'), value,
         :title => "visit #{value}", :target => '_blank')
     end
-    return ''
+    return nil
   end
 
   def string value

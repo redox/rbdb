@@ -40,7 +40,7 @@ class GraphTest < ActiveSupport::TestCase
   
   should "not consider render a pie with more than 50 values" do
     @table = Datab.find('rbdb_test4').tables.first
-    g = Graph.new @table, @table.columns[5].name
+    g = Graph.new @datab, @table, @table.columns[5].name
     g.compute
     assert_equal 50, g.values.size
   end
@@ -58,13 +58,13 @@ class GraphTest < ActiveSupport::TestCase
   end
   
   should "group max 5% of an array" do 
-    g = Graph.new '', ''
+    g = Graph.new '', '', 'empty'
     g.values = [[0,90],[0,4],[0,2],  [0,1],[0,1],[0,1],[0,1]]
     assert_equal [[0,90],[0,4],[0,2],["Other",4]], g.arrange_values
   end
   
   should "group exactly 5% of the array" do
-    g = Graph.new nil, nil
+    g = Graph.new nil, nil, 'empty'
     g.values = [[0,90],[0,5],  [0,1],[0,1],[0,1],[0,1],[0,1]]
     assert_equal [[0,90],[0,5], ["Other",5]], g.arrange_values
   end
@@ -80,7 +80,7 @@ class GraphTest < ActiveSupport::TestCase
   end
 
   should "limit to ten zones" do
-    g = Graph.new nil, nil
+    g = Graph.new nil, nil, 'empty'
     g.values = [['musique',20],[0,10],[0,10],[0,10],[0,10],[0,10],[0,5],[0,5],[0,5],[0,5],[0,5],[0,5]]
     g.arrange_values
     g.limit_to_ten
