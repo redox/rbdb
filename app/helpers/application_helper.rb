@@ -22,11 +22,14 @@ module ApplicationHelper
   
   def analyze_value value
     if value =~ /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)/i
-      return link_to(image_tag("email_go.png"), "mailto:#{value}", :title => "send a email to #{value}")
+      return link_to(image_tag("email_go.png"), "mailto:#{value}",
+        :title => "send an email to #{value}")
     end
     if value =~ /^(http:\/\/)|(www\.).*/
-      return link_to(image_tag('link_go.png', :style => 'display:inline'), value, :title => "visit #{value}", :target => '_blank')
+      return link_to(image_tag('link_go.png', :style => 'display:inline'), value,
+        :title => "visit #{value}", :target => '_blank')
     end
+    return ''
   end
 
   def string value
