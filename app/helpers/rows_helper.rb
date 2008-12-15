@@ -3,7 +3,7 @@ module RowsHelper
   def field_for(attribute, column, form, options = {})
     case column.type
     when :datetime, :time
-      form.calendar_date_select attribute
+      form.calendar_date_select attribute, :time => true
     when :date
       form.calendar_date_select attribute
     when :boolean
