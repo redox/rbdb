@@ -13,10 +13,17 @@ module TablesHelper
       _erbout = ''
       field_name = "field_#{column.name}_#{row.id}"
       form_name = "edit_#{column.name}_#{row.id}"
-      content_tag :span, :id => field_name,
-        :onclick => "$('#{form_name}').show();$('#{field_name}').hide();" do
-        _erbout.concat date_ago(content)
-      end
+              p "nil == #{content}"
+     
+        content_tag :span, :id => field_name,
+          :onclick => "$('#{form_name}').show();$('#{field_name}').hide();" do
+           if content.is_a? String
+             _erbout.concat content
+           else
+             _erbout.concat date_ago(content)
+           end
+        end       
+     
       remote_form_for(row, :url => datab_table_row_path(@datab, @table, row),
         :html => {:style => 'display: none', :id => form_name},
         :complete => "$('#{form_name}').hide();$('#{field_name}').show();$('#{field_name}').update(request.responseText.evalJSON()['#{column.name}'])") do
