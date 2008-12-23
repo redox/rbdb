@@ -7,7 +7,7 @@ class AccountsController < ApplicationController
 
   def login
     if request.post?
-      if do_login(params[:username], params[:password])
+      if do_login
         redirect_to session[:return_to] || databs_path
        end
     end
@@ -21,20 +21,20 @@ class AccountsController < ApplicationController
   
   
   private
-  def do_login(username, password)
+  def do_login
     begin
       ActiveRecord::Base.establish_connection :adapter  => "mysql",
         :host     => params[:host] || "localhost",
-        :username => username,
-        :password => password,
+        :username => params[:username],
+        :password => params[:password],
         :database => ''
       ActiveRecord::Base.connection.execute "show databases"
     rescue
       flash[:error] = ($!).to_s
       return false
     end
-    session[:username] = username
-    session[:password] = password
+    session[:username] = params[:username]
+    session[:password] = params[:password]
     return true
   end
   
