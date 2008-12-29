@@ -22,12 +22,19 @@ class AccountsController < ApplicationController
   
   private
   def do_login
+    config = YAML.load_file(File.join(Rails.root, 'config', 'database.yml'))[Rails.env]
+    host = config['host'] # overwrite user specified
+    host = params[:host] if host.blank?
+    host = 'localhost' if host.blank?
+    port = config['port']
+    port = nil if port.blank?
     begin
       ActiveRecord::Base.establish_connection :adapter  => "mysql",
-        :host     => params[:host] || "localhost",
+        :host     => host,
         :username => params[:username],
         :password => params[:password],
-        :database => ''
+        :database => '',
+        :port     => port
       ActiveRecord::Base.connection.execute "show databases"
     rescue
       flash[:error] = ($!).to_s
@@ -35,6 +42,8 @@ class AccountsController < ApplicationController
     end
     session[:username] = params[:username]
     session[:password] = params[:password]
+    session[:host] = host
+    session[:port] = port
     return true
   end
   
