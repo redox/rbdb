@@ -14,20 +14,20 @@ class DatabsController < ApplicationController
   end
 
   def create
-    if (Datab.create(params[:datab]) rescue nil)
-      flash[:notice] = "Database #{params[:datab][:name]} was successfully created."
-    else
-      flash[:error] = 'Pas bon'
-    end
+    Datab.create! params[:datab]
+    flash[:notice] = "Database #{params[:datab][:name]} was successfully created."
+  rescue StandardError => e
+    flash[:notice] = e.to_s
+  ensure
     redirect_to databs_path
   end
 
   def destroy
-    if (Datab.destroy params[:id] rescue nil)
-      flash[:notice] = "Database #{params[:id]} was successfully deleted."
-    else
-      flash[:error] = 'Pas bon'
-    end
+    Datab.destroy! params[:id]
+    flash[:notice] = "Database #{params[:id]} was successfully deleted."
+  rescue StandardError => e
+    flash[:notice] = e.to_s
+  ensure
     redirect_to databs_path
   end
 

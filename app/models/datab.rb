@@ -1,12 +1,22 @@
 class Datab < Base
+  include Collation
+  
+  attr_accessor :collation
 
   @@databs = {}
 
-  def self.create attributes
-    connection.create_database attributes[:name]
+  def self.create! attributes
+    options = {}
+    if !attributes[:collation].blank?
+      options[:collation] = attributes[:collation]
+      options[:charset] = Collations.detect do |group|
+        group.values.detect { |col| col.value == attributes[:collation] } 
+      end.label
+    end
+    connection.create_database attributes[:name], options
   end
   
-  def self.destroy name
+  def self.destroy! name
     execute "drop database #{sanitize_table name}"
     @@databs.delete name
   end

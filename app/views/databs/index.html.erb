@@ -6,7 +6,11 @@
     <div class="field">
     	<%= f.label :name, 'Name' %>
     	<%= f.text_field :name %>
-    	<%= f.submit 'Create' %>    
+    </div>
+    <div class="field">
+      <%= f.label :collation, 'Collation' %>
+      <%= select_tag 'datab[collation]', option_groups_from_collection_for_select(Datab::Collations, "values or []", "title", "value", "title"), :id => 'datab_collation' %>
+      <%= f.submit 'Create' %>
     </div>
   <% end %>
 </div>

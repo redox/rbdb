@@ -38,13 +38,22 @@ class DatabTest < ActiveSupport::TestCase
 
   should 'delete a database' do
     assert_difference 'Datab.all.size', -1 do
-      Datab.destroy 'rbdb_test1'
+      Datab.destroy! 'rbdb_test1'
     end
   end
 
   should 'delete a database named database' do
     assert_difference 'Datab.all.size', -1 do
-      Datab.destroy 'database'
+      Datab.destroy! 'database'
+    end
+  end
+  
+  should "set a collation" do
+    assert_difference 'Datab.all.size', 1 do
+      Datab.create! :name => 'rbdb_test_bulgar', :collation => 'cp1251_bulgarian_ci'
+    end
+    assert_difference 'Datab.all.size', -1 do
+      Datab.destroy! 'rbdb_test_bulgar'
     end
   end
 
