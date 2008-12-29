@@ -31,12 +31,14 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+  @@config = YAML.load_file(File.join(Rails.root, 'config', 'database.yml'))[Rails.env]
   def establish_connection
     ActiveRecord::Base.establish_connection :username => session[:username],
       :password => session[:password],
       :adapter => 'mysql',
       :database => '',
-      :host => 'localhost'
+      :host => (@@config['host'] or 'localhost'),
+      :port => @@config['port']
     return true
   end
 

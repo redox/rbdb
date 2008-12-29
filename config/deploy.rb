@@ -33,7 +33,7 @@ namespace :deploy do
     run "ln -nsf #{shared_path}/public/.htaccess #{release_path}/public/.htaccess"
     run "ln -nsf #{shared_path}/public/.htpasswd #{release_path}/public/.htpasswd"
     %w[database.yml].each do |c|
-      run "ln -nsf #{shared_path}/system/config/#{c} #{release_path}/config/#{c}"
+      run "ln -nsf #{shared_path}/config/#{c} #{release_path}/config/#{c}"
     end
   end
 end
