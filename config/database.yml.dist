@@ -3,4 +3,8 @@ test:
   adapter: mysql
   host: localhost
   user: root
-  password:
+  password: 
+development:
+  adapter: mysql
+production:
+  adapter: mysql
