@@ -79,9 +79,7 @@ class RowsController < ApplicationController
 
   def destroy
     @row.destroy
-
-    flash[:notice] = 'rows was successfully destroyed.'
-    redirect_to datab_table_path(@datab, @table)
+    render :nothing => true
   end
   
   private

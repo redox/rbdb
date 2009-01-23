@@ -27,7 +27,8 @@
 	<% for row in rows %>
 	<tr>
 	  <td><%= link_to image_tag('edit.png', :title => 'edit this row'), edit_datab_table_row_path(@datab, @table, row) %></td>
-	  <td><%= link_to image_tag('delete.png', :title => 'destroy this row'), datab_table_row_path(@datab, @table, row), :method => :delete %></td>
+	  <td><%= link_to_remote image_tag('delete.png', :title => 'destroy this row'),
+	    :url => datab_table_row_path(@datab, @table, row), :method => :delete, :before => 'parentRow(this).remove()' %></td>
 	  <% for rel in relations %>
 	    <td>
 	     <%= link_to image_tag('table_go.png', :title => "see all #{rel} for this #{@table.name.singularize}" ), datab_table_rows_path(@datab, rel,
